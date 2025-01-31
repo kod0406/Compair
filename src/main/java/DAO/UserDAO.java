@@ -19,17 +19,21 @@ public class UserDAO {
     		Class.forName(driver);
     		conn=DriverManager.getConnection(url, "C##TEST2", "1111");
             String sql = "INSERT INTO USERTABLE(USER_ID, PASSWORD) VALUES(?, ?)";
-            
+
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, uid);
             stmt.setString(2, upass);
-            
+
             int count = stmt.executeUpdate();
             return (count == 1) ? true : false;
-            
+
         } finally {
-            if (stmt != null) stmt.close(); 
-            if (conn != null) conn.close();
+            if (stmt != null) {
+				stmt.close();
+			}
+            if (conn != null) {
+				conn.close();
+			}
         }
     }
 }
