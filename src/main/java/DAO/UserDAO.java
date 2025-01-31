@@ -9,17 +9,37 @@ import java.sql.SQLException;
 
 import javax.naming.NamingException;
 
+import util.conpool;
+
 public class UserDAO {
-	String driver="oracle.jdbc.driver.OracleDriver";
-	String url="jdbc:oracle:thin:@localhost:1521:orcl";
+	public boolean insert(String uid, String upass, String email, String name) throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        
+        try {
+            conn = conpool.get();
+            String sql = "INSERT INTO USERTABLE(USER_ID, PASSWORD, USER_MAIL, USER_NAME) VALUES(?, ?, ?, ?)";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, uid);
+            stmt.setString(2, upass);
+            stmt.setString(3, email);
+            stmt.setString(4, name);
+            
+            int count = stmt.executeUpdate();
+            return (count == 1);
+        } finally {
+            if (stmt != null) stmt.close();
+            if (conn != null) conn.close();
+        }
+    }
+	
 	public boolean isIdExist(String uid) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
         try {
-            Class.forName(driver);
-            conn = DriverManager.getConnection(url, "c##sahmyook", "1111");
+            conn = conpool.get();
             String sql = "SELECT COUNT(*) FROM USERTABLE WHERE USER_ID = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, uid);
@@ -35,15 +55,13 @@ public class UserDAO {
             if (conn != null) conn.close();
         }
     }
-
-    public boolean isEmailExist(String email) throws SQLException, ClassNotFoundException {
+	public boolean isEmailExist(String email) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
         try {
-            Class.forName(driver);
-            conn = DriverManager.getConnection(url, "c##sahmyook", "1111");
+        	conn = conpool.get();
             String sql = "SELECT COUNT(*) FROM USERTABLE WHERE USER_MAIL = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, email);
@@ -59,30 +77,6 @@ public class UserDAO {
             if (conn != null) conn.close();
         }
     }
-
-    // 기존 insert 메서드 유지
-    public boolean insert(String uid, String upass, String email, String name) throws SQLException, ClassNotFoundException {
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        
-        try {
-            Class.forName(driver);
-            conn = DriverManager.getConnection(url, "c##sahmyook", "1111");
-            String sql = "INSERT INTO USERTABLE(USER_ID, PASSWORD, USER_MAIL, USER_NAME) VALUES(?, ?, ?, ?)";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, uid);
-            stmt.setString(2, upass);
-            stmt.setString(3, email);
-            stmt.setString(4, name);
-            
-            int count = stmt.executeUpdate();
-            return (count == 1);
-        } finally {
-            if (stmt != null) stmt.close();
-            if (conn != null) conn.close();
-        }
-    }
-
 	public String[] getUserInfoByEmail(String email) throws NamingException, SQLException, ClassNotFoundException {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -91,8 +85,7 @@ public class UserDAO {
 		try {
 			//입력값 확인
 			System.out.println("입력된 이메일(email): " + email);
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url, "c##sahmyook", "1111");
+			conn = conpool.get();
 			String sql = "SELECT user_id, password FROM userTable WHERE user_mail = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, email);
@@ -120,8 +113,7 @@ public class UserDAO {
 	    ResultSet rs = null;
 
 	    try {
-	        Class.forName(driver);
-	        conn = DriverManager.getConnection(url, "c##sahmyook", "1111");
+	        conn = conpool.get();
 
 	        // 입력값 확인
 	        System.out.println("입력된 아이디(uid): " + uid);
