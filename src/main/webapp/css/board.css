@@ -1,0 +1,85 @@
+/*게시판 전체 스타일 */
+#board-page {
+  max-width: 1200px; /* 최대 너비 제한 */
+  width: 90%; /* 기본적으로 화면의 90% 차지 */
+  margin: auto;
+  padding: 20px;
+}
+
+/*게시판 테이블 스타일 */
+.board-table {
+  width: 100%;
+  border-radius: 5px;
+  border-collapse: collapse;
+  border-top: none;
+}
+
+.board-header {
+  background-color: rgb(235, 239, 246);
+  text-align: center;
+}
+
+.board-table td,
+.board-table th {
+  border-bottom: 1px lightgray solid;
+  height: 45px; /* 행 높이 증가 */
+  font-size: 16px; /* 글자 크기 증가 */
+  padding: 10px; /* 안쪽 여백 추가 */
+}
+
+.board-num {
+  width: 80px;
+}
+
+.board-title {
+  width: 60%;
+}
+
+.board-body {
+  text-align: center;
+}
+
+.board-body .board-title {
+  text-align: left;
+  padding-left: 15px; /* 제목 여백 추가 */
+}
+
+/*작성 버튼 컨테이너 */
+.board-button-container {
+  display: flex;
+  justify-content: flex-end; /* 오른쪽 정렬 */
+  margin-top: 15px;
+}
+
+/*버튼 스타일 */
+.board-button {
+  width: 120px;
+  height: 45px;
+  font-size: 16px;
+  border: 0;
+  outline: 2px rgb(221, 227, 236) solid;
+  border-radius: 8px;
+  padding: 5px;
+  background-color: rgb(234, 240, 248);
+  font-weight: bold;
+}
+
+.board-button:active {
+  outline: 2px rgb(208, 221, 243) solid;
+  background-color: rgb(212, 226, 248);
+}
+
+/*반응형 디자인 */
+@media (max-width: 768px) {
+  #board-page {
+    width: 95%;
+  }
+
+  .board-table {
+    font-size: 14px;
+  }
+
+  .board-button {
+    width: 100%;
+  }
+}

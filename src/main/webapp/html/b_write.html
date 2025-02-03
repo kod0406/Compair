@@ -1,0 +1,50 @@
+<div id="write-page">
+  <h2 class="write-title">글 작성</h2>
+  <form action="board.html" method="post">
+    <table class="write-table">
+      <tr>
+        <td class="write-header">제목</td>
+      </tr>
+      <tr>
+        <td>
+          <input
+            type="text"
+            class="write-input"
+            placeholder="제목을 입력하세요"
+            name="title"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td class="write-header">내용</td>
+      </tr>
+      <tr>
+        <td>
+          <textarea
+            class="write-textarea"
+            placeholder="내용을 입력하세요"
+            name="detail"
+          ></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td class="write-header">첨부파일</td>
+      </tr>
+      <tr>
+        <td>
+          <input type="file" class="write-file-input" name="file" />
+        </td>
+      </tr>
+      <tr>
+        <td class="write-button-container">
+          <input
+            type="submit"
+            class="write-button"
+            value="등록"
+            onclick="alert('작성 완료!')"
+          />
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
