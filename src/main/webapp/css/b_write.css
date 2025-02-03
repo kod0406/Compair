@@ -1,0 +1,99 @@
+/* 게시글 작성 페이지 스타일 */
+#write-page {
+  max-width: 800px; /* 최대 너비 제한 */
+  width: 90%;
+  margin: auto;
+  padding: 20px;
+}
+
+/* 제목 */
+.write-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* 작성 폼 테이블 */
+.write-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.write-header {
+  font-weight: bold;
+  height: 40px;
+  padding-left: 10px;
+}
+
+/* 입력 필드 */
+.write-input {
+  border: 1.5px rgb(68, 136, 244) solid;
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  padding-left: 10px;
+  font-size: 16px;
+}
+
+/*내용 입력창 */
+.write-textarea {
+  border: 1.5px rgb(68, 136, 244) solid;
+  width: 100%;
+  height: 300px;
+  border-radius: 5px;
+  padding: 10px;
+  resize: none;
+  font-size: 16px;
+}
+
+/*첨부파일 창*/
+.write-file-input {
+  width: 100%;
+  border: 1.5px rgb(68, 136, 244) solid;
+  padding: 8px;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: white;
+  cursor: pointer;
+}
+
+/* 작성 버튼 컨테이너 */
+.write-button-container {
+  text-align: right;
+  padding-top: 15px;
+}
+
+/* 작성 버튼 스타일 */
+.write-button {
+  width: 120px;
+  height: 45px;
+  font-size: 16px;
+  border: 0;
+  outline: 2px rgb(221, 227, 236) solid;
+  border-radius: 8px;
+  padding: 5px;
+  background-color: rgb(234, 240, 248);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.write-button:active {
+  outline: 2px rgb(208, 221, 243) solid;
+  background-color: rgb(212, 226, 248);
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  #write-page {
+    width: 95%;
+  }
+
+  .write-input,
+  .write-textarea {
+    font-size: 14px;
+  }
+
+  .write-button {
+    width: 100%;
+  }
+}
