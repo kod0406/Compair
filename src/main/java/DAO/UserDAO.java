@@ -145,5 +145,76 @@ public class UserDAO {
 	    }
 	    return -2; // 데이터베이스 오류
 	}
+	public String[] getUserInfoById(String uid) throws NamingException, SQLException, ClassNotFoundException {
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    String[] result = new String[4];  
+	    try {
+	        conn = conpool.get();
+	        String sql = "SELECT user_id, user_name, user_mail, password FROM userTable WHERE user_id = ?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, uid);
+	        rs = pstmt.executeQuery();
+	        
+	        if (rs.next()) {
+	            result[0] = rs.getString("user_id");
+	            result[1] = rs.getString("user_name");
+	            result[2] = rs.getString("user_mail");
+	            result[3] = rs.getString("password");
+	        }
+	    } finally {
+	        if (rs != null) rs.close();
+	        if (pstmt != null) pstmt.close();
+	        if (conn != null) conn.close();
+	    }
+	    return result;
+	}
+	public boolean updateUserInfo(String newUserId, String newUserName, String newUserMail, String newUserPass) throws NamingException, SQLException, ClassNotFoundException {
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    boolean isUpdated = false;
+
+	    try {
+	        conn = conpool.get();
+	        String sql = "UPDATE userTable SET user_name = ?, user_mail = ?, password = ? WHERE user_id = ?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, newUserName);
+	        pstmt.setString(2, newUserMail);
+	        pstmt.setString(3, newUserPass);
+	        pstmt.setString(4, newUserId);
+
+	        int rowsAffected = pstmt.executeUpdate();
+	        if (rowsAffected > 0) {
+	            isUpdated = true;
+	        }
+	    } finally {
+	        if (pstmt != null) pstmt.close();
+	        if (conn != null) conn.close();
+	    }
+
+	    return isUpdated;
+	}
+	public boolean deleteUser(String userId) throws SQLException {
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    boolean isDeleted = false;
+
+	    try {
+	        conn = conpool.get();
+	        String sql = "DELETE FROM userTable WHERE user_id = ?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, userId);
+
+	        int rowsAffected = pstmt.executeUpdate();
+	        if (rowsAffected > 0) {
+	            isDeleted = true;
+	        }
+	    } finally {
+	        if (pstmt != null) pstmt.close();
+	        if (conn != null) conn.close();
+	    }
+	    return isDeleted;
+	}
 
 }
