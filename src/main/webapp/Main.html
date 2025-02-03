@@ -34,29 +34,28 @@ function upload() {
     }
     
     var imgobj = $("#image")[0].files[0];
-    var params = {id: id, content: content};
+    var jsonobj = {id: id, content: content};
     
     if (imgobj != null) {
-    	params.images = [imgobj.name];
+    	jsonobj.images = imgobj.name;
     }
-    
     var params = new FormData();
+    params.append("jsonstr", JSON.stringify(jsonobj));
     
     if (imgobj != null) {
-        params.append("image", imgobj);
+        params.append("images", imgobj);
     }
-    
-    
     
     var url = "feedAdd1.jsp";
+    
     AJAX.call(url, params, function(data) {
         var code = data.trim();
         if(code == "ER") {
-            alert("작성 글의 업로드 중 오류가 발생하였습니다.");
+            alert("작성 글의 업로드 중 오류가 발생하였습니다.FEED에서 에러");
         }
         else {
             alert("작성 글의 업로드가 완료되었습니다.");
-            window.location.href = "NewFile.html";
+            window.location.href = "main.jsp";
         }
     }, true);
 }
