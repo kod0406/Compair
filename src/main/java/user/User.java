@@ -5,6 +5,7 @@ public class User {
 	private String upass;
 	private String email;
 	private String user_id;
+	private boolean APPROVED;
 	
 	public String getUid() {
 		return uid;
@@ -29,6 +30,12 @@ public class User {
 	}
 	public void setUser_id(String user_id) {
 		this.user_id = user_id;
+	}
+	public boolean getAPPROVED() {
+		return APPROVED;
+	}
+	public void setAPPROVED(boolean aPPROVED) {
+		APPROVED = aPPROVED;
 	}
 	
 	
