@@ -1,0 +1,72 @@
+/* 상세 페이지 전체 스타일 */
+#view-page {
+  max-width: 800px;
+  width: 90%;
+  margin: auto;
+  padding: 20px;
+}
+
+/* 제목 */
+.view-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* 상세 테이블 */
+.view-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.view-header {
+  font-weight: bold;
+  background-color: rgb(235, 239, 246);
+  height: 40px;
+  padding-left: 10px;
+  width: 20%;
+}
+
+.view-table td {
+  border-bottom: 1px solid lightgray;
+  padding: 10px;
+}
+
+/* 뒤로 가기 버튼 */
+.view-button-container {
+  text-align: right;
+  padding-top: 15px;
+}
+
+.view-button {
+  width: 120px;
+  height: 45px;
+  font-size: 16px;
+  border: 0;
+  outline: 2px rgb(221, 227, 236) solid;
+  border-radius: 8px;
+  padding: 5px;
+  background-color: rgb(234, 240, 248);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.view-button:active {
+  outline: 2px rgb(208, 221, 243) solid;
+  background-color: rgb(212, 226, 248);
+}
+
+/*반응형 */
+@media (max-width: 768px) {
+  #view-page {
+    width: 95%;
+  }
+
+  .view-table {
+    font-size: 14px;
+  }
+
+  .view-button {
+    width: 100%;
+  }
+}

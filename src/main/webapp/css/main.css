@@ -1,0 +1,187 @@
+/* 네비게이션 바 스타일 */
+.navbar-custom {
+  background-color: #0061f2 !important;
+  background-image: linear-gradient(
+    135deg,
+    #0061f2 0%,
+    rgba(105, 0, 199, 0.8) 100%
+  ) !important;
+  padding: 1rem 2rem;
+}
+
+/* 로고 */
+.navbar-brand {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: white;
+  font-family: "Anton", sans-serif;
+  margin-left: 10px;
+}
+
+/* 사이드바 토글 버튼 */
+.sidebar-toggle {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: white;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.sidebar-toggle:hover {
+  color: #dbe4ff;
+}
+
+/* 사용자 아이콘 */
+.user-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.user-icon {
+  font-size: 1.8rem;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.user-icon:hover {
+  color: #dbe4ff;
+}
+
+/* 드롭다운 */
+.dropdown-menu {
+  display: none; /* 기본적으로 숨김 */
+  position: absolute;
+  right: 0;
+  background-color: white;
+  min-width: 150px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 2000;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 10px 15px;
+  color: black;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f0f0f0;
+}
+
+/*드롭다운 활성화 */
+.dropdown-menu.active {
+  display: block;
+}
+
+/* 현재 시간 스타일 */
+.time-text {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-right: 15px;
+}
+
+/* 사이드바 스타일 */
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #1d1f24;
+  padding-top: 60px;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* 사이드바 메뉴 위치 정렬 */
+.sidebar-menu {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  text-align: center;
+
+  margin-top: 5vh;
+}
+
+.sidebar-menu li {
+  padding: 15px 0; /* 간격 조정 */
+  width: 100%;
+  border-bottom: #dbe4ff;
+}
+
+.sidebar-menu li a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  display: block;
+  padding: 10px 0;
+}
+
+.sidebar-menu li a:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* 모든 화면 크기에서 사이드바 숨김 상태 */
+.sidebar.active {
+  transform: translateX(-250px); /* 사이드바 숨김 */
+}
+
+.footer {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  margin-top: 50px;
+}
+
+/* 데스크탑에서 기본적으로 보이도록 설정 */
+
+@media (min-width: 769px) {
+  .sidebar {
+    transform: translateX(0); /* 기본적으로 보이게 */
+  }
+
+  .sidebar.active + #main-region {
+    margin-left: 0;
+    width: 100%;
+  }
+  /*main-content 영역 화면 조절 설정 css(좀 더 자연스럽게 애니메이션 추가)*/
+  /* 사이드바가 숨겨졌을 때 main이 전체 너비 차지하도록 조정 */
+  #main-region {
+    transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
+    margin-top: 90px;
+    padding: 20px;
+  }
+}
+
+/* 모바일에서는 기본적으로 숨김 */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(-250px); /* 모바일에서는 숨김 */
+  }
+
+  .sidebar-menu {
+    margin-top: 10vh;
+    justify-content: center;
+  }
+
+  .sidebar-menu li {
+    padding: 20px 0; /* 간격 증가 */
+  }
+
+  /* 모바일에서 'active' 클래스가 추가되면 나타나게 */
+  .sidebar.active {
+    transform: translateX(0);
+  }
+  #main-region {
+    margin-top: 90px;
+    padding: 20px;
+  }
+}
