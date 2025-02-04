@@ -15,10 +15,14 @@
 </head>
 <body>
 	<%
+	//세션 추가 부분
+	/*
 	String userID = null;
+	//로그인이 되어 잇으면 main으로
 	if (session.getAttribute("uid") != null) {
 		userID = (String) session.getAttribute("uid");
 	}
+	
 	if(userID != null) {
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
@@ -26,12 +30,15 @@
 		script.println("location.href = 'main.jsp'");
 		script.println("</script>");
 	}	
+	*/
+	
+	
 	UserDAO userDAO = new UserDAO();
 	int result = userDAO.login(user.getUid(), user.getUpass());
 	switch(result) {
 		case 1: 
 			session.setAttribute("uid", user.getUid());
-			response.sendRedirect("main.jsp");
+			response.sendRedirect("../html/main.html");
 			break;
 		case 0:
 			%><script>alert('비밀번호가 틀렸습니다.'); history.back();</script><% 

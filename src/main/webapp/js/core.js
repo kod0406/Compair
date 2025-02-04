@@ -26,7 +26,7 @@ var AJAX = {
 
 var Page = {
     init: function (cbfunc) {
-        AJAX.call("jsp/session.jsp", null, function(data) {
+        AJAX.call("../JSP/session.jsp", null, function(data) {
             var uid = data.trim();
             if (uid == "null") {
                 alert("로그인이 필요한 서비스 입니다.");
