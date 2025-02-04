@@ -49,11 +49,27 @@ function loadPage(page) {
   fetch(page)
     .then((response) => response.text())
     .then((data) => {
-      document.getElementById("main-content").innerHTML = data;
+      let container = document.getElementById("main-content");
+      container.innerHTML = data; // HTML 삽입
+
       adjustMainSize(); // 사이드바 상태에 맞춰 main 크기 조정
-      loadCSS(page);
+      loadCSS(page); // CSS 로드 함수 실행
+
+      executeScripts(container); // 새로 불러온 HTML 내 스크립트 실행
     })
     .catch((error) => console.error("페이지 로드 오류:", error));
+}
+
+// 🔽 내부 <script> 태그 실행 함수
+function executeScripts(container) {
+  let scripts = container.getElementsByTagName("script");
+
+  for (let oldScript of scripts) {
+    let newScript = document.createElement("script");
+    newScript.text = oldScript.innerText; // 내부 스크립트 복사
+    document.body.appendChild(newScript); // 실행을 위해 body에 추가
+    oldScript.remove(); // 기존 <script> 제거 (중복 실행 방지)
+  }
 }
 
 //메인 크기 조정 -
@@ -102,5 +118,5 @@ function loadCSS(page) {
       existingCSS.remove();
     }
     document.head.appendChild(link);
-  }
+  	}
 }

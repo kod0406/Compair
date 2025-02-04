@@ -9,13 +9,13 @@ import java.util.ArrayList;
 
 import javax.naming.NamingException;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import util.conpool;
 
 public class FeedDAO {
-	String driver="oracle.jdbc.driver.OracleDriver";
-	String url="jdbc:oracle:thin:@localhost:1521:orcl";
 	public boolean insert(String jsonstr) throws NamingException, SQLException, ParseException, ClassNotFoundException {
 		Connection conn = null;
         PreparedStatement stmt = null;
@@ -24,9 +24,8 @@ public class FeedDAO {
             synchronized(this) {
             	System.out.println();
             	System.out.println("FeedDAO 첫번째 디버깅");
-        		Class.forName(driver);
-        		conn=DriverManager.getConnection(url, "C##TEST3", "1111");
-                // phase 1. add "no" property -----------------------------
+            	conn = conpool.get();
+            	// phase 1. add "no" property -----------------------------
                 String str = jsonstr;
                 JSONObject obj = (JSONObject)(new JSONParser()).parse(jsonstr);
                 String TITLE = obj.get("id").toString();
@@ -67,34 +66,68 @@ public class FeedDAO {
 			}
         }
     }
-	public ArrayList<FeedObj> getList() throws NamingException, SQLException, ClassNotFoundException {
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		try {
-			String sql = "SELECT * FROM BOARDTABLE ORDER BY BOARD_CODE DESC";
-    		Class.forName(driver);
-    		conn=DriverManager.getConnection(url, "C##TEST3", "1111");
-    		stmt = conn.prepareStatement(sql);
-    		rs = stmt.executeQuery();
+    public String getList() throws NamingException, SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = "SELECT jsonstr FROM feed ORDER BY BOARD_CODE DESC";
 
-    		
-    		ArrayList<FeedObj> feeds = new ArrayList<FeedObj>();
-    		while(rs.next()) {
-    			feeds.add(new FeedObj(rs.getString("TITLE"), rs.getString("AUTHOR"), rs.getString("CONTENT"), rs.getString("ATTACHMENT")));
-    		}
-    		return feeds;
-    		
-		} finally {
-	            if (stmt != null) {
-					stmt.close();
-				}
-	            if (conn != null) {
-					conn.close();
-				}
-	            if(rs != null) rs.close();
-	        
-		}
-	}
-	
+            conn = conpool.get();
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+                
+            String str = "[";
+            int cnt = 0;
+            while(rs.next()) {
+                if (cnt++ > 0) str += ", ";
+                str += rs.getString("jsonstr");
+            }
+            return str + "]";
+                
+        } finally {
+            if (rs != null) rs.close(); 
+            if (stmt != null) stmt.close(); 
+            if (conn != null) conn.close();
+        }
+    }
+	public String getGroup(String maxNo) throws NamingException, SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+        	String sql = "SELECT * FROM BOARDTABLE";
+
+        	if (maxNo != null) {
+        	    sql += " WHERE BOARD_CODE < " + maxNo;
+        	}
+
+        	sql += " ORDER BY BOARD_CODE DESC FETCH FIRST 3 ROWS ONLY";
+
+            conn = conpool.get();
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+                
+            String str = "[";
+            int cnt = 0;
+            JSONArray jsonArray = new JSONArray();
+            while (rs.next()) {
+                JSONObject obj = new JSONObject();
+                obj.put("SERVER_CODE", rs.getString("SERVER_CODE"));
+                obj.put("BOARD_CODE", rs.getString("BOARD_CODE"));
+                obj.put("TITLE", rs.getString("TITLE"));
+                obj.put("AUTHOR", rs.getString("AUTHOR"));
+                obj.put("POSTDATE", rs.getString("POST_DATE"));
+                obj.put("CONTENT", rs.getString("CONTENT"));
+                obj.put("ATTACHMENT", rs.getString("ATTACHMENT"));
+                jsonArray.add(obj);
+            }
+            return jsonArray.toString();
+                
+        } finally {
+            if (rs != null) rs.close(); 
+            if (stmt != null) stmt.close(); 
+            if (conn != null) conn.close();
+        }
+    }    
 }

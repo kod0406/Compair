@@ -37,7 +37,7 @@
                 System.out.println("2번째 디버그  " + ufname);
                 System.out.println("3번째 디버그  " + ufile);
 				if(ufname != null && !ufname.isEmpty() && ufile != null && ufile.length > 0){
-					String root = application.getRealPath(java.io.File.separator);
+					String root = application.getRealPath("");
 					FileUtil.saveImage(root, ufname, ufile);
 					System.out.println(root + "업로드 완료");
 				}
