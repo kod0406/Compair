@@ -9,17 +9,37 @@ import java.sql.SQLException;
 
 import javax.naming.NamingException;
 
+import util.conpool;
+
 public class UserDAO {
-	String driver="oracle.jdbc.driver.OracleDriver";
-	String url="jdbc:oracle:thin:@localhost:1521:orcl";
+	public boolean insert(String uid, String upass, String email, String name) throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        
+        try {
+            conn = conpool.get();
+            String sql = "INSERT INTO USERTABLE(USER_ID, PASSWORD, USER_MAIL, USER_NAME) VALUES(?, ?, ?, ?)";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, uid);
+            stmt.setString(2, upass);
+            stmt.setString(3, email);
+            stmt.setString(4, name);
+            
+            int count = stmt.executeUpdate();
+            return (count == 1);
+        } finally {
+            if (stmt != null) stmt.close();
+            if (conn != null) conn.close();
+        }
+    }
+	
 	public boolean isIdExist(String uid) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
         try {
-            Class.forName(driver);
-            conn = DriverManager.getConnection(url, "c##sahmyook", "1111");
+            conn = conpool.get();
             String sql = "SELECT COUNT(*) FROM USERTABLE WHERE USER_ID = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, uid);
@@ -35,15 +55,13 @@ public class UserDAO {
             if (conn != null) conn.close();
         }
     }
-
-    public boolean isEmailExist(String email) throws SQLException, ClassNotFoundException {
+	public boolean isEmailExist(String email) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
         try {
-            Class.forName(driver);
-            conn = DriverManager.getConnection(url, "c##sahmyook", "1111");
+        	conn = conpool.get();
             String sql = "SELECT COUNT(*) FROM USERTABLE WHERE USER_MAIL = ?";
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, email);
@@ -59,6 +77,7 @@ public class UserDAO {
             if (conn != null) conn.close();
         }
     }
+<<<<<<< HEAD
 
     public boolean insert(String uid, String upass, String email, String name) throws SQLException, ClassNotFoundException {
         Connection conn = null;
@@ -154,6 +173,8 @@ public class UserDAO {
 		}
 	}
 
+=======
+>>>>>>> branch 'lnh' of https://github.com/Project-ABase/Compair.git
 	public String[] getUserInfoByEmail(String email) throws NamingException, SQLException, ClassNotFoundException {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -162,8 +183,7 @@ public class UserDAO {
 		try {
 			//입력값 확인
 			System.out.println("입력된 이메일(email): " + email);
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url, "c##sahmyook", "1111");
+			conn = conpool.get();
 			String sql = "SELECT user_id, password FROM userTable WHERE user_mail = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, email);
@@ -191,8 +211,17 @@ public class UserDAO {
 	    ResultSet rs = null;
 
 	    try {
+<<<<<<< HEAD
 	        Class.forName(driver);
 	        conn = DriverManager.getConnection(url, "c##sahmyook", "1111");
+=======
+	        conn = conpool.get();
+
+	        // 입력값 확인
+	        System.out.println("입력된 아이디(uid): " + uid);
+	        System.out.println("입력된 비밀번호(upass): " + upass);
+
+>>>>>>> branch 'lnh' of https://github.com/Project-ABase/Compair.git
 	        pstmt = conn.prepareStatement(SQL);
 	        pstmt.setString(1, uid);
 	        rs = pstmt.executeQuery();
@@ -246,6 +275,77 @@ public class UserDAO {
 	        // 리소스 정리
 	    }
 	    return list;
+	}
+	public String[] getUserInfoById(String uid) throws NamingException, SQLException, ClassNotFoundException {
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    String[] result = new String[4];  
+	    try {
+	        conn = conpool.get();
+	        String sql = "SELECT user_id, user_name, user_mail, password FROM userTable WHERE user_id = ?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, uid);
+	        rs = pstmt.executeQuery();
+	        
+	        if (rs.next()) {
+	            result[0] = rs.getString("user_id");
+	            result[1] = rs.getString("user_name");
+	            result[2] = rs.getString("user_mail");
+	            result[3] = rs.getString("password");
+	        }
+	    } finally {
+	        if (rs != null) rs.close();
+	        if (pstmt != null) pstmt.close();
+	        if (conn != null) conn.close();
+	    }
+	    return result;
+	}
+	public boolean updateUserInfo(String newUserId, String newUserName, String newUserMail, String newUserPass) throws NamingException, SQLException, ClassNotFoundException {
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    boolean isUpdated = false;
+
+	    try {
+	        conn = conpool.get();
+	        String sql = "UPDATE userTable SET user_name = ?, user_mail = ?, password = ? WHERE user_id = ?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, newUserName);
+	        pstmt.setString(2, newUserMail);
+	        pstmt.setString(3, newUserPass);
+	        pstmt.setString(4, newUserId);
+
+	        int rowsAffected = pstmt.executeUpdate();
+	        if (rowsAffected > 0) {
+	            isUpdated = true;
+	        }
+	    } finally {
+	        if (pstmt != null) pstmt.close();
+	        if (conn != null) conn.close();
+	    }
+
+	    return isUpdated;
+	}
+	public boolean deleteUser(String userId) throws SQLException {
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    boolean isDeleted = false;
+
+	    try {
+	        conn = conpool.get();
+	        String sql = "DELETE FROM userTable WHERE user_id = ?";
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, userId);
+
+	        int rowsAffected = pstmt.executeUpdate();
+	        if (rowsAffected > 0) {
+	            isDeleted = true;
+	        }
+	    } finally {
+	        if (pstmt != null) pstmt.close();
+	        if (conn != null) conn.close();
+	    }
+	    return isDeleted;
 	}
 
 	public List<Map<String, Object>> getAllUsers() throws SQLException, ClassNotFoundException {
