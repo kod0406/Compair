@@ -11,7 +11,7 @@
 	session.invalidate();
 	%>
 	<script>
-		location.href = 'login.jsp';
+		location.href = '../html/login.html';
 	</script>
 </body>
 </html>
