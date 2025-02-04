@@ -3,20 +3,21 @@
 <%@ page import="DAO.UserDAO"%>
 <%@ page import="java.util.*"%>
 <%
-// 관리자 권한 확인
-String adminId = (String) session.getAttribute("uid");
-UserDAO userDAO = new UserDAO();
-if (adminId == null || !userDAO.isAdmin(adminId)) {
-%><script>
-	alert("관리자 권한이 없습니다.");
-</script>
-<%
-response.sendRedirect("main.jsp");
-return;
-}
-
-List<Map<String, Object>> pendingUsers = userDAO.getPendingUsers();
-List<Map<String, Object>> allUsers = userDAO.getAllUsers();
+	// 관리자 권한 확인
+		String adminId = (String) session.getAttribute("uid");
+		UserDAO userDAO = new UserDAO();
+		if (adminId == null || !userDAO.isAdmin(adminId)) {
+	%>
+	<script>
+		alert("관리자 권한이 없습니다.");
+	</script>
+	<%
+	response.sendRedirect("main.jsp");
+	return;
+	}
+	
+	List<Map<String, Object>> pendingUsers = userDAO.getPendingUsers();
+	List<Map<String, Object>> allUsers = userDAO.getAllUsers();
 %>
 
 <!DOCTYPE html>
