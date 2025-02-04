@@ -51,16 +51,16 @@
       <!-- 사이드 메뉴바 -->
       <div id="sidebar" class="sidebar">
         <ul class="sidebar-menu">
-          <li><a onclick="board()">게시판</a></li>
-          <li><a href="#" onclick="loadPage('calendar.html')">캘린더</a></li>
-          <li><a href="#" onclick="loadPage('todo.html')">투두 리스트</a></li>
-          <li><a href="#" onclick="loadPage('email.html')">이메일</a></li>
+          <li onclick = "board()">게시판</li>
+          <li onclick = "calendar()">캘린더</li>
+          <li onclick = "todo()">투두 리스트</li>
+          <li onclick = "email()">이메일</li>
         </ul>
       </div>
 
       <!--main content 영역-->
       <div id="main-region">
-        <main id="main-content"></main>
+        <div id="list" class="section"></div>
         <footer class="footer">
           <p>© 2025 Com-pair. All rights reserved.</p>
         </footer>
@@ -73,12 +73,76 @@
     <script src="../js/core.js"></script>
     <script>
         $(document).ready(function() {
-            Page.init();
+        	Page.init(start);
         });
         
-        function board(){
-        	alert("1");
-        }
+        var minNo = -1;
+        	function start(uid) {
+        	    AJAX.call("../JSP/feedGetGroup.jsp", null, function(data) {
+        	        var feeds = JSON.parse(data.trim());
+        	        console.log(feeds);
+        	        if (feeds.length > 0) {
+        	    	    minNo = feeds[feeds.length - 1].no;
+        	        }
+        	        show(feeds);
+        	    });
+        	}
+        	function show(feeds) {
+        	    var str = "";
+        	    for (var i=0; i<feeds.length; i++) {
+        	        str += getFeedCode(feeds[i]);
+        	    }
+        	    $("#list").append(str);
+        	}
+        	
+        	function getFeedCode(feed) {
+        	    var name = (feed.user == null) ? feed.id : feed.user.name;
+
+        	    var str = "<div class='feed'>";
+        	    str += "<div class='author'>";
+        	    str += "<div class='photo'></div>";
+        	    str += "<div class='name'>" + feed.AUTHOR + "</div>";
+        	    str += "</div>";
+
+        	    if (feed.ATTACHMENT) {
+        	        var imgurl = "../images/"+ feed.ATTACHMENT;
+        	        console.log(imgurl);
+        	        console.log(feed.ATTACHMENT);
+        	        str += "<div><img src=\"" + imgurl + "\" alt=\"이미지\" width=\"280px\" /></div>";
+
+        	    }
+
+        	    // 게시물의 제목과 내용
+        	    str += "<div class='title'>" + feed.TITLE + "</div>";
+        	    str += "<div class='text'>" + feed.CONTENT + "</div>";
+        	    str += "<div class='postdate'>" + feed.POSTDATE + "</div>";  // 게시물 작성일 출력
+        	    str += "</div>";
+
+        	    return str;
+        	}
+        	function getNext() {
+        	    var params = {maxNo: minNo};
+        	    AJAX.call("JSP/feedGetGroup.jsp", params, function(data) {
+        	        var feeds = JSON.parse(data.trim());
+        	        if (feeds.length > 0) {
+        	    	    minNo = feeds[feeds.length - 1].no;
+        	        }
+        	        show(feeds);
+        	    });
+        	}
+        	
+        
+		function calendar(){
+		        	
+		        }
+		        
+		function todo(){
+			
+		}
+		
+		function email(){
+			
+		}
     </script>
   </body>
 </html>
