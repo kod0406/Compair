@@ -45,44 +45,34 @@ document.addEventListener("click", function (event) {
   }
 });
 
-// 🟢 AJAX로 페이지 로드 (URL 변경 포함)
-function loadPage(page, addToHistory = true) {
+function loadPage(page) {
   fetch(page)
     .then((response) => response.text())
     .then((data) => {
-      document.getElementById("main-content").innerHTML = data;
+      let container = document.getElementById("main-content");
+      container.innerHTML = data; // HTML 삽입
+
       adjustMainSize(); // 사이드바 상태에 맞춰 main 크기 조정
-      loadCSS(page); // 페이지에 맞는 CSS 추가
+      loadCSS(page); // CSS 로드 함수 실행
 
-      // 🟢 현재 페이지를 localStorage에 저장
-      localStorage.setItem("currentPage", page);
-
-      // 🟢 URL 변경 & 히스토리 추가 (앞으로 가기 문제 해결)
-      if (addToHistory) {
-        history.pushState({ page: page }, "", "?page=" + page);
-      }
+      executeScripts(container); // 새로 불러온 HTML 내 스크립트 실행
     })
-    .catch((error) => console.error("Error loading page:", error));
+    .catch((error) => console.error("페이지 로드 오류:", error));
 }
 
-// 🟢 뒤로 가기 & 앞으로 가기 버튼 클릭 시 `main-content`만 업데이트
-window.addEventListener("popstate", function (event) {
-  if (event.state && event.state.page) {
-    loadPage(event.state.page, false); // `pushState` 실행하지 않고 컨텐츠만 업데이트
-  } else {
-    loadPage("board.html", false); // 기본값 (게시판)
-  }
-});
+// 🔽 내부 <script> 태그 실행 함수
+function executeScripts(container) {
+  let scripts = container.getElementsByTagName("script");
 
-// 🟢 페이지 로드 시 URL에 따라 `main-content` 업데이트 (중복 제거)
-document.addEventListener("DOMContentLoaded", function () {
-  const urlParams = new URLSearchParams(window.location.search);
-  const page =
-    urlParams.get("page") ||
-    localStorage.getItem("currentPage") ||
-    "board.html"; // 기본값: 게시판
-  loadPage(page, false); // `pushState` 실행하지 않음
-});
+  for (let oldScript of scripts) {
+    let newScript = document.createElement("script");
+    newScript.text = oldScript.innerText; // 내부 스크립트 복사
+    document.body.appendChild(newScript); // 실행을 위해 body에 추가
+    oldScript.remove(); // 기존 <script> 제거 (중복 실행 방지)
+  }
+}
+
+
 //메인 크기 조정 -
 
 function adjustMainSize() {
