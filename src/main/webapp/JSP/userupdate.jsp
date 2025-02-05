@@ -29,7 +29,7 @@
             %>
                         <script>
                             alert("사용자 정보가 성공적으로 업데이트되었습니다.");
-                            window.location.href = "../html/user.html";  // 성공 시 user.jsp로 리디렉션
+                            window.location.href = "../html/main.html"; 
                         </script>
             <%
                     } else {
