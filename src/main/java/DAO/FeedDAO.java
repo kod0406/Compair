@@ -108,8 +108,6 @@ public class FeedDAO {
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
                 
-            String str = "[";
-            int cnt = 0;
             JSONArray jsonArray = new JSONArray();
             while (rs.next()) {
                 JSONObject obj = new JSONObject();
@@ -129,5 +127,71 @@ public class FeedDAO {
             if (stmt != null) stmt.close(); 
             if (conn != null) conn.close();
         }
-    }    
+    }
+	
+	public String getOneFeed(String boardCode) throws NamingException, SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+        	String sql = "SELECT * FROM BOARDTABLE WHERE BOARD_CODE = " + boardCode;
+        	
+        	conn = conpool.get();
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            
+            JSONArray jsonArray = new JSONArray();
+            while (rs.next()) {
+                JSONObject obj = new JSONObject();
+                obj.put("SERVER_CODE", rs.getString("SERVER_CODE"));
+                obj.put("BOARD_CODE", rs.getString("BOARD_CODE"));
+                obj.put("TITLE", rs.getString("TITLE"));
+                obj.put("AUTHOR", rs.getString("AUTHOR"));
+                obj.put("POSTDATE", rs.getString("POST_DATE"));
+                obj.put("CONTENT", rs.getString("CONTENT"));
+                obj.put("ATTACHMENT", rs.getString("ATTACHMENT"));
+                jsonArray.add(obj);
+            }
+            System.out.println(jsonArray.toString());
+            return jsonArray.toString();
+	
+        } finally {
+            if (rs != null) rs.close(); 
+            if (stmt != null) stmt.close(); 
+            if (conn != null) conn.close();
+        }
+	}
+	
+	public String calendarGetGroup(String POST_DATE) throws NamingException, SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+        	String sql = "SELECT * FROM BOARDTABLE WHERE TO_CHAR(POST_DATE, 'YYYY-MM-DD') = '" + POST_DATE + "'";
+        	System.out.println(sql);
+        	conn = conpool.get();
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            
+            JSONArray jsonArray = new JSONArray();
+            while (rs.next()) {
+                JSONObject obj = new JSONObject();
+                obj.put("SERVER_CODE", rs.getString("SERVER_CODE"));
+                obj.put("BOARD_CODE", rs.getString("BOARD_CODE"));
+                obj.put("TITLE", rs.getString("TITLE"));
+                obj.put("AUTHOR", rs.getString("AUTHOR"));
+                obj.put("POSTDATE", rs.getString("POST_DATE"));
+                obj.put("CONTENT", rs.getString("CONTENT"));
+                obj.put("ATTACHMENT", rs.getString("ATTACHMENT"));
+                jsonArray.add(obj);
+            }
+            System.out.println(jsonArray.toString());
+            return jsonArray.toString();
+	
+        } finally {
+            if (rs != null) rs.close(); 
+            if (stmt != null) stmt.close(); 
+            if (conn != null) conn.close();
+        }
+	}
 }
