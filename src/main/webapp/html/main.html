@@ -104,8 +104,19 @@
         	}
         	
         	function getFeedCode(feed) {
-        	    //var name = (feed.user == null) ? feed.id : feed.user.name;
+        		var clickCode = feed.BOARD_CODE;
+        		var str = "<div style='display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #ddd;' onclick='handleRowClick(\"" + clickCode + "\")'>";
+        	    
+        		str += "<div style='width: 100px; text-align: center;'>" + feed.BOARD_CODE + "</div>";
+        	    str += "<div style='flex: 2; text-align: center;'>" + feed.TITLE + "</div>";
+        	    str += "<div style='width: 150px; text-align: center;'>" + feed.AUTHOR + "</div>";
+        	    str += "<div style='width: 150px; text-align: center;'>" + feed.POSTDATE + "</div>";
+        	    str += "</div>";
 
+        	    return str;
+        		
+        		//var name = (feed.user == null) ? feed.id : feed.user.name;
+				/*
         	    var str = "<div class='feed'>";
         	    str += "<div class='author'>";
         	    str += "<div class='photo'></div>";
@@ -127,6 +138,12 @@
         	    str += "</div>";
 
         	    return str;
+        		*/
+        	}
+        	
+        	function handleRowClick(clickCode) {
+        	    alert("게시글 코드: " + clickCode + " 클릭됨!");
+        	    window.location.href = "b_view.html?boardCode=" + clickCode;
         	}
         	
         	function getNext() {
