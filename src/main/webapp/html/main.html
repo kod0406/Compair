@@ -171,6 +171,7 @@
         	//calendar 시작
         	var currentDate = new Date();
 			function calendar(){
+				$("#calendarList").empty();
 				minNo = recentNo;
 				console.log("minNo는?" + minNo);
 			    $("#list").empty(); // list 영역 비우기
@@ -304,6 +305,7 @@
 			console.log("게시판 클릭 완료");
 			console.log(suid);
 			$("#list").empty();
+			$("#calendarList").empty();
 			start(suid);
 		}
 		
