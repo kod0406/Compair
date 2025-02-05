@@ -61,6 +61,9 @@
       <!--main content 영역-->
       <div id="main-region">
         <div id="list" class="section"></div>
+        <div>
+        	<button type="button" onclick="getNext()">클릭해 보세요!</button>
+        </div>
         <footer class="footer">
           <p>© 2025 Com-pair. All rights reserved.</p>
         </footer>
@@ -75,15 +78,20 @@
         $(document).ready(function() {
         	Page.init(start);
         });
-        
+        var suid;
         var minNo = -1;
+        var recentNo = -1;
+        console.log(minNo);
         	function start(uid) {
+        		suid = uid;
         	    AJAX.call("../JSP/feedGetGroup.jsp", null, function(data) {
         	        var feeds = JSON.parse(data.trim());
         	        console.log(feeds);
         	        if (feeds.length > 0) {
-        	    	    minNo = feeds[feeds.length - 1].no;
+        	    	    minNo = feeds[feeds.length - 1].BOARD_CODE;
+        	    	    recentNo = feeds[feeds.length - 1].BOARD_CODE;
         	        }
+        	        console.log("minNo는?" + minNo);
         	        show(feeds);
         	    });
         	}
@@ -96,7 +104,7 @@
         	}
         	
         	function getFeedCode(feed) {
-        	    var name = (feed.user == null) ? feed.id : feed.user.name;
+        	    //var name = (feed.user == null) ? feed.id : feed.user.name;
 
         	    var str = "<div class='feed'>";
         	    str += "<div class='author'>";
@@ -120,12 +128,14 @@
 
         	    return str;
         	}
+        	
         	function getNext() {
         	    var params = {maxNo: minNo};
-        	    AJAX.call("JSP/feedGetGroup.jsp", params, function(data) {
+        	    console.log(minNo);
+        	    AJAX.call("../JSP/feedGetGroup.jsp", params, function(data) {
         	        var feeds = JSON.parse(data.trim());
         	        if (feeds.length > 0) {
-        	    	    minNo = feeds[feeds.length - 1].no;
+        	    	    minNo = feeds[feeds.length - 1].BOARD_CODE;
         	        }
         	        show(feeds);
         	    });
@@ -133,16 +143,39 @@
         	
         
 		function calendar(){
-		        	
-		        }
-		        
-		function todo(){
-			
+			minNo = recentNo;
+			console.log("minNo는?" + minNo);
+		    $("#list").empty(); // list 영역 비우기
+		    console.log("캘린더 버튼 클릭됨, 리스트 영역 비워짐.");
 		}
 		
-		function email(){
-			
+		
+		
+		
+		function todo(){
+			minNo = recentNo;
+			console.log("minNo는?" + minNo);
+		    $("#list").empty(); // list 영역 비우기
+		    console.log("캘린더 버튼 클릭됨, 리스트 영역 비워짐.");
 		}
+		
+		
+		function email(){
+			minNo = recentNo;
+			console.log("minNo는?" + minNo);
+		    $("#list").empty(); // list 영역 비우기
+		    console.log("캘린더 버튼 클릭됨, 리스트 영역 비워짐.");
+		}
+		
+		
+		function board(){
+			minNo = recentNo;
+			console.log("게시판 클릭 완료");
+			console.log(suid);
+			$("#list").empty();
+			start(suid);
+		}
+		
     </script>
   </body>
 </html>
