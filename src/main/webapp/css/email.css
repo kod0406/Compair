@@ -1,0 +1,122 @@
+#email-page {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* 제목 스타일 */
+.email-title {
+  text-align: center;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* 이메일 관리 버튼 */
+.email-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.email-button {
+  width: 120px;
+  height: 45px;
+  font-size: 16px;
+  border: 0;
+  outline: 2px rgb(221, 227, 236) solid;
+  border-radius: 8px;
+  padding: 5px;
+  background-color: rgb(234, 240, 248);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.email-button:hover {
+  outline: 2px rgb(208, 221, 243) solid;
+  background-color: rgb(212, 226, 248);
+}
+
+/* 레이아웃 */
+.email-layout {
+  display: flex;
+  gap: 20px;
+}
+
+/* 폴더 사이드바 */
+.email-sidebar {
+  width: 200px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+}
+
+.email-folder {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 10px;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.email-folder.active {
+  background-color: #dae8ff;
+  font-weight: bold;
+}
+
+.email-folder:hover {
+  background-color: #e3e8f5;
+}
+
+/* 이메일 테이블 */
+.email-content {
+  flex-grow: 1;
+}
+
+.email-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+
+.email-header th {
+  background-color: rgb(234, 240, 248);
+  padding: 10px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.email-row td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.email-subject {
+  font-weight: bold;
+}
+
+.email-row:hover {
+  background-color: #f9f9f9;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .email-layout {
+    flex-direction: column;
+  }
+
+  .email-sidebar {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .email-button {
+    width: 100%;
+  }
+}

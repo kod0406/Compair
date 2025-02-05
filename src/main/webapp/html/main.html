@@ -51,19 +51,23 @@
       <!-- 사이드 메뉴바 -->
       <div id="sidebar" class="sidebar">
         <ul class="sidebar-menu">
-          <li onclick = "board()">게시판</li>
-          <li onclick = "calendar()">캘린더</li>
+          <li onclick="loadPage('board.html')">게시판</li>
+          <li onclick="loadPage('calendar.html')">캘린더</li>
           <li onclick = "todo()">투두 리스트</li>
-          <li onclick = "email()">이메일</li>
+          <li onclick="loadPage('email.html')">이메일</li>
         </ul>
       </div>
 
       <!--main content 영역-->
       <div id="main-region">
+<<<<<<< HEAD
         <div id="list" class="section"></div>
         <div>
         	<button type="button" onclick="getNext()">클릭해 보세요!</button>
         </div>
+=======
+        <main id="main-content"></main>
+>>>>>>> branch 'soyoung' of https://github.com/Project-ABase/Compair.git
         <footer class="footer">
           <p>© 2025 Com-pair. All rights reserved.</p>
         </footer>
