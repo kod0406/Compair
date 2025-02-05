@@ -33,7 +33,7 @@ public class FeedDAO {
                 String IMAGE = null; 
                 if(obj.get("images") != null) IMAGE = obj.get("images").toString();
                 //테스트 코드
-                int SERVER_CODE = 1;
+                int SERVER_CODE = 2;
                 String AUTHOR = "류재열";
                 String ATTACHMENT = IMAGE;
             	System.out.println(TITLE);
