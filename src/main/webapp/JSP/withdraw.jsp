@@ -4,16 +4,16 @@
 
 <%
     request.setCharacterEncoding("UTF-8");
-    String uid = request.getParameter("uid");
+	String userId = (String) session.getAttribute("uid");
 
     UserDAO userDAO = new UserDAO();
-    boolean isDeleted = userDAO.deleteUser(uid);  // 회원탈퇴 메서드 호출
+    boolean isDeleted = userDAO.deleteUser(userId);  // 회원탈퇴 메서드 호출
 
     response.setContentType("text/html;charset=UTF-8");
 
     if (isDeleted) {
         session.invalidate();  // 탈퇴 후 세션 종료
-        out.println("<script>alert('회원 탈퇴가 완료되었습니다.'); window.location.href='login.jsp';</script>");
+        out.println("<script>alert('회원 탈퇴가 완료되었습니다.'); window.location.href='../html/login.html';</script>");
     } else {
         out.println("<script>alert('회원 탈퇴에 실패했습니다.'); history.back();</script>");
     }

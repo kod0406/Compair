@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -27,7 +27,7 @@
           <button class="sidebar-toggle" onclick="toggleSidebar()">
             <i class="fas fa-bars"></i>
           </button>
-          <a class="navbar-brand" href="/html/main.html">Com-pair</a>
+          <a class="navbar-brand" href="main.html">Com-pair</a>
         </div>
 
         <!-- 오른쪽 : 현재 시간 + 마이페이지 아이콘 -->
@@ -38,8 +38,8 @@
               <i class="fa-solid fa-user"></i>
             </button>
             <div id="user-menu" class="dropdown-menu">
-              <a href="mypage.html">내 정보</a>
-              <a href="#">로그아웃</a>
+              <a onclick = "user()">내 정보</a>
+              <a onclick = "logout()">로그아웃</a>
             </div>
           </div>
         </div>
@@ -79,8 +79,7 @@
     <script src="../js/calendarMain.js"></script>
     <script src="../js/core.js"></script>
     <script>
-	
-    	function todo(){
+		function todo(){
 			minNo = recentNo;
 			console.log("minNo는?" + minNo);
 			$("#calendarList").empty();
@@ -88,6 +87,28 @@
 		    console.log("캘린더 버튼 클릭됨, 리스트 영역 비워짐.");
 		}
 		
+		function user() {
+			$("#list").empty();
+			$("#calendarList").empty();
+		    AJAX.call("../JSP/user.jsp", null, function(response) {
+		        if (response) {
+		            $('#list').html(response);
+		        } else {
+		            $('#list').html('<p>사용자 정보를 불러올 수 없습니다.</p>');
+		        }
+		    });
+		}
+		function logout() {
+			$("#list").empty();
+		    AJAX.call("../JSP/logoutAction.jsp", null, function(response) {
+		        if (response) {
+		            $('#list').html(response);
+		        } else {
+		            $('#list').html('<p>오류.</p>');
+		        }
+		    });
+		}
+
 		
 		function email(){
 			minNo = recentNo;
@@ -104,6 +125,7 @@
 			console.log(suid);
 			$("#calendarList").empty();
 			$("#list").empty();
+			$("#calendarList").empty();
 			start(suid);
 		}
 		
