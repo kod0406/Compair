@@ -15,8 +15,9 @@
 /* 상세 테이블 */
 .view-table {
   width: 100%;
-  border-collapse: collapse;
   margin-top: 10px;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
 }
 
 .view-header {

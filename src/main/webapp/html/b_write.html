@@ -1,50 +1,84 @@
 <div id="write-page">
   <h2 class="write-title">글 작성</h2>
-  <form action="board.html" method="post">
+  <form action="../JSP/feedAdd1.jsp" method="post" enctype="multipart/form-data">
     <table class="write-table">
       <tr>
-        <td class="write-header">제목</td>
+        <th class="write-header">아이디</th>
       </tr>
       <tr>
         <td>
-          <input
-            type="text"
-            class="write-input"
-            placeholder="제목을 입력하세요"
-            name="title"
-          />
+          <input type="text" class="write-input" placeholder="아이디 (이메일주소)" name="id" id="id" required />
         </td>
       </tr>
       <tr>
-        <td class="write-header">내용</td>
+        <th class="write-header">내용</th>
       </tr>
       <tr>
         <td>
-          <textarea
-            class="write-textarea"
-            placeholder="내용을 입력하세요"
-            name="detail"
-          ></textarea>
+          <textarea class="write-textarea" placeholder="이곳에 글을 작성해 주세요." name="content" id="content" required></textarea>
         </td>
       </tr>
       <tr>
-        <td class="write-header">첨부파일</td>
+        <th class="write-header">첨부파일</th>
       </tr>
       <tr>
         <td>
-          <input type="file" class="write-file-input" name="file" />
+          <input type="file" class="write-file-input" name="image" id="image" />
         </td>
       </tr>
       <tr>
         <td class="write-button-container">
-          <input
-            type="submit"
-            class="write-button"
-            value="등록"
-            onclick="alert('작성 완료!')"
-          />
+          <input type="submit" class="write-button mtop-30" value="업로드하기" onclick="upload()" />
+          <button type="button" class="cancel-button" onclick="history.back();">돌아가기</button>
         </td>
       </tr>
     </table>
   </form>
 </div>
+
+
+<script src="../js/jquery-3.5.1.min.js"></script>
+<script src="../js/core.js"></script>
+<script>
+function upload() {
+    var id = $("#id").val().trim();
+    if (id == "") {
+        alert("아이디를 입력해 주세요.");
+        $("#id").focus();
+        return;
+    }
+    
+    var content = $("#content").val().trim();
+    if (content == "") {
+        alert("작성글을 입력해 주세요.");
+        $("#content").focus();
+        return;
+    }
+    
+    var imgobj = $("#image")[0].files[0];
+    var jsonobj = {id: id, content: content};
+    
+    if (imgobj != null) {
+    	jsonobj.images = imgobj.name;
+    }
+    var params = new FormData();
+    params.append("jsonstr", JSON.stringify(jsonobj));
+    
+    if (imgobj != null) {
+        params.append("images", imgobj);
+    }
+    
+    var url = "../JSP/feedAdd1.jsp";
+    
+    AJAX.call(url, params, function(data) {
+        var code = data.trim();
+        if(code == "ER") {
+            alert("작성 글의 업로드 중 오류가 발생하였습니다.FEED에서 에러");
+        }
+        else {
+            alert("작성 글의 업로드가 완료되었습니다.");
+            window.location.href = "main.html";
+        }
+    }, true);
+}
+</script>

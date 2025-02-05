@@ -25,14 +25,15 @@
   height: 45px; /* 행 높이 증가 */
   font-size: 16px; /* 글자 크기 증가 */
   padding: 10px; /* 안쪽 여백 추가 */
+  text-align: left;
 }
 
 .board-num {
-  width: 80px;
+  width: 90px;
 }
 
 .board-title {
-  width: 60%;
+  width: 50%;
 }
 
 .board-body {

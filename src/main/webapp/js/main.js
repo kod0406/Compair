@@ -49,28 +49,43 @@ function loadPage(page) {
   fetch(page)
     .then((response) => response.text())
     .then((data) => {
-      let container = document.getElementById("main-content");
-      container.innerHTML = data; // HTML 삽입
-
+      document.getElementById("main-content").innerHTML = data;
       adjustMainSize(); // 사이드바 상태에 맞춰 main 크기 조정
-      loadCSS(page); // CSS 로드 함수 실행
+	  loadCSS(page);
 
-      executeScripts(container); // 새로 불러온 HTML 내 스크립트 실행
+      // 새로 로드된 HTML의 `<script>` 실행
+      let scripts = document
+        .getElementById("main-content")
+        .getElementsByTagName("script");
+
+      for (let i = 0; i < scripts.length; i++) {
+        let newScript = document.createElement("script");
+        newScript.textContent = scripts[i].textContent;
+        document.body.appendChild(newScript);
+      }
+
+      //캘린더 페이지 로드 시 `generateCalendar()` 실행
+      if (page === "calendar.html") {
+        if (typeof generateCalendar === "function") {
+          generateCalendar(new Date()); // 새 캘린더 생성
+          document
+            .getElementById("prevMonth") //전 월 이동
+            .addEventListener("click", function () {
+              changeMonth(-1);
+            });
+          document
+            .getElementById("nextMonth") //다음 월 이동
+            .addEventListener("click", function () {
+              changeMonth(1);
+            });
+        } else {
+          console.error("캘린더 함수가 정의되지 않았음!");
+        }
+      }
     })
     .catch((error) => console.error("페이지 로드 오류:", error));
 }
 
-// 🔽 내부 <script> 태그 실행 함수
-function executeScripts(container) {
-  let scripts = container.getElementsByTagName("script");
-
-  for (let oldScript of scripts) {
-    let newScript = document.createElement("script");
-    newScript.text = oldScript.innerText; // 내부 스크립트 복사
-    document.body.appendChild(newScript); // 실행을 위해 body에 추가
-    oldScript.remove(); // 기존 <script> 제거 (중복 실행 방지)
-  }
-}
 
 
 //메인 크기 조정 -
@@ -96,18 +111,22 @@ function adjustMainSize() {
 window.addEventListener("resize", adjustMainSize);
 window.addEventListener("load", adjustMainSize);
 
-//main content에 해당하는 html에 css 동적 적용
 function loadCSS(page) {
   let cssFile;
+
   if (page === "board.html") {
     cssFile = "../css/board.css";
-  } else if (page == "b_write.html") {
+  } else if (page === "b_write.html") {
     cssFile = "../css/b_write.css";
-  } else if (page == "b_view.html") {
+  } else if (page === "b_view.html") {
     cssFile = "../css/b_view.css";
-  }
+  } else if (page === "email.html") {
+    cssFile = "../css/email.css";
+  }	else if (page === "calendar.html") {
+	cssFile = "../css/calendar.css";
+}
 
-  if (cssFile) {
+  if (cssFile) {  
     let link = document.createElement("link");
     link.rel = "stylesheet";
     link.href = cssFile;

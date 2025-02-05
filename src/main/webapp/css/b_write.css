@@ -59,12 +59,15 @@
 
 /* 작성 버튼 컨테이너 */
 .write-button-container {
-  text-align: right;
+  display: flex;
+  justify-content: flex-end; /* 오른쪽 정렬 */
+  gap: 10px;
   padding-top: 15px;
 }
 
-/* 작성 버튼 스타일 */
-.write-button {
+/* 버튼 스타일 */
+.write-button,
+.cancel-button {
   width: 120px;
   height: 45px;
   font-size: 16px;
@@ -75,9 +78,11 @@
   background-color: rgb(234, 240, 248);
   font-weight: bold;
   cursor: pointer;
+  display: inline-block;
 }
 
-.write-button:active {
+.write-button,
+.cancel-button:active {
   outline: 2px rgb(208, 221, 243) solid;
   background-color: rgb(212, 226, 248);
 }
@@ -97,3 +102,4 @@
     width: 100%;
   }
 }
+
