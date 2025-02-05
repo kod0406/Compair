@@ -49,7 +49,8 @@
             </div>
             <div class="d-flex">
         		<button type="submit" class="btn btn-primary me-2">수정하기</button>
-        		<a href="../JSP/logoutAction.jsp" class="btn btn-danger">로그아웃</a> <!-- 수정한 부분 -->
+        		<a href="../JSP/logoutAction.jsp" class="btn btn-secondary">로그아웃</a> <!-- 수정한 부분 -->
+        		<a href="../JSP/withdraw.jsp" class="btn btn-danger ms-auto">회원 탈퇴</a>
     		</div>
         </form>
         <%
