@@ -59,6 +59,8 @@
       row.appendChild(document.createElement("td"));
     }
 
+    
+    var testDate;
     for (let day = 1; day <= lastDate; day++) {
       if (row.children.length === 7) {
         calendarBody.appendChild(row);
@@ -76,11 +78,15 @@
 
       // 클릭 시 날짜 정보 출력
       cell.addEventListener("click", function () {
-        handleDateClick(fullDate);
+          testDate = fullDate;
+    	  handleDateClick(fullDate);
       });
 
       row.appendChild(cell);
     }
+    
+    
+    
 
     calendarBody.appendChild(row); // 마지막 `<tr>` 추가
   }
@@ -93,6 +99,7 @@
 
   function handleDateClick(date) {
     console.log("선택한 날짜:", date);
+    console.log("testDate " = testDate);
     alert(`선택한 날짜: ${date}`);
   }
 </script>
