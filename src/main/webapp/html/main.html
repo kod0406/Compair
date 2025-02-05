@@ -1,148 +1,79 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Com-pair 메인</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../css/main.css" />
-    <script
-      src="https://kit.fontawesome.com/a076d05399.js"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <body>
-    <!-- NavBar -->
-    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
-      <div class="container-fluid">
-        <!-- 왼쪽:  로고, 사이브 메뉴바 토글 -->
-        <div class="d-flex align-items-center">
-          <button class="sidebar-toggle" onclick="toggleSidebar()">
-            <i class="fas fa-bars"></i>
-          </button>
-          <a class="navbar-brand" href="/html/main.html">Com-pair</a>
-        </div>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Com-pair 메인</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet" />
+<link rel="stylesheet" href="../css/main.css" />
+<script src="https://kit.fontawesome.com/a076d05399.js"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"
+	crossorigin="anonymous"></script>
+</head>
+<body>
+	<!-- NavBar -->
+	<nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+		<div class="container-fluid">
+			<!-- 왼쪽:  로고, 사이브 메뉴바 토글 -->
+			<div class="d-flex align-items-center">
+				<button class="sidebar-toggle" onclick="toggleSidebar()">
+					<i class="fas fa-bars"></i>
+				</button>
+				<a class="navbar-brand" href="/html/main.html">Com-pair</a>
+			</div>
 
-        <!-- 오른쪽 : 현재 시간 + 마이페이지 아이콘 -->
-        <div class="ms-auto d-flex align-items-center">
-          <span id="current-time" class="time-text"></span>
-          <div class="user-dropdown">
-            <button class="user-icon" onclick="toggleUserMenu()">
-              <i class="fa-solid fa-user"></i>
-            </button>
-            <div id="user-menu" class="dropdown-menu">
-              <a href="mypage.html">내 정보</a>
-              <a href="#">로그아웃</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
+			<!-- 오른쪽 : 현재 시간 + 마이페이지 아이콘 -->
+			<div class="ms-auto d-flex align-items-center">
+				<span id="current-time" class="time-text"></span>
+				<div class="user-dropdown">
+					<button class="user-icon" onclick="toggleUserMenu()">
+						<i class="fa-solid fa-user"></i>
+					</button>
+					<div id="user-menu" class="dropdown-menu">
+						<a href="mypage.html">내 정보</a> <a href="#">로그아웃</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
 
-    <!--NavBar 아래-->
-    <div class="main-layout">
-      <!-- 사이드 메뉴바 -->
-      <div id="sidebar" class="sidebar">
-        <ul class="sidebar-menu">
-          <li onclick="loadPage('board.html')">게시판</li>
-          <li onclick="loadPage('calendar.html')">캘린더</li>
-          <li onclick = "todo()">투두 리스트</li>
-          <li onclick="loadPage('email.html')">이메일</li>
-        </ul>
-      </div>
+	<!--NavBar 아래-->
+	<div class="main-layout">
+		<!-- 사이드 메뉴바 -->
+		<div id="sidebar" class="sidebar">
+			<ul class="sidebar-menu">
+				<li onclick="board()">게시판</li>
+				<li onclick="calendar()">캘린더</li>
+				<li onclick="todo()">투두 리스트</li>
+				<li onclick="email()">이메일</li>
+			</ul>
+		</div>
 
-      <!--main content 영역-->
-      <div id="main-region">
-        <main id="main-content"></main>
-        <footer class="footer">
-          <p>© 2025 Com-pair. All rights reserved.</p>
-        </footer>
-      </div>
-    </div>
+		<!--main content 영역-->
+		<div id="main-region">
+			<main id="main-content"></main>
+			<footer class="footer">
+				<p>© 2025 Com-pair. All rights reserved.</p>
+			</footer>
+		</div>
+	</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
-    <script src="../js/main.js"></script>
-    <script src="../js/core.js"></script>
-    <script>
-        $(document).ready(function() {
-        	Page.init(start);
-        });
-        
-        var minNo = -1;
-        	function start(uid) {
-        	    AJAX.call("../JSP/feedGetGroup.jsp", null, function(data) {
-        	        var feeds = JSON.parse(data.trim());
-        	        console.log(feeds);
-        	        if (feeds.length > 0) {
-        	    	    minNo = feeds[feeds.length - 1].no;
-        	        }
-        	        show(feeds);
-        	    });
-        	}
-        	function show(feeds) {
-        	    var str = "";
-        	    for (var i=0; i<feeds.length; i++) {
-        	        str += getFeedCode(feeds[i]);
-        	    }
-        	    $("#list").append(str);
-        	}
-        	
-        	function getFeedCode(feed) {
-        	    var name = (feed.user == null) ? feed.id : feed.user.name;
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"
+		crossorigin="anonymous"></script>
+	<script src="../js/main.js"></script>
+	<script src="../js/main2.js"></script>
+	<script src="../js/core.js"></script>
+	<script>
+		$(document).ready(function() {
+			mainStart(start);
+		});
+	</script>
 
-        	    var str = "<div class='feed'>";
-        	    str += "<div class='author'>";
-        	    str += "<div class='photo'></div>";
-        	    str += "<div class='name'>" + feed.AUTHOR + "</div>";
-        	    str += "</div>";
-
-        	    if (feed.ATTACHMENT) {
-        	        var imgurl = "../images/"+ feed.ATTACHMENT;
-        	        console.log(imgurl);
-        	        console.log(feed.ATTACHMENT);
-        	        str += "<div><img src=\"" + imgurl + "\" alt=\"이미지\" width=\"280px\" /></div>";
-
-        	    }
-
-        	    // 게시물의 제목과 내용
-        	    str += "<div class='title'>" + feed.TITLE + "</div>";
-        	    str += "<div class='text'>" + feed.CONTENT + "</div>";
-        	    str += "<div class='postdate'>" + feed.POSTDATE + "</div>";  // 게시물 작성일 출력
-        	    str += "</div>";
-
-        	    return str;
-        	}
-        	function getNext() {
-        	    var params = {maxNo: minNo};
-        	    AJAX.call("JSP/feedGetGroup.jsp", params, function(data) {
-        	        var feeds = JSON.parse(data.trim());
-        	        if (feeds.length > 0) {
-        	    	    minNo = feeds[feeds.length - 1].no;
-        	        }
-        	        show(feeds);
-        	    });
-        	}
-        	
-        
-		function calendar(){
-		        	
-		        }
-		        
-		function todo(){
-			
-		}
-		
-		function email(){
-			
-		}
-    </script>
-  </body>
+</body>
 </html>
