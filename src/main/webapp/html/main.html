@@ -148,7 +148,8 @@
 			function calendar(){
 				minNo = recentNo;
 				console.log("minNo는?" + minNo);
-			    $("#list").empty(); // list 영역 비우기
+			    $("#list").empty();
+				$("#calendarList").empty();
 			    console.log("캘린더 버튼 클릭됨, 리스트 영역 비워짐.");
 			    alert("캘린더");
 			    showCalendar();
@@ -205,6 +206,7 @@
         	
         	function showCalendarNothing(){
         		$("#list").empty();
+        		$("#calendarlist").empty();
         		var calStr = "아직 아무 데이터도 존재하지 않습니다.";
         		$("#list").append(calStr);
         	}
@@ -267,6 +269,7 @@
 		
 		function user() {
 			$("#list").empty();
+			$("#calendarlist").empty();
 		    AJAX.call("../JSP/user.jsp", null, function(response) {
 		        if (response) {
 		            $('#list').html(response);
@@ -300,6 +303,7 @@
 			console.log("게시판 클릭 완료");
 			console.log(suid);
 			$("#list").empty();
+			$("#calendarList").empty();
 			start(suid);
 		}
 		
