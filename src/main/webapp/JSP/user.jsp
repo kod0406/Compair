@@ -4,22 +4,8 @@
 <%@ page import="jakarta.servlet.http.HttpSession" %>
 
 <html lang="ko">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>내 정보</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-</head>
-<body>
-    <!-- NavBar -->
-    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="main.html">Com-pair</a>
-      </div>
-    </nav>
-
-    <div class="container mt-5">
-        <h1>내 정보 수정</h1>
+    <div class="container mt-1">
+        <h1>내 정보</h1>
         <%
             session = request.getSession(false); // 기존 세션 확인
             if (session != null && session.getAttribute("uid") != null) {

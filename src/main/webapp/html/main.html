@@ -38,7 +38,7 @@
               <i class="fa-solid fa-user"></i>
             </button>
             <div id="user-menu" class="dropdown-menu">
-              <a href="user.html">내 정보</a>
+              <a onclick = "user()">내 정보</a>
               <a href="#">로그아웃</a>
             </div>
           </div>
@@ -177,7 +177,14 @@
 		}
 		
 		function user() {
-			
+			$("#list").empty();
+		    AJAX.call("../JSP/user.jsp", null, function(response) {
+		        if (response) {
+		            $('#list').html(response);
+		        } else {
+		            $('#list').html('<p>사용자 정보를 불러올 수 없습니다.</p>');
+		        }
+		    });
 		}
 
 		
