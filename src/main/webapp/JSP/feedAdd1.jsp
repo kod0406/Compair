@@ -11,6 +11,10 @@
 
     String jsonstr = null, ufname = null;
     byte[] ufile = null;
+    System.out.println("글쓴이 받아옴" + session.getAttribute("uid"));
+    System.out.println("서버 세션 받아옴" + session.getAttribute("serverSession"));
+    String writer = (String)session.getAttribute("uid");
+    String server = (String)session.getAttribute("serverSession");
     
     DiskFileItemFactory factory = DiskFileItemFactory.builder().get();
 
@@ -48,7 +52,7 @@
     }
     FeedDAO dao = new FeedDAO();
     //System.out.println("어디가 문제일까요?");
-    if(dao.insert(jsonstr)){
+    if(dao.insert(jsonstr, writer, server)){
     	out.print("OK");
     	System.out.println("OK");
     } else out.print("ER");

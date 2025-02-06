@@ -26,12 +26,38 @@ public class UserDAO {
             stmt.setString(4, name);
             
             int count = stmt.executeUpdate();
+            
+            if(count == 1) {
+            	count = serverInsert(uid, 0);
+            }
+            
             return (count == 1);
         } finally {
             if (stmt != null) stmt.close();
             if (conn != null) conn.close();
         }
     }
+	
+	public int serverInsert(String uid, int scode) throws SQLException, ClassNotFoundException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        try {
+            conn = conpool.get();
+            String sql = "INSERT INTO SERVER_TABLE(USER_ID, SERVER_CODE) VALUES(?, ?)";
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, uid);
+            //수정 바람
+            stmt.setInt(2, scode);
+            
+            int count = stmt.executeUpdate();
+            
+            if(count == 1) return 1;
+            else return 0;
+        } finally {
+            if (stmt != null) stmt.close();
+            if (conn != null) conn.close();
+        }
+	}
 	
 	public boolean isIdExist(String uid) throws SQLException, ClassNotFoundException {
         Connection conn = null;
@@ -55,6 +81,7 @@ public class UserDAO {
             if (conn != null) conn.close();
         }
     }
+	
 	public boolean isEmailExist(String email) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement stmt = null;

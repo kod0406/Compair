@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="../JSP/ServerSignUp.jsp" method="post">
+        <div class="mb-3">
+          <label for="userid" class="form-label">아이디</label>
+          <input
+          	name="scode"
+            type="text"
+            class="form-control"
+            id="serverAdd"
+            placeholder="서버코드를 입력하세요"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">서버가입</button>
+      </form>
+      <script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
+      <script src="../js/core.js"></script>
+      
+      <script>
+      console.log("PAGE는 " + Page);
+      
+      $(document).ready(function() {
+	       	Page.init(start);
+	  });
+      function start(uid){
+    	  alert("uid");
+      }
+      </script>
+</body>
+</html>
