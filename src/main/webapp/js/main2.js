@@ -1,24 +1,60 @@
 $(document).ready(function() {
-       	Page.init(start);
-       });
-       var suid;
-       var minNo = -1;
-       var recentNo = -1;
-       console.log(minNo);
-       //board
-       	function start(uid) {
-       		suid = uid;
-       	    AJAX.call("../JSP/feedGetGroup.jsp", null, function(data) {
-       	        var feeds = JSON.parse(data.trim());
-       	        console.log(feeds);
-       	        if (feeds.length > 0) {
-       	    	    minNo = feeds[feeds.length - 1].BOARD_CODE;
-       	    	    recentNo = feeds[feeds.length - 1].BOARD_CODE;
-       	        }
-       	        console.log("minNo는?" + minNo);
-       	        show(feeds);
-       	    });
-       	}
+	       	Page.init(start);
+	       });
+		   
+		   var suid;
+	       var minNo = -1;
+	       var recentNo = -1;
+	       console.log(minNo);
+	       let tokens;
+		   
+		   
+	       function checkServer(uid){
+			serverParams = {"serverList" : uid};
+			AJAX.call("../JSP/checkServer.jsp", serverParams, function(data) {
+				var rvalue = JSON.parse(data.trim());
+				console.log(rvalue);
+				var keys = Object.keys(rvalue);
+				
+				var values = keys.map(function(key) {
+				    return rvalue[key];
+				});
+				console.log(values);
+				
+				serverListShow(values);
+				console.log("data는" + data);
+			});
+		   }
+		   
+		   
+		   function serverListShow(values){
+			var serverListShowStr = "<div>";
+			for(let i=0; i<values.length; i++){
+				serverListShowStr += values[i];
+				serverListShowStr += " ";
+				console.log("rvalue 는????" + values[i]);
+			}
+				serverListShowStr += "</div>";
+				$("#serverList").append(serverListShowStr);
+		   }
+		   
+		   
+		   //board
+	       	function start(uid) {
+				checkServer(uid);
+	       		suid = uid;
+	       	    AJAX.call("../JSP/feedGetGroup.jsp", null, function(data) {
+	       	        var feeds = JSON.parse(data.trim());
+	       	        console.log(feeds);
+	       	        if (feeds.length > 0) {
+	       	    	    minNo = feeds[feeds.length - 1].BOARD_CODE;
+	       	    	    recentNo = feeds[feeds.length - 1].BOARD_CODE;
+	       	        }
+	       	        console.log("minNo는?" + minNo);
+	       	        show(feeds);
+	       	    });
+	       	}
+	       console.log(suid);
        	function show(feeds) {
        	    var str = "";
        	    for (var i=0; i<feeds.length; i++) {
@@ -38,31 +74,6 @@ $(document).ready(function() {
        	    str += "</div>";
 
        	    return str;
-       		
-       		//var name = (feed.user == null) ? feed.id : feed.user.name;
-			/*
-       	    var str = "<div class='feed'>";
-       	    str += "<div class='author'>";
-       	    str += "<div class='photo'></div>";
-       	    str += "<div class='name'>" + feed.AUTHOR + "</div>";
-       	    str += "</div>";
-
-       	    if (feed.ATTACHMENT) {
-       	        var imgurl = "../images/"+ feed.ATTACHMENT;
-       	        console.log(imgurl);
-       	        console.log(feed.ATTACHMENT);
-       	        str += "<div><img src=\"" + imgurl + "\" alt=\"이미지\" width=\"280px\" /></div>";
-
-       	    }
-
-       	    // 게시물의 제목과 내용
-       	    str += "<div class='title'>" + feed.TITLE + "</div>";
-       	    str += "<div class='text'>" + feed.CONTENT + "</div>";
-       	    str += "<div class='postdate'>" + feed.POSTDATE + "</div>";  // 게시물 작성일 출력
-       	    str += "</div>";
-
-       	    return str;
-       		*/
        	}
        	
        	function handleRowClick(clickCode) {

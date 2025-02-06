@@ -25,9 +25,7 @@ public class FeedDAO {
             	System.out.println();
             	System.out.println("FeedDAO 첫번째 디버깅");
             	conn = conpool.get();
-            	// phase 1. add "no" property -----------------------------
-                String str = jsonstr;
-                JSONObject obj = (JSONObject)(new JSONParser()).parse(jsonstr);
+            	JSONObject obj = (JSONObject)(new JSONParser()).parse(jsonstr);
                 String TITLE = obj.get("id").toString();
                 String CONTENT = obj.get("content").toString();
                 String IMAGE = null; 
@@ -97,11 +95,13 @@ public class FeedDAO {
         ResultSet rs = null;
         try {
         	String sql = "SELECT * FROM BOARDTABLE";
-
+        	//변수로 변경
         	if (maxNo != null) {
-        	    sql += " WHERE BOARD_CODE < " + maxNo;
+        	    sql += " WHERE BOARD_CODE < " + maxNo + " AND SERVER_CODE = 1";
         	}
-
+        	else if(maxNo == null) {
+        		sql += " WHERE SERVER_CODE = 1";
+        	}
         	sql += " ORDER BY BOARD_CODE DESC FETCH FIRST 3 ROWS ONLY";
 
             conn = conpool.get();
