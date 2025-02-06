@@ -129,6 +129,7 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
+
 /* 모든 화면 크기에서 사이드바 숨김 상태 */
 .sidebar.active {
   transform: translateX(-250px); /* 사이드바 숨김 */

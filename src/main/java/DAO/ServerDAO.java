@@ -23,7 +23,7 @@ public class ServerDAO {
 		try {
             synchronized(this) {
             	conn = conpool.get();
-            	String sql = "SELECT SERVER_CODE FROM SERVER_TABLE WHERE USER_ID = ?";
+            	String sql = "SELECT SERVER_CODE FROM SERVER_TABLE WHERE USER_ID = ? ORDER BY SERVER_CODE";
             	stmt = conn.prepareStatement(sql);
             	stmt.setString(1, jsonstr);
             	rs = stmt.executeQuery(); 

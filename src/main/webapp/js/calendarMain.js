@@ -1,5 +1,5 @@
 //calendar 시작
-        	var currentDate = new Date();
+        var currentDate = new Date();
 			function calendar(){
 				minNo = recentNo;
 				console.log("minNo는?" + minNo);
@@ -11,7 +11,6 @@
 			    showCalendar();
 			    let testtDate = new Date();
 			    generateCalendar(new Date());
-			    
 
 			 	document.getElementById("prevMonth").addEventListener("click", function () {
 			        changeMonth(-1);

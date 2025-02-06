@@ -16,7 +16,7 @@ import org.json.simple.parser.ParseException;
 import util.conpool;
 
 public class FeedDAO {
-	public boolean insert(String jsonstr) throws NamingException, SQLException, ParseException, ClassNotFoundException {
+	public boolean insert(String jsonstr, String writer, String server) throws NamingException, SQLException, ParseException, ClassNotFoundException {
 		Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -31,8 +31,8 @@ public class FeedDAO {
                 String IMAGE = null; 
                 if(obj.get("images") != null) IMAGE = obj.get("images").toString();
                 //테스트 코드
-                int SERVER_CODE = 1;
-                String AUTHOR = "류재열";
+                int SERVER_CODE = Integer.parseInt(server);
+                String AUTHOR = writer;
                 String ATTACHMENT = IMAGE;
             	System.out.println(TITLE);
             	System.out.println(CONTENT);
@@ -89,6 +89,7 @@ public class FeedDAO {
             if (conn != null) conn.close();
         }
     }
+    
 	public String getGroup(String maxNo, String sc) throws NamingException, SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -162,12 +163,13 @@ public class FeedDAO {
         }
 	}
 	
-	public String calendarGetGroup(String POST_DATE) throws NamingException, SQLException {
+	public String calendarGetGroup(String POST_DATE, String serverSession) throws NamingException, SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
-        	String sql = "SELECT * FROM BOARDTABLE WHERE TO_CHAR(POST_DATE, 'YYYY-MM-DD') = '" + POST_DATE + "'";
+        	//나중에 TODO로 바꿔야함
+        	String sql = "SELECT * FROM BOARDTABLE WHERE TO_CHAR(POST_DATE, 'YYYY-MM-DD') = '" + POST_DATE + "' AND SERVER_CODE = " + serverSession + " ORDER BY BOARD_CODE DESC";
         	System.out.println(sql);
         	conn = conpool.get();
             stmt = conn.prepareStatement(sql);
