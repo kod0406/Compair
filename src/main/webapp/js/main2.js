@@ -57,24 +57,7 @@ $(document).ready(function() {
 				    show(feeds);
 				});
 		   }
-		   
-		   //board\
-		   /* 
-	       	function start(uid) {
-				checkServer(uid);
-	       		suid = uid;
-	       	    AJAX.call("../JSP/feedGetGroup.jsp", null, function(data) {
-	       	        var feeds = JSON.parse(data.trim());
-	       	        console.log(feeds);
-	       	        if (feeds.length > 0) {
-	       	    	    minNo = feeds[feeds.length - 1].BOARD_CODE;
-	       	    	    recentNo = feeds[feeds.length - 1].BOARD_CODE;
-	       	        }
-	       	        console.log("minNo는?" + minNo);
-	       	        show(feeds);
-	       	    });
-	       	}
-			*/
+
 			function start(uid){
 				checkServer(uid);
 				suid = uid;
