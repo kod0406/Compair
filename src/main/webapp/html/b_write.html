@@ -79,7 +79,8 @@
 	$(document).ready(function(){
 		Page.init();
 	});
-	
+	console.log("b_write" + session.getAttribute("uid"));
+	console.log("b_write" + session.getAttribute("serverList"));
 	
 function upload() {
     var id = $("#id").val().trim();

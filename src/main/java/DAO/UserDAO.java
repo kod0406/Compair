@@ -172,9 +172,10 @@ public class UserDAO {
 	           if (pstmt != null) try { pstmt.close(); } catch (SQLException ignore) {}
 	           if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
 	       }
-	       return -2; // 데이터베이스 오류
+		return 0;
 	   }
 
+	   
 	public boolean isAdmin(String uid) {
 	    return "admin".equals(uid); // admin ID만 관리자로 간주
 	}

@@ -169,7 +169,7 @@ public class FeedDAO {
         ResultSet rs = null;
         try {
         	//나중에 TODO로 바꿔야함
-        	String sql = "SELECT * FROM BOARDTABLE WHERE TO_CHAR(POST_DATE, 'YYYY-MM-DD') = '" + POST_DATE + "' AND SERVER_CODE = " + serverSession;
+        	String sql = "SELECT * FROM BOARDTABLE WHERE TO_CHAR(POST_DATE, 'YYYY-MM-DD') = '" + POST_DATE + "' AND SERVER_CODE = " + serverSession + " ORDER BY BOARD_CODE DESC";
         	System.out.println(sql);
         	conn = conpool.get();
             stmt = conn.prepareStatement(sql);
