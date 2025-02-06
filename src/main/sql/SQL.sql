@@ -73,3 +73,14 @@ CREATE TABLE mailContent (
     PRIMARY KEY (mail_code, server_code),
     CONSTRAINT fk_mail_content_title_code FOREIGN KEY (mail_code, server_code) REFERENCES mail (mail_code, server_code)
 );
+
+
+--Mail의 삭제여부를 확인하는 테이블
+CREATE TABLE mail_deletion (
+    mail_code NUMBER,
+    server_code NUMBER,
+    user_id VARCHAR2(100),
+    deleted_at DATE DEFAULT SYSDATE,
+    PRIMARY KEY (mail_code, server_code, user_id),
+    FOREIGN KEY (mail_code, server_code) REFERENCES mail(mail_code, server_code)
+);
