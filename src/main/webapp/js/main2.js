@@ -1,13 +1,7 @@
 $(document).ready(function() {
 	       	Page.init(start);
 	       });
-		   
-		   var suid;
-	       var minNo = -1;
-	       var recentNo = -1;
-	       console.log(minNo);
-	       let tokens;
-		   var recentServerCode;
+
 		   
 	       function checkServer(uid){
 			serverParams = {"serverList" : uid};
@@ -29,15 +23,16 @@ $(document).ready(function() {
 		   
 		   function serverListShow(values){
 			var serverListShowStr = "<div>";
-			
-			if(values.length == 1){
+			console.log(values[0]);
+			if(values[0] == "0"){
 				serverListShowStr += "<div style='display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #ddd;' onclick='serverAdd()'>";
-				serverListShowStr += 24;
+				serverListShowStr += 0;
 				serverListShowStr += "</div>";
+				
 			}
 			
-			else{
-				for(let i=0; i<values.length; i++){
+			if(values.length >= 0){
+				for(let i=1; i<values.length; i++){
 					var sc = values[i];
 					serverListShowStr += "<div style='display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #ddd;' onclick='serverClick(\"" + sc + "\")'>";
 					serverListShowStr += values[i];
@@ -47,6 +42,7 @@ $(document).ready(function() {
 				}
 					serverListShowStr += "</div>";
 				}
+				
 				$("#serverList").append(serverListShowStr);
 		   }
 		   

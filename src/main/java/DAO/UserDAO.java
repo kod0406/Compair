@@ -28,7 +28,7 @@ public class UserDAO {
             int count = stmt.executeUpdate();
             
             if(count == 1) {
-            	count = serverInsert(uid, 24);
+            	count = serverInsert(uid, 0);
             }
             
             return (count == 1);
@@ -81,6 +81,7 @@ public class UserDAO {
             if (conn != null) conn.close();
         }
     }
+	
 	public boolean isEmailExist(String email) throws SQLException, ClassNotFoundException {
         Connection conn = null;
         PreparedStatement stmt = null;
