@@ -24,6 +24,8 @@ $(document).ready(function() {
        	    for (var i=0; i<feeds.length; i++) {
        	        str += getFeedCode(feeds[i]);
        	    }
+			str += "<button onclick=\"window.location.href='../html/b_write.html'\">글 작성</button>";
+
        	    $("#list").append(str);
        	}
        	
@@ -36,6 +38,7 @@ $(document).ready(function() {
        	    str += "<div style='width: 150px; text-align: center;'>" + feed.AUTHOR + "</div>";
        	    str += "<div style='width: 150px; text-align: center;'>" + feed.POSTDATE + "</div>";
        	    str += "</div>";
+			
 
        	    return str;
        		
@@ -81,4 +84,4 @@ $(document).ready(function() {
        	        show(feeds);
        	    });
        	}
-       	//board 끝
+       	//board 끝 

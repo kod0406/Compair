@@ -1,0 +1,108 @@
+/* 이메일 작성 페이지 스타일 */
+#email-write-page {
+  max-width: 800px;
+  width: 90%;
+  margin: auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 제목 */
+.email-write-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* 작성 폼 테이블 */
+.email-write-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.email-write-header {
+  font-weight: bold;
+  height: 40px;
+  padding-left: 10px;
+}
+
+/* 입력 필드 */
+.email-write-input {
+  border: 1.5px rgb(68, 136, 244) solid;
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  padding-left: 10px;
+  font-size: 16px;
+}
+
+/* 내용 입력창 */
+.email-write-textarea {
+  border: 1.5px rgb(68, 136, 244) solid;
+  width: 100%;
+  height: 300px;
+  border-radius: 5px;
+  padding: 10px;
+  resize: none;
+  font-size: 16px;
+}
+
+/* 첨부파일 창 */
+.email-write-file-input {
+  width: 100%;
+  border: 1.5px rgb(68, 136, 244) solid;
+  padding: 8px;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: white;
+  cursor: pointer;
+}
+
+/* 버튼 컨테이너 */
+.email-write-button-container {
+  display: flex;
+  justify-content: flex-end; /* 오른쪽 정렬 */
+  gap: 10px;
+  padding-top: 15px;
+}
+
+/* 버튼 스타일 */
+.email-write-button,
+.cancel-button {
+  width: 120px;
+  height: 45px;
+  font-size: 16px;
+  border: 0;
+  outline: 2px rgb(221, 227, 236) solid;
+  border-radius: 8px;
+  padding: 5px;
+  background-color: rgb(234, 240, 248);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.email-write-button:active,
+.cancel-button:active {
+  outline: 2px rgb(208, 221, 243) solid;
+  background-color: rgb(212, 226, 248);
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  #email-write-page {
+    width: 95%;
+  }
+
+  .email-write-input,
+  .email-write-textarea {
+    font-size: 14px;
+  }
+
+  .email-write-button {
+    width: 100%;
+  }
+}
