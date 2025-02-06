@@ -1,5 +1,6 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html lang="ko">
+<<<<<<< HEAD
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,7 +27,39 @@
 				</button>
 				<a class="navbar-brand" href="/html/main.html">Com-pair</a>
 			</div>
+=======
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Com-pair 메인</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/main.css" />
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <!-- NavBar -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+      <div class="container-fluid">
+        <!-- 왼쪽:  로고, 사이브 메뉴바 토글 -->
+        <div class="d-flex align-items-center">
+          <button class="sidebar-toggle" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+          </button>
+          <a class="navbar-brand" href="main.html">Com-pair</a>
+        </div>
+>>>>>>> branch 'master' of https://github.com/Project-ABase/Compair.git
 
+<<<<<<< HEAD
 			<!-- 오른쪽 : 현재 시간 + 마이페이지 아이콘 -->
 			<div class="ms-auto d-flex align-items-center">
 				<span id="current-time" class="time-text"></span>
@@ -41,6 +74,23 @@
 			</div>
 		</div>
 	</nav>
+=======
+        <!-- 오른쪽 : 현재 시간 + 마이페이지 아이콘 -->
+        <div class="ms-auto d-flex align-items-center">
+          <span id="current-time" class="time-text"></span>
+          <div class="user-dropdown">
+            <button class="user-icon" onclick="toggleUserMenu()">
+              <i class="fa-solid fa-user"></i>
+            </button>
+            <div id="user-menu" class="dropdown-menu">
+              <a onclick = "user()">내 정보</a>
+              <a onclick = "logout()">로그아웃</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+>>>>>>> branch 'master' of https://github.com/Project-ABase/Compair.git
 
 	<!--NavBar 아래-->
 	<div class="main-layout">
@@ -68,6 +118,7 @@
 		</div>
 	</div>
 
+<<<<<<< HEAD
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"
@@ -78,14 +129,52 @@
 	<script src="../js/core.js"></script>
 	<script>
 		function todo() {
+=======
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/main2.js"></script>
+    <script src="../js/calendarMain.js"></script>
+    <script src="../js/core.js"></script>
+    <script>
+		function todo(){
+>>>>>>> branch 'master' of https://github.com/Project-ABase/Compair.git
 			minNo = recentNo;
 			console.log("minNo는?" + minNo);
 			$("#calendarList").empty();
 			$("#list").empty(); // list 영역 비우기
 			console.log("캘린더 버튼 클릭됨, 리스트 영역 비워짐.");
 		}
+<<<<<<< HEAD
 
 		function email() {
+=======
+		
+		function user() {
+			$("#list").empty();
+			$("#calendarList").empty();
+		    AJAX.call("../JSP/user.jsp", null, function(response) {
+		        if (response) {
+		            $('#list').html(response);
+		        } else {
+		            $('#list').html('<p>사용자 정보를 불러올 수 없습니다.</p>');
+		        }
+		    });
+		}
+		function logout() {
+			$("#list").empty();
+		    AJAX.call("../JSP/logoutAction.jsp", null, function(response) {
+		        if (response) {
+		            $('#list').html(response);
+		        } else {
+		            $('#list').html('<p>오류.</p>');
+		        }
+		    });
+		}
+
+		
+		function email(){
+>>>>>>> branch 'master' of https://github.com/Project-ABase/Compair.git
 			minNo = recentNo;
 			console.log("minNo는?" + minNo);
 			$("#calendarList").empty();
@@ -99,6 +188,7 @@
 			console.log(suid);
 			$("#calendarList").empty();
 			$("#list").empty();
+			$("#calendarList").empty();
 			start(suid);
 		}
 	</script>

@@ -1,0 +1,89 @@
+/* 상세 페이지 전체 스타일 */
+#email-view-page {
+  max-width: 800px;
+  width: 90%;
+  margin: auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 제목 */
+.email-view-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* 상세 테이블 */
+.email-view-table {
+  width: 100%;
+  margin-top: 10px;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+
+.email-view-header {
+  font-weight: bold;
+  background-color: rgb(235, 239, 246);
+  height: 40px;
+  padding-left: 10px;
+  width: 20%;
+}
+
+.email-view-table td {
+  border-bottom: 1px solid lightgray;
+  padding: 10px;
+  font-size: 16px;
+}
+
+/* 버튼 섹션 */
+.email-view-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.email-view-button {
+  width: 120px;
+  height: 45px;
+  font-size: 16px;
+  border: 0;
+  outline: 2px rgb(221, 227, 236) solid;
+  border-radius: 8px;
+  padding: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: rgb(234, 240, 248); /* 동일한 색 */
+  transition: background-color 0.3s;
+}
+
+.email-view-button:hover {
+  background-color: rgb(212, 226, 248); /* 동일한 호버 색 */
+}
+.email-view-button:active {
+  outline: 2px rgb(208, 221, 243) solid;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  #email-view-page {
+    width: 95%;
+  }
+
+  .email-view-table td {
+    font-size: 14px;
+  }
+
+  .email-view-button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .email-view-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+}
