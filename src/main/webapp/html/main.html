@@ -100,6 +100,7 @@
 		}
 		
 		function user() {
+			$("#serverList").empty();
 			$("#list").empty();
 			$("#calendarList").empty();
 		    AJAX.call("../JSP/user.jsp", null, function(response) {
