@@ -11,7 +11,6 @@
     String confirmPass = request.getParameter("confirm_password");
     String email = request.getParameter("mail");
     String name = request.getParameter("name");
-
     UserDAO user = new UserDAO();
 	
 	 

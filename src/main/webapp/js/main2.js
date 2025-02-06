@@ -29,16 +29,29 @@ $(document).ready(function() {
 		   
 		   function serverListShow(values){
 			var serverListShowStr = "<div>";
-			for(let i=0; i<values.length; i++){
-				var sc = values[i];
-				serverListShowStr += "<div style='display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #ddd;' onclick='serverClick(\"" + sc + "\")'>";
-				serverListShowStr += values[i];
+			
+			if(values.length == 1){
+				serverListShowStr += "<div style='display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #ddd;' onclick='serverAdd()'>";
+				serverListShowStr += 24;
 				serverListShowStr += "</div>";
-				
-				console.log("rvalue 는????" + values[i]);
 			}
-				serverListShowStr += "</div>";
+			
+			else{
+				for(let i=0; i<values.length; i++){
+					var sc = values[i];
+					serverListShowStr += "<div style='display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #ddd;' onclick='serverClick(\"" + sc + "\")'>";
+					serverListShowStr += values[i];
+					serverListShowStr += "</div>";
+					
+					console.log("rvalue 는????" + values[i]);
+				}
+					serverListShowStr += "</div>";
+				}
 				$("#serverList").append(serverListShowStr);
+		   }
+		   
+		   function serverAdd(){
+				window.location.href = "ServerAdd.html";
 		   }
 		   
 		   function serverClick(sc){
