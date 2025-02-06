@@ -1,72 +1,96 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="DAO.MailDAO" %>
 <%@ page import="DAO.ServerDAO" %>
 <%@ page import="user.Mail" %>
-<%@ page import="java.io.PrintWriter" %>
+<%@ page import="java.io.*" %>
+<%@ page import="org.apache.commons.fileupload2.core.*" %>
+<%@ page import="org.apache.commons.fileupload2.jakarta.servlet6.*" %>
+<%@ page import="util.FileUtil" %>
+<%@ page import="util.MailFileUtil" %>
+<%@ page import="java.util.*" %>
+<%@ page import="java.nio.charset.StandardCharsets" %>
+<%@ page import="org.apache.commons.fileupload2.core.DiskFileItemFactory" %>
+<%@ page import="org.apache.commons.fileupload2.jakarta.servlet6.JakartaServletFileUpload" %>
+
 <% request.setCharacterEncoding("UTF-8"); %>
-<jsp:useBean id="mail" class="user.Mail" scope="page" />
-<jsp:setProperty name="mail" property="mail_title" param="subject"/>
-<jsp:setProperty name="mail" property="todoContent" param="content"/>
-<jsp:setProperty name="mail" property="receiver"/>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>메일 전송</title>
-</head>
-<body>
-    <%
+
+<%
     String userID = null;
     if(session.getAttribute("uid") != null) {
         userID = (String)session.getAttribute("uid");
     }
-    
+
     // 로그인 체크
     if(userID == null) {
-        PrintWriter script = response.getWriter();
-        script.println("<script>");
-        script.println("alert('로그인이 필요합니다.')");
-        script.println("location.href = 'main.jsp'");
-        script.println("</script>");
-    } else {
-        if(mail.getMail_title() == null || mail.getTodoContent() == null || 
-           mail.getReceiver() == null || mail.getMail_title().equals("") || 
-           mail.getTodoContent().equals("") || mail.getReceiver().equals("")) {
-            PrintWriter script = response.getWriter();
-            script.println("<script>");
-            script.println("alert('입력이 안 된 사항이 있습니다.')");
-            script.println("history.back()");
-            script.println("</script>");
-        } else {
-            MailDAO mailDAO = new MailDAO();
-            ServerDAO serverDAO = new ServerDAO();
-            
-            // 현재 사용자의 서버 코드 가져오기
-            int serverCode = serverDAO.getUserServerCode(userID);
-            
-            // 메일 객체 설정
-            mail.setServer_code(serverCode);
-            mail.setWriter(userID);
-            
-            // 메일 전송 시도
-            boolean result = mailDAO.insertMail(mail);
-            
-            if(result) {
-                PrintWriter script = response.getWriter();
-                script.println("<script>");
-                script.println("alert('메일이 전송되었습니다.')");
-                script.println("location.href = 'SendMailRead.jsp");
-                script.println("</script>");
+        out.print("<script>alert('로그인이 필요합니다.'); location.href='main.jsp';</script>");
+        return;
+    }
+
+    // 파일 업로드 처리
+    String receiver = "";
+    String subject = "";
+    String content = "";
+    String attachment = null;
+    byte[] fileData = null;
+
+    try {
+        // Multipart 요청 파싱
+        DiskFileItemFactory factory = DiskFileItemFactory.builder().get();
+        JakartaServletFileUpload upload = new JakartaServletFileUpload(factory);
+        List<FileItem> items = upload.parseRequest(request);
+
+        // 필드 값 추출
+        for (FileItem item : items) {
+            if (item.isFormField()) {
+                String fieldName = item.getFieldName();
+                String value = item.getString(StandardCharsets.UTF_8);
+                switch(fieldName) {
+                    case "receiver": receiver = value; break;
+                    case "subject": subject = value; break;
+                    case "content": content = value; break;
+                }
             } else {
-                PrintWriter script = response.getWriter();
-                script.println("<script>");
-                script.println("alert('메일 전송에 실패했습니다.')");
-                script.println("history.back()");
-                script.println("</script>");
+                if ("attachment".equals(item.getFieldName())) {
+                    String fullPath = item.getName();
+                    // 파일명만 추출하는 부분 추가
+                    String fileName = new File(fullPath).getName();
+                    attachment = fileName; // 순수 파일명 저장
+
+                    fileData = item.get();
+                    if (attachment != null && !attachment.isEmpty()) {
+                        String root = application.getRealPath("");
+                        MailFileUtil.saveMailAttachment(root, attachment, fileData);
+                    }
+                }
             }
         }
+
+        // 필수 필드 검증
+        if(subject.isEmpty() || content.isEmpty() || receiver.isEmpty()) {
+            throw new Exception("필수 입력 항목이 누락되었습니다.");
+        }
+
+        // 메일 객체 생성
+        Mail mail = new Mail();
+        mail.setReceiver(receiver);
+        mail.setMail_title(subject);
+        mail.setTodoContent(content);
+        mail.setAttachment(attachment);
+        mail.setServer_code(new ServerDAO().getUserServerCode(userID));
+        mail.setWriter(userID);
+
+        // DB 저장
+        boolean result = new MailDAO().insertMail(mail);
+
+        if(result) {
+            out.print("<script>alert('메일 전송 성공'); location.href='SendMailRead.jsp';</script>");
+        } else {
+            out.print("<script>alert('메일 전송 실패'); history.back();</script>");
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        out.print("<script>alert('오류 발생: " + e.getMessage() + "'); history.back();</script>");
     }
-    %>
-</body>
-</html>
+%>

@@ -9,7 +9,7 @@ public class MailDAO {
 	// 메일 저장
 	public boolean insertMail(Mail mail) {
 		String mailSQL = "INSERT INTO mail (server_code, writer, mail_title, receiver) VALUES (?, ?, ?, ?)";
-		String contentSQL = "INSERT INTO mailContent (mail_code, server_code, mail_title, todo_content, attachment) VALUES (?, ?, ?, ?, NULL)";
+		String contentSQL = "INSERT INTO mailContent (mail_code, server_code, mail_title, todo_content, attachment) VALUES (?, ?, ?, ?, ?)";
 		try (Connection conn = conpool.get();
 				PreparedStatement pstmt1 = conn.prepareStatement(mailSQL, new String[]{"mail_code"});
 				PreparedStatement pstmt2 = conn.prepareStatement(contentSQL)) {
@@ -31,6 +31,7 @@ public class MailDAO {
 			pstmt2.setInt(2, mail.getServer_code());
 			pstmt2.setString(3, mail.getMail_title());
 			pstmt2.setString(4, mail.getTodoContent());
+			pstmt2.setString(5, mail.getAttachment());
 			pstmt2.executeUpdate();
 			conn.commit();
 			return true;
@@ -131,7 +132,7 @@ public class MailDAO {
 
 	
 
-	// 특정 메일 조회 -> 뭔 기능이지?
+	// 특정 메일 조회 -> 메일검색
 	public Mail getMail(int mailCode, int serverCode) throws SQLException {
 		String sql = "SELECT m.*, mc.todo_content, mc.attachment " + "FROM mail m LEFT JOIN mailContent mc "
 				+ "ON m.mail_code = mc.mail_code AND m.server_code = mc.server_code "

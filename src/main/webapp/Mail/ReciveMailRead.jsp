@@ -123,7 +123,7 @@
 
 <hr>
 <input type="button" value="메일 작성하기" onclick="location.href='WriteMail.jsp'">
-<input type="button" value="Test1" onclick="location.href='logout.jsp'">
+<input type="button" value="Test1" onclick="history.back()">
 
 </body>
 </html>

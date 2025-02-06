@@ -119,7 +119,7 @@
 %>
 
 <hr>
-<input type="button" value="메일 작성하기" onclick="location.href='mailWriteForm.jsp'">
+<input type="button" value="메일 작성하기" onclick="location.href='WriteMail.jsp'">
 <input type="button" value="뒤로 가기" onclick="history.back()">
 </body>
 </html>
