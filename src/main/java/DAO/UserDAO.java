@@ -77,104 +77,7 @@ public class UserDAO {
             if (conn != null) conn.close();
         }
     }
-//<<<<<<< HEAD
-//
-//    public boolean insert(String uid, String upass, String email, String name) throws SQLException, ClassNotFoundException {
-//        Connection conn = null;
-//        PreparedStatement stmt = null;
-//        
-//        try {
-//            Class.forName(driver);
-//            conn = DriverManager.getConnection(url, "c##sahmyook", "1111");//환경에 맞게 수정
-//            String sql = "INSERT INTO USERTABLE(USER_ID, PASSWORD, USER_MAIL, USER_NAME,APPROVED)"
-//            		+ "VALUES(?, ?, ?, ?, ?)";
-//            stmt = conn.prepareStatement(sql);
-//            stmt.setString(1, uid);
-//            stmt.setString(2, upass);
-//            stmt.setString(3, email);
-//            stmt.setString(4, name);
-//            stmt.setInt(5, 0); // 기본을 0으로 하여 미승인
-//            
-//            int count = stmt.executeUpdate();
-//            return (count == 1);
-//        } finally {
-//            if (stmt != null) stmt.close();
-//            if (conn != null) conn.close();
-//        }
-//    }
-//    public boolean deleteUsers(String[] userIds) 
-//            throws SQLException, ClassNotFoundException {
-//        Connection conn = null;
-//        PreparedStatement pstmt = null;
-//        
-//        try {
-//            Class.forName(driver);
-//            conn = DriverManager.getConnection(url, "c##sahmyook", "1111");
-//            conn.setAutoCommit(false); // 트랜잭션 시작
-//
-//            // [1] IN 절을 사용한 SQL 쿼리
-//            String sql = "DELETE FROM USERTABLE WHERE USER_ID IN (";
-//            sql += String.join(",", Collections.nCopies(userIds.length, "?")) + ")";
-//            pstmt = conn.prepareStatement(sql);
-//            
-//            // [2] 파라미터 바인딩
-//            for (int i = 0; i < userIds.length; i++) {
-//                pstmt.setString(i + 1, userIds[i]);
-//            }
-//            
-//            // [3] 실행 및 트랜잭션 처리
-//            int count = pstmt.executeUpdate();
-//            if (count == userIds.length) {
-//                conn.commit();
-//                return true;
-//            } else {
-//                conn.rollback();
-//                return false;
-//            }
-//        } finally {
-//            if (pstmt != null) pstmt.close();
-//            if (conn != null) conn.close();
-//        }
-//    }
-//
-//    public boolean approveUser(String uid) throws SQLException,ClassNotFoundException{
-//    	Connection conn = null;
-//        PreparedStatement stmt = null;
-//        try {
-//        	Class.forName(driver);
-//        	conn = DriverManager.getConnection(url, "c##sahmyook", "1111");
-//        	String sql = "UPDATE USERTABLE SET APPROVED = 1 WHERE USER_ID = ?";
-//        	stmt = conn.prepareStatement(sql);
-//        	stmt.setString(1, uid);
-//        	int count = stmt.executeUpdate();
-//        	return (count==1);}
-//        	finally {
-//        		if (stmt != null) stmt.close();
-//                if (conn != null) conn.close();
-//        }
-//    }
-//    
-//	public boolean rejectUser(String uid) throws SQLException, ClassNotFoundException {
-//		Connection conn = null;
-//		PreparedStatement stmt = null;
-//		try {
-//			Class.forName(driver);
-//			conn = DriverManager.getConnection(url, "c##sahmyook", "1111");
-//			String sql = "DELETE FROM USERTABLE WHERE USER_ID = ?";
-//			stmt = conn.prepareStatement(sql);
-//			stmt.setString(1, uid);
-//			int count = stmt.executeUpdate();
-//			return (count == 1);
-//		} finally {
-//			if (stmt != null)
-//				stmt.close();
-//			if (conn != null)
-//				conn.close();
-//		}
-//	}
-//
-//=======
-//>>>>>>> branch 'lnh' of https://github.com/Project-ABase/Compair.git
+	
 	public String[] getUserInfoByEmail(String email) throws NamingException, SQLException, ClassNotFoundException {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -244,74 +147,10 @@ public class UserDAO {
 	       }
 	       return -2; // 데이터베이스 오류
 	   }
-	
-	
-	
-	
-	
-	//수정
-//	public int login(String uid, String upass) throws SQLException, ClassNotFoundException {
-//	    String SQL = "SELECT password, APPROVED FROM userTable WHERE user_id = ?";
-//	    Connection conn = null;
-//	    PreparedStatement pstmt = null;
-//	    ResultSet rs = null;
-//
-//	    try {
-//	        pstmt = conn.prepareStatement(SQL);
-//	        pstmt.setString(1, uid);
-//	        rs = pstmt.executeQuery();
-//
-//	        if (rs.next()) {
-//	            String dbPassword = rs.getString("password");
-//	            int isApproved = rs.getInt("APPROVED"); // 승인 여부 체크
-//
-//	            if (!dbPassword.equals(upass)) {
-//	                return 0; // 비밀번호 불일치
-//	            } else if (isApproved == 0) {
-//	                return 2; // 승인 대기 중
-//	            } else {
-//	                return 1; // 로그인 성공 (승인 완료)
-//	            }
-//	        }
-//	        return -1; // 아이디 없음
-//	    } catch (Exception e) {
-//	        e.printStackTrace();
-//	        return -2; // DB 오류
-//	    } finally {
-//	        // 리소스 정리
-//	    }
-//	    
-//	}
-	// 관리자 여부 확인
+
 	public boolean isAdmin(String uid) {
 	    return "admin".equals(uid); // admin ID만 관리자로 간주
 	}
-	//수정 1
-	//	public List<Map<String, Object>> getPendingUsers() throws SQLException, ClassNotFoundException {
-//	    List<Map<String, Object>> list = new ArrayList<>();
-//	    Connection conn = null;
-//	    PreparedStatement pstmt = null;
-//	    ResultSet rs = null;
-//	    
-//	    try {
-//	       conn = DriverManager.getConnection(url, "c##sahmyook", "1111");
-//	       String sql = "SELECT USER_ID, USER_MAIL, USER_NAME, APPROVED FROM USERTABLE WHERE APPROVED = 0";
-//	       pstmt = conn.prepareStatement(sql);
-//	       rs = pstmt.executeQuery();
-//	       
-//	       while (rs.next()) {
-//	    	   Map<String,Object> user = new HashMap<>();
-//	    	   user.put("user_id", rs.getString("USER_ID"));
-//	    	   user.put("user_mail", rs.getString("USER_MAIL"));
-//	    	   user.put("user_name", rs.getString("USER_NAME"));
-//	    	   user.put("approved", rs.getInt("APPROVED"));
-//	    	   list.add(user);
-//	       }
-//	    } finally {
-//	        // 리소스 정리
-//	    }
-//	    return list;
-//	}
 	
 	public String[] getUserInfoById(String uid) throws NamingException, SQLException, ClassNotFoundException {
 	    Connection conn = null;
@@ -384,30 +223,4 @@ public class UserDAO {
 	    }
 	    return isDeleted;
 	}
-//수정 2
-//	public List<Map<String, Object>> getAllUsers() throws SQLException, ClassNotFoundException {
-//		List<Map<String, Object>> list = new ArrayList<>();
-//		Connection conn = null;
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//
-//		try {
-//			conn = DriverManager.getConnection(url, "c##sahmyook", "1111");
-//			String sql = "SELECT USER_ID, USER_MAIL, USER_NAME, APPROVED FROM USERTABLE";
-//			pstmt = conn.prepareStatement(sql);
-//			rs = pstmt.executeQuery();
-//
-//			while (rs.next()) {
-//				Map<String, Object> user = new HashMap<>();
-//				user.put("user_id", rs.getString("USER_ID"));
-//				user.put("user_mail", rs.getString("USER_MAIL"));
-//				user.put("user_name", rs.getString("USER_NAME"));
-//				user.put("APPROVED", rs.getInt("APPROVED"));
-//				list.add(user);
-//			}
-//		} finally {
-//			// 리소스 정리
-//		}
-//		return list;
-//	}
 }

@@ -1,0 +1,105 @@
+<div id="calendar-page">
+  <div class="calendar-header">
+    <button id="prevMonth" class="calendar-nav">&lt;</button>
+    <span id="calendarMonthYear"></span>
+    <button id="nextMonth" class="calendar-nav">&gt;</button>
+  </div>
+  <table class="calendar-table">
+    <thead>
+      <tr>
+        <th>일</th>
+        <th>월</th>
+        <th>화</th>
+        <th>수</th>
+        <th>목</th>
+        <th>금</th>
+        <th>토</th>
+      </tr>
+    </thead>
+    <tbody id="calendarBody"></tbody>
+  </table>
+</div>
+<link rel="stylesheet" href="/css/calendar.css" />
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    generateCalendar(new Date()); // 현재 날짜를 기준으로 캘린더 생성
+
+    document.getElementById("prevMonth").addEventListener("click", function () {
+      changeMonth(-1);
+    });
+    document.getElementById("nextMonth").addEventListener("click", function () {
+      changeMonth(1);
+    });
+  });
+
+  let currentDate = new Date();
+
+  //캘린더 생성 함수
+  function generateCalendar(date) {
+    const monthYear = document.getElementById("calendarMonthYear");
+    const calendarBody = document.getElementById("calendarBody");
+
+    //현재 연도 및 월 표시
+    monthYear.textContent = `${date.getFullYear()}년 ${date.getMonth() + 1}월`;
+
+    //캘린더 내용 초기화
+    calendarBody.innerHTML = "";
+
+    //해당 월의 첫 번째 요일과 마지막 날짜 가져오기
+    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+    const lastDate = new Date(
+      date.getFullYear(),
+      date.getMonth() + 1,
+      0
+    ).getDate();
+
+    let row = document.createElement("tr");
+
+    for (let i = 0; i < firstDay; i++) {
+      row.appendChild(document.createElement("td"));
+    }
+
+    
+    var testDate;
+    for (let day = 1; day <= lastDate; day++) {
+      if (row.children.length === 7) {
+        calendarBody.appendChild(row);
+        row = document.createElement("tr");
+      }
+
+      let cell = document.createElement("td"); //테이블 셀 생성
+      cell.textContent = day; //날짜 표시
+      cell.classList.add("calendar-day"); //CSS 스타일 추가
+
+      const fullDate = `${date.getFullYear()}-${(date.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+      cell.setAttribute("data-date", fullDate);
+
+      // 클릭 시 날짜 정보 출력
+      cell.addEventListener("click", function () {
+          testDate = fullDate;
+    	  handleDateClick(fullDate);
+      });
+
+      row.appendChild(cell);
+    }
+    
+    
+    
+
+    calendarBody.appendChild(row); // 마지막 `<tr>` 추가
+  }
+
+  //이전/다음 달 변경 함수
+  function changeMonth(step) {
+    currentDate.setMonth(currentDate.getMonth() + step);
+    generateCalendar(currentDate);
+  }
+
+  function handleDateClick(date) {
+    console.log("선택한 날짜:", date);
+    console.log("testDate " = testDate);
+    alert(`선택한 날짜: ${date}`);
+  }
+</script>

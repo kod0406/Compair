@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+	<!DOCTYPE html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -27,7 +27,7 @@
           <button class="sidebar-toggle" onclick="toggleSidebar()">
             <i class="fas fa-bars"></i>
           </button>
-          <a class="navbar-brand" href="/html/main.html">Com-pair</a>
+          <a class="navbar-brand" href="main.html">Com-pair</a>
         </div>
 
         <!-- 오른쪽 : 현재 시간 + 마이페이지 아이콘 -->
@@ -38,8 +38,8 @@
               <i class="fa-solid fa-user"></i>
             </button>
             <div id="user-menu" class="dropdown-menu">
-              <a href="mypage.html">내 정보</a>
-              <a href="#">로그아웃</a>
+              <a onclick = "user()">내 정보</a>
+              <a onclick = "logout()">로그아웃</a>
             </div>
           </div>
         </div>
@@ -51,16 +51,21 @@
       <!-- 사이드 메뉴바 -->
       <div id="sidebar" class="sidebar">
         <ul class="sidebar-menu">
-          <li onclick = "board()">게시판</li>
-          <li onclick = "calendar()">캘린더</li>
+          <li onclick="board()">게시판</li>
+          <li onclick="calendar()">캘린더</li>
           <li onclick = "todo()">투두 리스트</li>
-          <li onclick = "email()">이메일</li>
+          <li onclick="email()">이메일</li>
         </ul>
       </div>
 
       <!--main content 영역-->
       <div id="main-region">
+      	<div id="calendarList" class="section"></div>
         <div id="list" class="section"></div>
+        <div>
+        	<button type="button" onclick="getNext()">클릭해 보세요!</button>
+        </div>
+        <main id="main-content"></main>
         <footer class="footer">
           <p>© 2025 Com-pair. All rights reserved.</p>
         </footer>
@@ -70,79 +75,60 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
     <script src="../js/main.js"></script>
+    <script src="../js/main2.js"></script>
+    <script src="../js/calendarMain.js"></script>
     <script src="../js/core.js"></script>
     <script>
-        $(document).ready(function() {
-        	Page.init(start);
-        });
-        
-        var minNo = -1;
-        	function start(uid) {
-        	    AJAX.call("../JSP/feedGetGroup.jsp", null, function(data) {
-        	        var feeds = JSON.parse(data.trim());
-        	        console.log(feeds);
-        	        if (feeds.length > 0) {
-        	    	    minNo = feeds[feeds.length - 1].no;
-        	        }
-        	        show(feeds);
-        	    });
-        	}
-        	function show(feeds) {
-        	    var str = "";
-        	    for (var i=0; i<feeds.length; i++) {
-        	        str += getFeedCode(feeds[i]);
-        	    }
-        	    $("#list").append(str);
-        	}
-        	
-        	function getFeedCode(feed) {
-        	    var name = (feed.user == null) ? feed.id : feed.user.name;
-
-        	    var str = "<div class='feed'>";
-        	    str += "<div class='author'>";
-        	    str += "<div class='photo'></div>";
-        	    str += "<div class='name'>" + feed.AUTHOR + "</div>";
-        	    str += "</div>";
-
-        	    if (feed.ATTACHMENT) {
-        	        var imgurl = "../images/"+ feed.ATTACHMENT;
-        	        console.log(imgurl);
-        	        console.log(feed.ATTACHMENT);
-        	        str += "<div><img src=\"" + imgurl + "\" alt=\"이미지\" width=\"280px\" /></div>";
-
-        	    }
-
-        	    // 게시물의 제목과 내용
-        	    str += "<div class='title'>" + feed.TITLE + "</div>";
-        	    str += "<div class='text'>" + feed.CONTENT + "</div>";
-        	    str += "<div class='postdate'>" + feed.POSTDATE + "</div>";  // 게시물 작성일 출력
-        	    str += "</div>";
-
-        	    return str;
-        	}
-        	function getNext() {
-        	    var params = {maxNo: minNo};
-        	    AJAX.call("JSP/feedGetGroup.jsp", params, function(data) {
-        	        var feeds = JSON.parse(data.trim());
-        	        if (feeds.length > 0) {
-        	    	    minNo = feeds[feeds.length - 1].no;
-        	        }
-        	        show(feeds);
-        	    });
-        	}
-        	
-        
-		function calendar(){
-		        	
-		        }
-		        
 		function todo(){
-			
+			minNo = recentNo;
+			console.log("minNo는?" + minNo);
+			$("#calendarList").empty();
+		    $("#list").empty(); // list 영역 비우기
+		    console.log("캘린더 버튼 클릭됨, 리스트 영역 비워짐.");
 		}
 		
-		function email(){
-			
+		function user() {
+			$("#list").empty();
+			$("#calendarList").empty();
+		    AJAX.call("../JSP/user.jsp", null, function(response) {
+		        if (response) {
+		            $('#list').html(response);
+		        } else {
+		            $('#list').html('<p>사용자 정보를 불러올 수 없습니다.</p>');
+		        }
+		    });
 		}
+		function logout() {
+			$("#list").empty();
+		    AJAX.call("../JSP/logoutAction.jsp", null, function(response) {
+		        if (response) {
+		            $('#list').html(response);
+		        } else {
+		            $('#list').html('<p>오류.</p>');
+		        }
+		    });
+		}
+
+		
+		function email(){
+			minNo = recentNo;
+			console.log("minNo는?" + minNo);
+			$("#calendarList").empty();
+		    $("#list").empty(); // list 영역 비우기
+		    console.log("캘린더 버튼 클릭됨, 리스트 영역 비워짐.");
+		}
+		
+		
+		function board(){
+			minNo = recentNo;
+			console.log("게시판 클릭 완료");
+			console.log(suid);
+			$("#calendarList").empty();
+			$("#list").empty();
+			$("#calendarList").empty();
+			start(suid);
+		}
+		
     </script>
   </body>
 </html>

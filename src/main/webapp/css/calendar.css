@@ -1,0 +1,78 @@
+/* 캘린더 전체 페이지 */
+#calendar-page {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 캘린더 헤더 */
+.calendar-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.calendar-nav {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #333;
+}
+
+.calendar-nav:hover {
+  color: #0061f2;
+}
+
+/* 캘린더 테이블 */
+.calendar-table {
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.calendar-table th,
+.calendar-table td {
+  width: 14.28%;
+  height: 80px; /* 칸 높이 조정 */
+  text-align: center;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  color: #333;
+}
+
+.calendar-table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+.calendar-table td {
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.calendar-table td:hover {
+  background-color: #dae8ff;
+  font-weight: bold;
+}
+
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .calendar-table th,
+  .calendar-table td {
+    font-size: 14px;
+    height: 60px;
+  }
+}
