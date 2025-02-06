@@ -48,7 +48,7 @@ var Server = {
                 window.location.href = "login.html";
             }
             else {
-                if (cbfunc != null) cbfunc(uid);
+                if (cbfunc != null) cbfunc(uid, Server);
             }
         });
     },

@@ -2,5 +2,7 @@
 <%@ page import="DAO.*" %>
 <%
     String maxNo = request.getParameter("maxNo");
-    out.print((new FeedDAO()).getGroup(maxNo));
+	String sc = request.getParameter("recentServerCode");
+	System.out.println(sc);
+    out.print((new FeedDAO()).getGroup(maxNo, sc));
 %>

@@ -89,7 +89,7 @@ public class FeedDAO {
             if (conn != null) conn.close();
         }
     }
-	public String getGroup(String maxNo) throws NamingException, SQLException {
+	public String getGroup(String maxNo, String sc) throws NamingException, SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -97,10 +97,10 @@ public class FeedDAO {
         	String sql = "SELECT * FROM BOARDTABLE";
         	//변수로 변경
         	if (maxNo != null) {
-        	    sql += " WHERE BOARD_CODE < " + maxNo + " AND SERVER_CODE = 1";
+        	    sql += " WHERE BOARD_CODE < " + maxNo + " AND SERVER_CODE = " + sc;
         	}
         	else if(maxNo == null) {
-        		sql += " WHERE SERVER_CODE = 1";
+        		sql += " WHERE SERVER_CODE = " + sc;
         	}
         	sql += " ORDER BY BOARD_CODE DESC FETCH FIRST 3 ROWS ONLY";
 

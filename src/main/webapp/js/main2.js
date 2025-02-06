@@ -7,7 +7,7 @@ $(document).ready(function() {
 	       var recentNo = -1;
 	       console.log(minNo);
 	       let tokens;
-		   
+		   var recentServerCode;
 		   
 	       function checkServer(uid){
 			serverParams = {"serverList" : uid};
@@ -30,16 +30,36 @@ $(document).ready(function() {
 		   function serverListShow(values){
 			var serverListShowStr = "<div>";
 			for(let i=0; i<values.length; i++){
+				var sc = values[i];
+				serverListShowStr += "<div style='display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #ddd;' onclick='serverClick(\"" + sc + "\")'>";
 				serverListShowStr += values[i];
-				serverListShowStr += " ";
+				serverListShowStr += "</div>";
+				
 				console.log("rvalue 는????" + values[i]);
 			}
 				serverListShowStr += "</div>";
 				$("#serverList").append(serverListShowStr);
 		   }
 		   
+		   function serverClick(sc){
+				alert(sc);
+				recentServerCode = sc;
+				$("#list").empty();
+				var params = {"recentServerCode" : sc};
+				AJAX.call("../JSP/feedGetGroup.jsp", params, function(data) {
+				    var feeds = JSON.parse(data.trim());
+				    console.log(feeds);
+				    if (feeds.length > 0) {
+					    minNo = feeds[feeds.length - 1].BOARD_CODE;
+					    recentNo = feeds[feeds.length - 1].BOARD_CODE;
+				    }
+				    console.log("minNo는?" + minNo);
+				    show(feeds);
+				});
+		   }
 		   
-		   //board
+		   //board\
+		   /* 
 	       	function start(uid) {
 				checkServer(uid);
 	       		suid = uid;
@@ -54,6 +74,14 @@ $(document).ready(function() {
 	       	        show(feeds);
 	       	    });
 	       	}
+			*/
+			function start(uid){
+				checkServer(uid);
+				suid = uid;
+				
+			}
+			
+			
 	       console.log(suid);
        	function show(feeds) {
        	    var str = "";
@@ -82,7 +110,7 @@ $(document).ready(function() {
        	}
        	
        	function getNext() {
-       	    var params = {maxNo: minNo};
+       	    var params = {maxNo: minNo, recentServerCode : recentServerCode};
        	    console.log(minNo);
        	    AJAX.call("../JSP/feedGetGroup.jsp", params, function(data) {
        	        var feeds = JSON.parse(data.trim());
