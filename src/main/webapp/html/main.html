@@ -62,6 +62,7 @@
       <div id="main-region">
       	<div id="calendarList" class="section"></div>
         <div id="list" class="section"></div>
+        <div id="mail-list-container" class="section"></div>
         <div>
         	<button type="button" onclick="getNext()">클릭해 보세요!</button>
         </div>
@@ -78,8 +79,10 @@
     <script src="../js/main2.js"></script>
     <script src="../js/calendarMain.js"></script>
     <script src="../js/core.js"></script>
+    <script src="../js/mail.js"></script>
     <script>
 		function todo(){
+			
 			minNo = recentNo;
 			console.log("minNo는?" + minNo);
 			$("#calendarList").empty();
@@ -110,13 +113,16 @@
 		}
 
 		
-		function email(){
-			minNo = recentNo;
-			console.log("minNo는?" + minNo);
-			$("#calendarList").empty();
-		    $("#list").empty(); // list 영역 비우기
-		    console.log("캘린더 버튼 클릭됨, 리스트 영역 비워짐.");
+		function email() {
+		    minNo = recentNo;
+		    console.log("이메일 클릭 완료");
+		    console.log(suid);
+		    $("#mail-list-container").empty();
+		    $("#calendarList").empty();
+		    $("#list").empty();
+		    loadMailList(suid);
 		}
+
 		
 		
 		function board(){
