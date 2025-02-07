@@ -235,11 +235,11 @@ public class UserDAO {
 	        
 	        if(isUpdated) {
 	        	pstmt.close();
-	        	String sql2 = "UPDATE boardTable SET author = ? WHERE server_code IN " + 
-                        "(SELECT server_code FROM serverTable WHERE user_id = ?)";
-	        	pstmt= conn.prepareStatement(sql2);
-	        	pstmt.setString(1, newUserName);
-	        	pstmt.setString(2, newUserId); 
+	        	String sql2 = "UPDATE boardTable SET author = ( " +
+	                     "SELECT user_name FROM userTable WHERE user_id = ? ) " +
+	                     "WHERE author = ?";
+	        	pstmt.setString(1, newUserId); // user_id로 user_name을 가져옴
+	            pstmt.setString(2, newUserId); // 기존 author가 user_id인 게시물만 업데이트
 	        	
 	        	int boardRowsAffected = pstmt.executeUpdate();
 	            System.out.println("boardTable 업데이트된 행: " + boardRowsAffected);
@@ -272,6 +272,11 @@ public class UserDAO {
 	        executeUpdate(conn, "DELETE FROM SERVER_TABLE WHERE USER_ID = ?", userId);
 	        
 	        String sql = "DELETE FROM userTable WHERE user_id = ?";
+	        executeUpdate(conn, "DELETE FROM mail_deletion WHERE USER_ID = ?", userId);
+	        executeUpdate(conn, "DELETE FROM mail WHERE WRITER = ?", userId);
+	        executeUpdate(conn, "DELETE FROM boardTable WHERE AUTHOR = ?", userId);
+	        executeUpdate(conn, "DELETE FROM todoList WHERE TODO_WRITER = ?", userId);
+	        executeUpdate(conn, "DELETE FROM serverTable WHERE USER_ID = ?", userId);
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setString(1, userId);
 
