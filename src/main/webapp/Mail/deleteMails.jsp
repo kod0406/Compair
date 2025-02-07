@@ -1,24 +1,35 @@
+
 <%@page import="DAO.MailDAO"%>
 <%@page import="java.util.Arrays"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@page contentType="text/html; charset=UTF-8"%>
 <%
+    request.setCharacterEncoding("UTF-8");
     String userID = (String) session.getAttribute("uid");
-    String[] mailCodeArr = request.getParameterValues("mailCodes");
-    String[] serverCodeArr = request.getParameterValues("serverCodes");
 
-    if(userID != null && mailCodeArr != null && serverCodeArr != null) {
+    try {
+        String mailCodeStr = request.getParameter("mailCodes");
+        String serverCodeStr = request.getParameter("serverCodes");
+
+        if(userID == null || mailCodeStr == null || serverCodeStr == null) {
+            response.sendError(400, "Invalid parameters");
+            return;
+        }
+
+        String[] mailCodeArr = mailCodeStr.split(",");
+        String[] serverCodeArr = serverCodeStr.split(",");
+
         int[] mailCodes = Arrays.stream(mailCodeArr).mapToInt(Integer::parseInt).toArray();
         int[] serverCodes = Arrays.stream(serverCodeArr).mapToInt(Integer::parseInt).toArray();
-        
+
         MailDAO dao = new MailDAO();
         boolean result = dao.deleteMails(userID, mailCodes, serverCodes);
-        
+
         if(result) {
-            response.sendRedirect("mailList.jsp");
+            out.print("{\"status\":\"success\"}");
         } else {
-            out.println("<script>alert('삭제 실패!'); history.back();</script>");
+            response.sendError(500, "Deletion failed");
         }
-    } else {
-        response.sendRedirect("main.jsp");
+    } catch(Exception e) {
+        response.sendError(500, "Server error: " + e.getMessage());
     }
 %>
