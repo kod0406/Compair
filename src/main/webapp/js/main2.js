@@ -4,7 +4,6 @@ var Board = {
             Page.init(Board.start);  // Board.start를 콜백으로 넘김
         });
     },
-
     start: function(uid) {
         Board.checkServer(uid);
         Board.suid = uid;
