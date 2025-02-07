@@ -19,6 +19,7 @@ public class FeedDAO {
 	public boolean insert(String jsonstr, String writer, String server) throws NamingException, SQLException, ParseException, ClassNotFoundException {
 		Connection conn = null;
         PreparedStatement stmt = null;
+        PreparedStatement stmt2 = null;
         ResultSet rs = null;
         try {
             synchronized(this) {
@@ -32,8 +33,21 @@ public class FeedDAO {
                 if(obj.get("images") != null) IMAGE = obj.get("images").toString();
                 //테스트 코드
                 int SERVER_CODE = Integer.parseInt(server);
-                String AUTHOR = writer;
+                String AUTHOR = null;
                 String ATTACHMENT = IMAGE;
+                
+                String query = "SELECT user_name FROM userTable WHERE user_id = ?";
+                stmt2 = conn.prepareStatement(query);
+                stmt2.setString(1, writer);
+                rs = stmt2.executeQuery();
+                
+                if (rs.next()) {
+                    AUTHOR = rs.getString("user_name");  // user_name을 가져옴
+                } else {
+                    System.out.println("해당 user_id의 user_name을 찾을 수 없음: " + writer);
+                    return false;  // user_name이 없으면 삽입 중단
+                }
+                
             	System.out.println(TITLE);
             	System.out.println(CONTENT);
             	System.out.println(IMAGE);

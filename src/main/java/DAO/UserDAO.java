@@ -180,6 +180,13 @@ public class UserDAO {
 	    return "admin".equals(uid); // admin ID만 관리자로 간주
 	}
 	
+	private void executeUpdate(Connection conn, String sql, String userId) throws SQLException {
+	    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        pstmt.setString(1, userId);
+	        pstmt.executeUpdate();
+	    }
+	}
+	
 	public String[] getUserInfoById(String uid) throws NamingException, SQLException, ClassNotFoundException {
 	    Connection conn = null;
 	    PreparedStatement pstmt = null;
@@ -212,8 +219,8 @@ public class UserDAO {
 
 	    try {
 	        conn = conpool.get();
+	        conn.setAutoCommit(false); // 트랜잭션 시작
 	        String sql = "UPDATE userTable SET user_name = ?, user_mail = ?, password = ? WHERE user_id = ?";
-	        String sql2 = "UPDATE boardTable set author = ? where (select user_name from userTable where user_id = ?)";
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setString(1, newUserName);
 	        pstmt.setString(2, newUserMail);
@@ -221,22 +228,36 @@ public class UserDAO {
 	        pstmt.setString(4, newUserId);
 
 	        int rowsAffected = pstmt.executeUpdate();
+	        
 	        if (rowsAffected > 0) {
 	            isUpdated = true;
 	        }
+	        
+	        if(isUpdated) {
+	        	pstmt.close();
+	        	String sql2 = "UPDATE boardTable SET author = ? WHERE server_code IN " + 
+                        "(SELECT server_code FROM serverTable WHERE user_id = ?)";
+	        	pstmt= conn.prepareStatement(sql2);
+	        	pstmt.setString(1, newUserName);
+	        	pstmt.setString(2, newUserId); 
+	        	
+	        	int boardRowsAffected = pstmt.executeUpdate();
+	            System.out.println("boardTable 업데이트된 행: " + boardRowsAffected);
+	        	
+	        }
+	        conn.commit();
+	        
+	    } catch(SQLException e) {
+	    	if(conn != null) conn.rollback(); // 오류 발생 시 롤백
 	    } finally {
 	        if (pstmt != null) pstmt.close();
-	        if (conn != null) conn.close();
+	        if (conn != null) {
+	        	conn.setAutoCommit(true); //원래 상태로 복구
+	        	conn.close();
+	        }
 	    }
 
 	    return isUpdated;
-	}
-	
-	private void executeUpdate(Connection conn, String sql, String userId) throws SQLException {
-	    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-	        pstmt.setString(1, userId);
-	        pstmt.executeUpdate();
-	    }
 	}
 	
 	public boolean deleteUser(String userId) throws SQLException {
