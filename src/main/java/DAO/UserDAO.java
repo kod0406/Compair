@@ -215,11 +215,32 @@ public class UserDAO {
 	public boolean updateUserInfo(String newUserId, String newUserName, String newUserMail, String newUserPass) throws NamingException, SQLException, ClassNotFoundException {
 	    Connection conn = null;
 	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
 	    boolean isUpdated = false;
 
 	    try {
 	        conn = conpool.get();
 	        conn.setAutoCommit(false); // 트랜잭션 시작
+
+	        // 기존 user_name 가져오기
+	        String oldUserName = null;
+	        String getUserNameSQL = "SELECT user_name FROM userTable WHERE user_id = ?";
+	        pstmt = conn.prepareStatement(getUserNameSQL);
+	        pstmt.setString(1, newUserId);
+	        rs = pstmt.executeQuery();
+	        
+	        if (rs.next()) {
+	            oldUserName = rs.getString("user_name"); // 기존 user_name 저장
+	        }
+	        rs.close();
+	        pstmt.close();
+
+	        if (oldUserName == null) {
+	            System.out.println("해당 user_id의 기존 user_name을 찾을 수 없음: " + newUserId);
+	            return false; // 기존 user_name을 찾을 수 없으면 중단
+	        }
+
+	        // userTable 업데이트
 	        String sql = "UPDATE userTable SET user_name = ?, user_mail = ?, password = ? WHERE user_id = ?";
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setString(1, newUserName);
@@ -228,32 +249,33 @@ public class UserDAO {
 	        pstmt.setString(4, newUserId);
 
 	        int rowsAffected = pstmt.executeUpdate();
-	        
+	        pstmt.close();
+
 	        if (rowsAffected > 0) {
 	            isUpdated = true;
 	        }
-	        
-	        if(isUpdated) {
-	        	pstmt.close();
-	        	String sql2 = "UPDATE boardTable SET author = ( " +
-	                     "SELECT user_name FROM userTable WHERE user_id = ? ) " +
-	                     "WHERE author = ?";
-	        	pstmt.setString(1, newUserId); // user_id로 user_name을 가져옴
-	            pstmt.setString(2, newUserId); // 기존 author가 user_id인 게시물만 업데이트
+
+	        // boardTable 업데이트 (기존 user_name을 기준으로 업데이트)
+	        if (isUpdated) {
+	            String sql2 = "UPDATE boardTable SET author = ? WHERE author = ?";
+
+	            pstmt = conn.prepareStatement(sql2);
+	            pstmt.setString(1, newUserName);  // 새로운 user_name
+	            pstmt.setString(2, oldUserName);  // 기존 user_name
 	        	
-	        	int boardRowsAffected = pstmt.executeUpdate();
+	            int boardRowsAffected = pstmt.executeUpdate();
 	            System.out.println("boardTable 업데이트된 행: " + boardRowsAffected);
-	        	
 	        }
-	        conn.commit();
-	        
+
+	        conn.commit(); // 트랜잭션 커밋
 	    } catch(SQLException e) {
-	    	if(conn != null) conn.rollback(); // 오류 발생 시 롤백
+	        if (conn != null) conn.rollback(); // 오류 발생 시 롤백
+	        throw e; // 예외 다시 던지기
 	    } finally {
 	        if (pstmt != null) pstmt.close();
 	        if (conn != null) {
-	        	conn.setAutoCommit(true); //원래 상태로 복구
-	        	conn.close();
+	            conn.setAutoCommit(true); // 원래 상태로 복구
+	            conn.close();
 	        }
 	    }
 
