@@ -1,5 +1,5 @@
 
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="DAO.MailDAO" %>
 <%@ page import="DAO.ServerDAO" %>
 <%@ page import="user.Mail" %>
@@ -23,7 +23,7 @@
 
     // 로그인 체크
     if(userID == null) {
-        out.print("<script>alert('로그인이 필요합니다.'); location.href='main.jsp';</script>");
+        out.print("{\"success\": false, \"error\": \"로그인이 필요합니다.\"}");
         return;
     }
 
@@ -68,7 +68,8 @@
 
         // 필수 필드 검증
         if(subject.isEmpty() || content.isEmpty() || receiver.isEmpty()) {
-            throw new Exception("필수 입력 항목이 누락되었습니다.");
+            out.print("{\"success\": false, \"error\": \"필수 입력 항목이 누락되었습니다.\"}");
+            return;
         }
 
         // 메일 객체 생성
@@ -84,13 +85,13 @@
         boolean result = new MailDAO().insertMail(mail);
 
         if(result) {
-            out.print("<script>alert('메일 전송 성공'); location.href='SendMailRead.jsp';</script>");
+            out.print("{\"success\": true}");
         } else {
-            out.print("<script>alert('메일 전송 실패'); history.back();</script>");
+            out.print("{\"success\": false, \"error\": \"메일 전송 실패\"}");
         }
 
     } catch (Exception e) {
         e.printStackTrace();
-        out.print("<script>alert('오류 발생: " + e.getMessage() + "'); history.back();</script>");
+        out.print("{\"success\": false, \"error\": \"오류 발생: " + e.getMessage() + "\"}");
     }
 %>

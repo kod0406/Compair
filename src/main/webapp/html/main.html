@@ -1,4 +1,4 @@
-	<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8" />
@@ -62,6 +62,10 @@
 			<button onclick="window.location.href='../html/b_write.html'">글 작성</button>
 			<button type='button' onclick='Board.getNext()'>클릭해 보세요!</button>
 		</div>
+        <div id="mail-list-container" class="section"></div>
+        <div>
+        	<button type="button" onclick="getNext()">클릭해 보세요!</button>
+        </div>
         <main id="main-content"></main>
         <footer class="footer">
           <p>© 2025 Com-pair. All rights reserved.</p>
@@ -76,8 +80,7 @@
 	<script src="../js/calendarMain2.js"></script>
 	<script src="../js/core.js"></script>
 	<script>
-	    
-		$(document).ready(function() {
+	    $(document).ready(function() {
 	        Board.init(Board.start);  // Board.start를 콜백으로 넘김
 	    });
     
@@ -87,9 +90,9 @@
     	console.log(minNo);
     	let tokens;
 	    var recentServerCode;
-	    
-	    
+
 		function todo(){
+			
 			minNo = recentNo;
 			console.log("minNo는?" + minNo);
 			$("#calendarList").empty();
@@ -123,7 +126,7 @@
 		    });
 		}
 
-		
+	
 		function email(){
 			minNo = recentNo;
 			console.log("minNo는?" + minNo);
@@ -131,6 +134,7 @@
 			$("#list").empty(); // list 영역 비우기
 			console.log("캘린더 버튼 클릭됨, 리스트 영역 비워짐.");
 			$("#buttonList").hide();
+			loadMailList(suid);
 		}
 		
 		function calendar() {
@@ -144,8 +148,6 @@
 			$("#list").empty();
 			$("#buttonList").show();
 			Board.init(Board.start);
-			
-			
 		}
     </script>
   </body>
