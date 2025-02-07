@@ -55,12 +55,12 @@ var Calendar = {
     // 날짜 클릭 시 호출되는 함수
     handleDateClick: function(date) {
         alert("선택한 날짜: " + date);
-        Calendar.selectDate(date);
+        Calendar.todoShow(date);
     },
 
     // 선택한 날짜에 해당하는 데이터를 서버로부터 가져온 후 캘린더 TODO 목록 출력
     selectDate: function(date) {
-        var dateParams = { "POST_DATE": date };
+        var dateParams = { "POST_DATE": date};
         AJAX.call("../JSP/calendarGet.jsp", dateParams, function(data) {
             var feeds = JSON.parse(data.trim());
             console.log("feed는: " + feeds);
@@ -84,7 +84,7 @@ var Calendar = {
         var calStr = "";
         for (var i = 0; i < feeds.length; i++) {
             // 예시: Board 객체의 getFeedCode 함수로 항목 생성 (필요에 따라 수정)
-            calStr += Board.getFeedCode(feeds[i]);
+            calStr += Calendar.getFeedCode(feeds[i]);
         }
         $("#list").empty();
         $("#list").append(calStr);
@@ -160,34 +160,68 @@ var Calendar = {
         calendarBody.innerHTML = row;
     },
     
-    // todoPlus: To-Do 입력 필드의 값을 읽어와 후속 작업 수행
-    todoPlus: function(){
-        var todoInput = document.getElementById("todo-input");
-        if (todoInput) {
-			alert(Calendar.serverCode);
-            alert("입력된 할 일: " + todoInput.value);
-			
-			AJAX.call("../JSP/todoGet.jsp", dateParams, function(data) {
-			    var feeds = JSON.parse(data.trim());
-			    console.log("feed는: " + feeds);
 
-			    if (feeds.length > 0) {
-			        Calendar.minNo = feeds[feeds.length - 1].BOARD_CODE;
-			        Calendar.recentNo = feeds[feeds.length - 1].BOARD_CODE;
-			    }
-			    console.log("minNo는? " + Calendar.minNo);
+	// todoPlus: To-Do 입력 필드의 값을 읽어와 후속 작업 수행
+	todoPlus: function(){
+	    var todoInput = document.getElementById("todo-input");
+	    var code1 = Calendar.serverCode;
+	    
+	    if (todoInput) {
+	        var todoValue = todoInput.value.trim(); // 입력값 가져오기
 
-			    if (feeds.length !== 0) {
-			        Calendar.showCalendarTODO(feeds);
-			    } else {
-			        Calendar.showCalendarNothing();
-			    }
-			});
-			
-			
-            // 추가 작업 예: AJAX로 서버에 데이터 전송 등
-        } else {
-            alert("todo-input 요소를 찾을 수 없습니다.");
-        }
-    }
+	        if (todoValue === "") {
+	            alert("할 일을 입력해주세요.");
+	            return;
+	        }
+
+	        alert("입력된 할 일: " + todoValue);
+	        var todoParams = {"ServerCode": code1, "todoInput": todoValue};
+
+	        AJAX.call("../JSP/todoInsert.jsp", todoParams, function(data) {
+	            if (data.trim() === "OK") {
+	                alert("할 일이 추가되었습니다.");
+	                todoInput.value = ""; // 입력 필드 초기화
+	            } else {
+	                alert("추가 실패 ㅠㅠ");
+	            }
+	        });
+	    } else {
+	        alert("todo-input 요소를 찾을 수 없습니다.");
+	    }
+	},
+
+	todoShow : function(date){
+		//writer버그
+		var dateParams = {"POST_DATE": date, "ServerCode": Calendar.serverCode};
+		AJAX.call("../JSP/todoGet.jsp", dateParams, function(data) {
+		    var feeds = JSON.parse(data.trim());
+		    console.log("feed는: " + feeds);
+
+		    if (feeds.length > 0) {
+		        Calendar.minNo = feeds[feeds.length - 1].TODO_CODE;
+		        Calendar.recentNo = feeds[feeds.length - 1].TODO_CODE;
+		    }
+		    console.log("minNo는? " + Calendar.minNo);
+
+		    if (feeds.length != 0) {
+		        Calendar.showCalendarTODO(feeds);
+		    } else {
+		        Calendar.showCalendarNothing();
+		    }
+		});
+	},
+	
+	getFeedCode: function(feed) {
+	    var clickCode = feed.TODO_CODE;
+	    var str = "<div style='display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #ddd;' onclick='Board.handleRowClick(\"" + clickCode + "\")'>";
+	    
+	    str += "<div style='width: 100px; text-align: center;'>" + feed.TODO_CODE + "</div>";
+	    str += "<div style='flex: 2; text-align: center;'>" + feed.TITLE + "</div>";
+	    str += "<div style='width: 150px; text-align: center;'>" + feed.WRITER + "</div>";
+	    str += "<div style='width: 150px; text-align: center;'>" + feed.CHECK + "</div>";
+	    str += "</div>";
+
+	    return str;
+	},
+	
 };
