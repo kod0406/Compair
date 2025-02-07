@@ -4,17 +4,14 @@ var Calendar = {
     minNo: null,
     recentNo: null,
     serverCode: null,
-    
+
     init: function() {
-        // 서버 세션에서 값을 먼저 가져옴 (비동기 호출), 수정 필요!!!
+		console.log("calendar에서 recentServerCode 사용해보기!! " + recentServerCode);
+		// 서버 세션에서 값을 먼저 가져옴 (비동기 호출), 수정 필요!!!
 		//수정 필요!!!
 		//수정 필요!!!
 		//수정 필요!!!
 		//수정 필요!!!
-        AJAX.call("../JSP/serverSession.jsp", null, function(data) {
-            Calendar.serverCode = data.trim();
-            console.log("서버 코드: " + Calendar.serverCode);
-        });
         // 캘린더 화면 생성
         Calendar.calendar();
     },
@@ -164,8 +161,8 @@ var Calendar = {
 	// todoPlus: To-Do 입력 필드의 값을 읽어와 후속 작업 수행
 	todoPlus: function(){
 	    var todoInput = document.getElementById("todo-input");
-	    var code1 = Calendar.serverCode;
-	    
+	    var code1 = recentServerCode;
+	    console.log("그래서 code1은 뭘까요?" + code1);
 	    if (todoInput) {
 	        var todoValue = todoInput.value.trim(); // 입력값 가져오기
 
@@ -192,7 +189,7 @@ var Calendar = {
 
 	todoShow : function(date){
 		//writer버그
-		var dateParams = {"POST_DATE": date, "ServerCode": Calendar.serverCode};
+		var dateParams = {"POST_DATE": date, "ServerCode": recentServerCode};
 		AJAX.call("../JSP/todoGet.jsp", dateParams, function(data) {
 		    var feeds = JSON.parse(data.trim());
 		    console.log("feed는: " + feeds);

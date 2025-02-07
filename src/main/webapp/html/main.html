@@ -78,25 +78,52 @@
 	<script src="../js/core.js"></script>
 	<script src="../js/mail.js"></script>
 	<script>
-	    $(document).ready(function() {
-	        Board.init(Board.start);  // Board.start를 콜백으로 넘김
-	    });
-    
+	    
 		var suid;
-    	var minNo = -1;
-    	var recentNo = -1;
-    	console.log(minNo);
-    	let tokens;
+		var minNo = -1;
+		var recentNo = -1;
+		console.log(minNo);
+		let tokens;
 	    var recentServerCode;
+	    var screen = board;		
+	    $(document).ready(function() {
+	    	 Board.init(Board.start);  // Board.start를 콜백으로 넘김
+	    });
 
 		function todo(){
-			
+			screen = 'todo';
 			minNo = recentNo;
 			console.log("minNo는?" + minNo);
 			$("#calendarList").empty();
 			$("#list").empty(); // list 영역 비우기
 			console.log("캘린더 버튼 클릭됨, 리스트 영역 비워짐.");
 			$("#buttonList").hide();
+		}
+	
+		function email(){
+			screen = 'email';
+			minNo = recentNo;
+			console.log("minNo는?" + minNo);
+			$("#calendarList").empty();
+			$("#list").empty(); // list 영역 비우기
+			console.log("캘린더 버튼 클릭됨, 리스트 영역 비워짐.");
+			$("#buttonList").hide();
+			loadMailList(suid);
+		}
+		
+		function calendar() {
+			screen = 'calendar';
+			Calendar.init();
+			$("#buttonList").hide();
+		}
+		
+		function board() {
+			screen = 'board';
+			$("#serverList").empty();
+			$("#calendarList").empty();
+			$("#list").empty();
+			$("#buttonList").show();
+			Board.init(Board.start);
 		}
 		
 		function user() {
@@ -123,30 +150,7 @@
 		        }
 		    });
 		}
-
-	
-		function email(){
-			minNo = recentNo;
-			console.log("minNo는?" + minNo);
-			$("#calendarList").empty();
-			$("#list").empty(); // list 영역 비우기
-			console.log("캘린더 버튼 클릭됨, 리스트 영역 비워짐.");
-			$("#buttonList").hide();
-			loadMailList(suid);
-		}
 		
-		function calendar() {
-			Calendar.init();
-			$("#buttonList").hide();
-		}
-		
-		function board() {
-			$("#serverList").empty();
-			$("#calendarList").empty();
-			$("#list").empty();
-			$("#buttonList").show();
-			Board.init(Board.start);
-		}
     </script>
   </body>
 </html>

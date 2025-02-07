@@ -55,22 +55,53 @@ var Board = {
     },
 
     serverClick: function(sc) {
-        alert(sc);
-        Board.recentServerCode = sc;
-        $("#list").empty();
-        var params = { "recentServerCode": sc };
-        AJAX.call("../JSP/feedGetGroup.jsp", params, function(data) {
-            var feeds = JSON.parse(data.trim());
-            console.log(feeds);
-            if (feeds.length > 0) {
-                Board.minNo = feeds[feeds.length - 1].BOARD_CODE;
-                Board.recentNo = feeds[feeds.length - 1].BOARD_CODE;
-            }
-            console.log("minNo는? " + Board.minNo);
-            Board.show(feeds);
-        });
-    },
-
+		serverCode = sc;
+		nowScreen = screen;
+		var sessionParams = {"serverCode" : sc, "nowScreen" : screen};
+		AJAX.call("../JSP/TotalSession.jsp", sessionParams, function(data) {
+			let splitData = data.split(" "); 
+			serverCode = splitData[0];
+			nowScreen = splitData[1];
+		});
+		alert(serverCode);
+		alert(nowScreen);
+		
+		if(nowScreen == 'board'){
+			alert(nowScreen);
+			alert(serverCode);
+			$("#list").empty();
+			Board.boardShow(serverCode);
+							
+			}
+			else if(nowScreen == 'calendar'){
+				alert(nowScreen);
+			}
+			else if(nowScreen == 'todo'){
+				alert(nowScreen);
+			}
+			else if(nowScreen == 'email'){
+				alert(nowScreen);
+			}
+	 	},
+	
+	boardShow: function(sc) {
+	    console.log("전역변수가 가능한가요?" + sc);
+	    
+	    var params = { "recentServerCode": sc };
+	    AJAX.call("../JSP/feedGetGroup.jsp", params, function(data) {
+	        $("#list").empty();  // AJAX 응답을 받은 후 비우기
+	        var feeds = JSON.parse(data.trim());
+	        console.log(feeds);
+	        if (feeds.length > 0) {
+	            Board.minNo = feeds[feeds.length - 1].BOARD_CODE;
+	            Board.recentNo = feeds[feeds.length - 1].BOARD_CODE;
+	        }
+	        console.log("minNo는? " + Board.minNo);
+	        Board.show(feeds);
+	    });
+	},
+	
+	
     show: function(feeds) {
         var str = "";
         for (var i = 0; i < feeds.length; i++) {
