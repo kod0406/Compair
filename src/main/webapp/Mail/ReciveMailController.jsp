@@ -1,5 +1,5 @@
+
 <%@page import="DAO.MailDAO"%>
-<%@page import="DAO.ServerDAO"%>
 <%@page import="user.Mail"%>
 <%@page import="java.util.List"%>
 <%@page import="org.json.simple.JSONArray"%>
@@ -14,27 +14,24 @@
     if (session.getAttribute("uid") != null) {
         userID = (String) session.getAttribute("uid");
     }
-    
+
     if (userID == null) {
         JSONObject errorObj = new JSONObject();
         errorObj.put("error", "로그인이 필요합니다.");
         out.print(errorObj.toJSONString());
         return;
     }
-    
+
     try {
         MailDAO mailDAO = new MailDAO();
-        ServerDAO serverDAO = new ServerDAO();
-        
-        // 사용자 서버 코드 가져오기
-        int serverCode = serverDAO.getUserServerCode(userID);
-        if (serverCode == -1) {
-            JSONObject errorObj = new JSONObject();
-            errorObj.put("error", "사용자 정보를 가져올 수 없습니다.");
-            out.print(errorObj.toJSONString());
-            return;
+
+        // 요청에서 server_code 가져오기
+        String serverCodeParam = request.getParameter("server_code");
+        if (serverCodeParam == null || serverCodeParam.isEmpty()) {
+            throw new IllegalArgumentException("server_code 파라미터가 필요합니다.");
         }
-        
+        int serverCode = Integer.parseInt(serverCodeParam);
+		System.out.println(serverCode+" :: "+userID);
         // 해당 사용자와 서버에 해당하는 메일 목록 가져오기
         List<Mail> mailList = mailDAO.getMailList(userID, userID, serverCode);
         for (Mail mail : mailList) {
@@ -42,12 +39,12 @@
             mailObj.put("mail_code", mail.getMail_code());
             mailObj.put("mail_title", mail.getMail_title());
             mailObj.put("writer", mail.getWriter());
-            mailObj.put("reciver", mail.getReceiver());
+            mailObj.put("receiver", mail.getReceiver());
             mailObj.put("post_date", mail.getPost_date().toString());
             mailObj.put("server_code", mail.getServer_code());
             jsonArray.add(mailObj);
         }
-        
+
         // JSON 배열 응답
         out.print(jsonArray.toJSONString());
     } catch (Exception e) {

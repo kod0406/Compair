@@ -2,13 +2,15 @@ var minMailNo = -1;
 var recentMailNo = -1;
 
 
+
 function loadMailList(type = 'received') {
     const controller = type === 'sent' ? 'SendMailController.jsp' : 'ReciveMailController.jsp';
-
+	console.log(currentServerCode+": 서버코드");
     $.ajax({
         url: `../Mail/${controller}`,
         type: 'GET',
         dataType: 'json',
+        data: { server_code: currentServerCode }, // Ensure currentServerCode is set
         success: function(mails) {
             if (mails.error) {
                 console.error(mails.error);
@@ -27,6 +29,7 @@ function loadMailList(type = 'received') {
         }
     });
 }
+
 
 // 외부 CSS 동적 로드 함수
 function loadExternalCSS(cssPath) {
@@ -279,6 +282,7 @@ function sendMail() {
     formData.append('receiver', receiver);
     formData.append('subject', mailTitle); // Ensure the key is 'subject'
     formData.append('content', content);
+	formData.append('server_code', currentServerCode);
 
     // Handle attachment
     const fileInput = document.getElementById('mailAttachment');

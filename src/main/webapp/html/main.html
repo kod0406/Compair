@@ -81,7 +81,7 @@
 	    $(document).ready(function() {
 	        Board.init(Board.start);  // Board.start를 콜백으로 넘김
 	    });
-    
+	    var currentServerCode = 0; 
 		var suid;
     	var minNo = -1;
     	var recentNo = -1;
@@ -132,6 +132,7 @@
 			$("#list").empty(); // list 영역 비우기
 			console.log("캘린더 버튼 클릭됨, 리스트 영역 비워짐.");
 			$("#buttonList").hide();
+			alert(currentServerCode);
 			loadMailList(suid);
 		}
 		

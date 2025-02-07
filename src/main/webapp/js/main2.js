@@ -56,6 +56,7 @@ var Board = {
 
     serverClick: function(sc) {
         alert(sc);
+		currentServerCode = sc;
         Board.recentServerCode = sc;
         $("#list").empty();
         var params = { "recentServerCode": sc };

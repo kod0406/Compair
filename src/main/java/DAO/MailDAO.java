@@ -42,93 +42,110 @@ public class MailDAO {
 	}
 
 	// 같은 서버 내 나에게 온 모든 메일 조회
-	public List<Mail> getMailList(String userID, String receiver, int serverCode) throws SQLException {
-	    List<Mail> mailList = new ArrayList<>();
-	    String sql = "SELECT m.*, mc.todo_content, mc.attachment " 
-	               + "FROM mail m "
-	               + "LEFT JOIN mailContent mc "
-	               + "    ON m.mail_code = mc.mail_code "
-	               + "    AND m.server_code = mc.server_code "
-	               + "LEFT JOIN mail_deletion md "
-	               + "    ON m.mail_code = md.mail_code "
-	               + "    AND m.server_code = md.server_code "
-	               + "    AND md.user_id = ? "  // 1번 파라미터 (userID)
-	               + "WHERE m.receiver = ? "   // 2번 파라미터 (receiver)
-	               + "    AND m.server_code = ? " // 3번 파라미터 (serverCode)
-	               + "    AND md.mail_code IS NULL "
-	               + "ORDER BY m.post_date DESC";
 
-	    try (Connection conn = conpool.get();
-	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
-	        
-	        // 파라미터 바인딩 (순서 주의!)
-	        pstmt.setString(1, userID);       // md.user_id
-	        pstmt.setString(2, receiver);     // m.receiver
-	        pstmt.setInt(3, serverCode);      // m.server_code
-	        
-	        try (ResultSet rs = pstmt.executeQuery()) {
-	            while (rs.next()) {
-	                Mail mail = new Mail();
-	                mail.setMail_code(rs.getInt("mail_code"));
-	                mail.setServer_code(rs.getInt("server_code"));
-	                mail.setWriter(rs.getString("writer"));
-	                mail.setReceiver(rs.getString("receiver"));
-	                mail.setPost_date(rs.getTimestamp("post_date"));
-	                mail.setMail_title(rs.getString("mail_title"));
-	                mail.setTodoContent(rs.getString("todo_content"));
-	                mail.setAttachment(rs.getString("attachment"));
-	                
-	                System.out.println("조회된 메일 - 메일코드: " + mail.getMail_code() 
-	                                   + ", 서버코드: " + mail.getServer_code());
-	                
-	                mailList.add(mail);
-	            }
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	    
-	    System.out.println("조회된 메일 수: " + mailList.size());
-	    return mailList;
-	}
-	
-	// 송신 메일 목록 조회
-	public List<Mail> getSentMailList(String writer, int serverCode) throws SQLException {
-	    List<Mail> mailList = new ArrayList<>();
-	    String sql = "SELECT m.*, mc.todo_content, mc.attachment "
-	               + "FROM mail m "
-	               + "LEFT JOIN mailContent mc "
-	               + "ON m.mail_code = mc.mail_code AND m.server_code = mc.server_code "
-	               + "LEFT JOIN mail_deletion md "
-	               + "ON m.mail_code = md.mail_code AND m.server_code = md.server_code AND md.user_id = ? "
-	               + "WHERE m.writer = ? AND m.server_code = ? AND md.mail_code IS NULL "
-	               + "ORDER BY m.post_date DESC";
+public List<Mail> getMailList(String userID, String receiver, int serverCode) throws SQLException {
+    List<Mail> mailList = new ArrayList<>();
+    String sql = "SELECT m.*, mc.todo_content, mc.attachment "
+               + "FROM mail m "
+               + "LEFT JOIN mailContent mc "
+               + "    ON m.mail_code = mc.mail_code "
+               + "    AND m.server_code = mc.server_code "
+               + "LEFT JOIN mail_deletion md "
+               + "    ON m.mail_code = md.mail_code "
+               + "    AND m.server_code = md.server_code "
+               + "    AND md.user_id = ? "  // 1번 파라미터 (userID)
+               + "WHERE m.receiver = ? "   // 2번 파라미터 (receiver)
+               + "    AND m.server_code = ? " // 3번 파라미터 (serverCode)
+               + "    AND md.mail_code IS NULL "
+               + "ORDER BY m.post_date DESC";
 
-	    try (Connection conn = conpool.get();
-	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
-	        
-	        // 파라미터 바인딩
-	        pstmt.setString(1, writer);    // 삭제 테이블의 user_id (본인 ID)
-	        pstmt.setString(2, writer);    // mail.writer (보낸 사람)
-	        pstmt.setInt(3, serverCode);   // mail.server_code
+    try (Connection conn = conpool.get();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-	        try (ResultSet rs = pstmt.executeQuery()) {
-	            while (rs.next()) {
-	                Mail mail = new Mail();
-	                mail.setMail_code(rs.getInt("mail_code"));
-	                mail.setServer_code(rs.getInt("server_code"));
-	                mail.setWriter(rs.getString("writer"));
-	                mail.setReceiver(rs.getString("receiver"));
-	                mail.setPost_date(rs.getTimestamp("post_date"));
-	                mail.setMail_title(rs.getString("mail_title"));
-	                mail.setTodoContent(rs.getString("todo_content"));
-	                mail.setAttachment(rs.getString("attachment"));
-	                mailList.add(mail);
-	            }
-	        }
-	    }
-	    return mailList;
-	}
+        // 파라미터 바인딩 (순서 주의!)
+        pstmt.setString(1, userID);       // md.user_id
+        pstmt.setString(2, receiver);     // m.receiver
+        pstmt.setInt(3, serverCode);      // m.server_code
+
+        System.out.println("Executing query with parameters: userID=" + userID + ", receiver=" + receiver + ", serverCode=" + serverCode);
+
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Mail mail = new Mail();
+                mail.setMail_code(rs.getInt("mail_code"));
+                mail.setServer_code(rs.getInt("server_code"));
+                mail.setWriter(rs.getString("writer"));
+                mail.setReceiver(rs.getString("receiver"));
+                mail.setPost_date(rs.getTimestamp("post_date"));
+                mail.setMail_title(rs.getString("mail_title"));
+                mail.setTodoContent(rs.getString("todo_content"));
+                mail.setAttachment(rs.getString("attachment"));
+
+                System.out.println("Retrieved mail - mail_code: " + mail.getMail_code() + ", server_code: " + mail.getServer_code());
+
+                mailList.add(mail);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    System.out.println("Number of retrieved mails: " + mailList.size());
+    return mailList;
+}
+
+//보낸 메일
+public List<Mail> getSentMailList(String writer, int serverCode) throws SQLException {
+    List<Mail> mailList = new ArrayList<>();
+    String sql = "SELECT m.*, mc.todo_content, mc.attachment "
+               + "FROM mail m "
+               + "LEFT JOIN mailContent mc "
+               + "    ON m.mail_code = mc.mail_code "
+               + "    AND m.server_code = mc.server_code "
+               + "LEFT JOIN mail_deletion md "
+               + "    ON m.mail_code = md.mail_code "
+               + "    AND m.server_code = md.server_code "
+               + "    AND md.user_id = ? "  // 1번 파라미터 (writer)
+               + "WHERE m.writer = ? "     // 2번 파라미터 (writer)
+               + "    AND m.server_code = ? " // 3번 파라미터 (serverCode)
+               + "    AND md.mail_code IS NULL "
+               + "ORDER BY m.post_date DESC";
+
+    try (Connection conn = conpool.get();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+        // 파라미터 바인딩 (순서 주의!)
+        pstmt.setString(1, writer);       // md.user_id
+        pstmt.setString(2, writer);       // m.writer
+        pstmt.setInt(3, serverCode);      // m.server_code
+
+        System.out.println("Executing query with parameters: writer=" + writer + ", serverCode=" + serverCode);
+
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                Mail mail = new Mail();
+                mail.setMail_code(rs.getInt("mail_code"));
+                mail.setServer_code(rs.getInt("server_code"));
+                mail.setWriter(rs.getString("writer"));
+                mail.setReceiver(rs.getString("receiver"));
+                mail.setPost_date(rs.getTimestamp("post_date"));
+                mail.setMail_title(rs.getString("mail_title"));
+                mail.setTodoContent(rs.getString("todo_content"));
+                mail.setAttachment(rs.getString("attachment"));
+
+                System.out.println("Retrieved mail - mail_code: " + mail.getMail_code() + ", server_code: " + mail.getServer_code());
+
+                mailList.add(mail);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    System.out.println("Number of retrieved mails: " + mailList.size());
+    return mailList;
+}
+
 
 	
 

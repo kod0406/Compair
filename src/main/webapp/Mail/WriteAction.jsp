@@ -32,6 +32,7 @@
     String subject = "";
     String content = "";
     String attachment = null;
+    int serverCode = 0;
     byte[] fileData = null;
 
     try {
@@ -49,6 +50,7 @@
                     case "receiver": receiver = value; break;
                     case "subject": subject = value; break;
                     case "content": content = value; break;
+                    case "server_code": serverCode = Integer.parseInt(value); break;
                 }
             } else {
                 if ("attachment".equals(item.getFieldName())) {
@@ -78,7 +80,7 @@
         mail.setMail_title(subject);
         mail.setTodoContent(content);
         mail.setAttachment(attachment);
-        mail.setServer_code(new ServerDAO().getUserServerCode(userID));
+        mail.setServer_code(serverCode); // Use the provided server code
         mail.setWriter(userID);
 
         // DB 저장
