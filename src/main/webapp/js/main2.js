@@ -27,10 +27,10 @@ var Board = {
     },
 
     serverListShow: function(values) {
-        var serverListShowStr = "<div>";
+        var serverListShowStr = "<div class = 'server-list'>";
         console.log(values[0]);
         if (values[0] == "0") {
-            serverListShowStr += "<div style='display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #ddd;' onclick='Board.serverAdd()'>";
+            serverListShowStr += "<div class = 'server-item' onclick='Board.serverAdd()'>";
             serverListShowStr += 0;
             serverListShowStr += "</div>";
         }
@@ -38,7 +38,7 @@ var Board = {
         if (values.length > 0) {
             for (let i = 1; i < values.length; i++) {
                 var sc = values[i];
-                serverListShowStr += "<div style='display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #ddd;' onclick='Board.serverClick(\"" + sc + "\")'>";
+                serverListShowStr += "<div class = 'server-item' onclick='Board.serverClick(\"" + sc + "\")'>";
                 serverListShowStr += values[i];
                 serverListShowStr += "</div>";
                 

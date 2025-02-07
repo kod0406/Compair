@@ -3,9 +3,20 @@ var Calendar = {
     // 캘린더 관련 최소/최근 번호 (필요 시 Board와 공유하거나 별도로 관리)
     minNo: null,
     recentNo: null,
-
+    serverCode: null,
+    
     init: function() {
-            Calendar.calendar();
+        // 서버 세션에서 값을 먼저 가져옴 (비동기 호출), 수정 필요!!!
+		//수정 필요!!!
+		//수정 필요!!!
+		//수정 필요!!!
+		//수정 필요!!!
+        AJAX.call("../JSP/serverSession.jsp", null, function(data) {
+            Calendar.serverCode = data.trim();
+            console.log("서버 코드: " + Calendar.serverCode);
+        });
+        // 캘린더 화면 생성
+        Calendar.calendar();
     },
 
     // 캘린더 페이지를 생성하고 이벤트를 바인딩
@@ -20,10 +31,10 @@ var Calendar = {
         console.log("캘린더 버튼 클릭됨, 리스트 영역 비워짐.");
         alert("캘린더");
 
-        // 캘린더 HTML 생성
+        // 캘린더 HTML 생성 (달력과 To-Do 리스트 섹션 포함)
         Calendar.showCalendar();
 
-        // 현재 날짜를 기준으로 캘린더 생성
+        // 현재 날짜를 기준으로 달력 날짜 생성
         Calendar.generateCalendar(Calendar.currentDate);
 
         // 이전/다음 달 버튼 이벤트 바인딩
@@ -68,11 +79,11 @@ var Calendar = {
         });
     },
 
-    // 서버에서 받아온 피드 데이터로 TODO 목록 생성 (Board 객체의 getFeedCode 함수를 활용)
+    // 서버에서 받아온 피드 데이터로 TODO 목록 생성 (필요 시 Board 객체의 getFeedCode 함수 활용)
     showCalendarTODO: function(feeds) {
         var calStr = "";
         for (var i = 0; i < feeds.length; i++) {
-            // Board 객체에 getFeedCode 함수가 있다면 이를 호출 (필요에 따라 수정)
+            // 예시: Board 객체의 getFeedCode 함수로 항목 생성 (필요에 따라 수정)
             calStr += Board.getFeedCode(feeds[i]);
         }
         $("#list").empty();
@@ -86,7 +97,7 @@ var Calendar = {
         $("#list").append(calStr);
     },
 
-    // 캘린더 HTML 구조를 생성하여 calendarList 영역에 추가
+    // 캘린더 HTML 구조를 생성하여 calendarList 영역에 추가 (달력과 To-Do 리스트 섹션 포함)
     showCalendar: function() {
         var str = "<div id='calendar-page'>";
         str += "<div class='calendar-header'>";
@@ -97,11 +108,21 @@ var Calendar = {
         str += "<table class='calendar-table'>";
         str += "<thead><tr><th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr></thead>";
         str += "<tbody id='calendarBody'></tbody>";
-        str += "</table></div>";
-        $("#calendarList").append(str);
+        str += "</table>";
+        // 달력 테이블 아래에 To-Do 리스트 섹션을 별도의 컨테이너로 추가
+        str += "<div id='todo-list-section'>";
+        str += "<h2>To-Do 리스트</h2>";
+        str += "<div class='todo-input-area'>";
+        str += "<input type='text' id='todo-input' placeholder='할 일을 입력하세요'/>";
+        str += "<button id='add-todo-button' onclick='Calendar.todoPlus()'>+</button>";
+        str += "</div>";
+        str += "<div id='todo-list'></div>";
+        str += "</div>";
+        str += "</div>";
+        $("#calendarList").html(str);
     },
 
-    // 캘린더의 날짜들을 생성하여 화면에 출력
+    // 캘린더의 날짜들을 생성하여 화면에 출력 (달력 본체만 업데이트)
     generateCalendar: function(date) {
         var monthYear = document.getElementById("calendarMonthYear");
         var calendarBody = document.getElementById("calendarBody");
@@ -137,5 +158,36 @@ var Calendar = {
 
         row += "</tr>";
         calendarBody.innerHTML = row;
+    },
+    
+    // todoPlus: To-Do 입력 필드의 값을 읽어와 후속 작업 수행
+    todoPlus: function(){
+        var todoInput = document.getElementById("todo-input");
+        if (todoInput) {
+			alert(Calendar.serverCode);
+            alert("입력된 할 일: " + todoInput.value);
+			
+			AJAX.call("../JSP/todoGet.jsp", dateParams, function(data) {
+			    var feeds = JSON.parse(data.trim());
+			    console.log("feed는: " + feeds);
+
+			    if (feeds.length > 0) {
+			        Calendar.minNo = feeds[feeds.length - 1].BOARD_CODE;
+			        Calendar.recentNo = feeds[feeds.length - 1].BOARD_CODE;
+			    }
+			    console.log("minNo는? " + Calendar.minNo);
+
+			    if (feeds.length !== 0) {
+			        Calendar.showCalendarTODO(feeds);
+			    } else {
+			        Calendar.showCalendarNothing();
+			    }
+			});
+			
+			
+            // 추가 작업 예: AJAX로 서버에 데이터 전송 등
+        } else {
+            alert("todo-input 요소를 찾을 수 없습니다.");
+        }
     }
 };
