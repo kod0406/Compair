@@ -1,0 +1,60 @@
+.server-container {
+	max-width: 400px;
+	margin: 50px auto;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+}
+
+.server-title {
+	font-size: 24px;
+	font-weight: bold;
+	margin-bottom: 30px;
+}
+
+.input-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	margin-bottom: 20px;
+}
+
+.form-label {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.server-input {
+	border: 1.5px solid rgb(68, 136, 244);
+	width: 200px;
+	height: 40px;
+	border-radius: 5px;
+	padding-left: 10px;
+	font-size: 16px;
+}
+
+.server-button-container {
+	display: flex;
+	justify-content: center;
+}
+
+.server-button {
+	width: 100px;
+	height: 40px;
+	font-size: 16px;
+	border: none;
+	border-radius: 5px;
+	outline: 2px rgb(221, 227, 236) solid;
+	background-color: rgb(234, 240, 248);
+	font-weight: bold;
+	cursor: pointer;
+	transition: background-color 0.2s ease-in-out;
+}
+
+.server-button:active {
+	outline: 2px rgb(208, 221, 243) solid;
+	background-color: rgb(212, 226, 248);
+}
