@@ -26,7 +26,7 @@
 						<th class="write-header">아이디 (이메일주소)</th>
 					</tr>
 					<tr>
-						<td><input id="mail" type="text" class="write-input"
+						<td><input id="id" type="text" class="write-input"
 							placeholder="아이디 (이메일주소)"></td>
 					</tr>
 					<tr>
@@ -71,6 +71,7 @@
 	<script
 		src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js">
 	</script>
+	<script src="../js/jquery-3.5.1.min.js"></script>
 	<script src="../js/core.js"></script>
 
 
@@ -82,10 +83,10 @@
 	console.log("b_write" + session.getAttribute("serverList"));
 	
 function upload() {
-    var id = $("#mail").val().trim();
+    var id = $("#id").val().trim();
     if (id == "") {
         alert("아이디를 입력해 주세요.");
-        $("#mail").focus();
+        $("#id").focus();
         return;
     }
     

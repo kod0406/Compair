@@ -93,6 +93,6 @@ CREATE TABLE SERVER_TABLE (
     CONSTRAINT FK_SERVER_USER FOREIGN KEY (USER_ID) REFERENCES USERTABLE(USER_ID),
     CONSTRAINT FK_SERVER_LIST_CODE FOREIGN KEY (SERVER_CODE) REFERENCES SERVERTABLE(SERVER_CODE)
 );
-INSERT INTO "c##project".userTable (user_id, user_mail, password, user_name, approved) VALUES('root', 'root', 'root', 'root', 1);
-INSERT INTO "C##project".SERVERTABLE (SERVER_CODE, USER_ID, SEVER_NAME) VALUES(0, 'root', 'root');
+INSERT INTO userTable (user_id, user_mail, password, user_name, approved) VALUES('root', 'root', 'root', 'root', 1);
+INSERT INTO SERVERTABLE (SERVER_CODE, USER_ID, SEVER_NAME) VALUES(0, 'root', 'root');
 commit;

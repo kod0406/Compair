@@ -213,6 +213,7 @@ public class UserDAO {
 	    try {
 	        conn = conpool.get();
 	        String sql = "UPDATE userTable SET user_name = ?, user_mail = ?, password = ? WHERE user_id = ?";
+	        String sql2 = "UPDATE boardTable set author = ? where (select user_name from userTable where user_id = ?)";
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setString(1, newUserName);
 	        pstmt.setString(2, newUserMail);
@@ -230,6 +231,14 @@ public class UserDAO {
 
 	    return isUpdated;
 	}
+	
+	private void executeUpdate(Connection conn, String sql, String userId) throws SQLException {
+	    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        pstmt.setString(1, userId);
+	        pstmt.executeUpdate();
+	    }
+	}
+	
 	public boolean deleteUser(String userId) throws SQLException {
 	    Connection conn = null;
 	    PreparedStatement pstmt = null;
@@ -237,6 +246,10 @@ public class UserDAO {
 
 	    try {
 	        conn = conpool.get();
+	        conn.setAutoCommit(false); // 트랜잭션 시작	
+	        
+	        executeUpdate(conn, "DELETE FROM SERVER_TABLE WHERE USER_ID = ?", userId);
+	        
 	        String sql = "DELETE FROM userTable WHERE user_id = ?";
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setString(1, userId);
@@ -245,9 +258,17 @@ public class UserDAO {
 	        if (rowsAffected > 0) {
 	            isDeleted = true;
 	        }
+	        
+	        conn.commit();
+	    } catch(SQLException e) {
+	    	if (conn != null) conn.rollback(); // 오류 발생 시 롤백
+	    	throw e;
 	    } finally {
 	        if (pstmt != null) pstmt.close();
-	        if (conn != null) conn.close();
+	        if (conn != null) {
+	        	conn.setAutoCommit(true); // 원래 상태로 복구
+	        	conn.close();
+	        }
 	    }
 	    return isDeleted;
 	}
