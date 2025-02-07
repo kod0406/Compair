@@ -62,8 +62,8 @@
       	<div id="calendarList" class="section"></div>
         <div id="list" class="section"></div>
 		<div id="buttonList" class="section">
-		<button onclick="window.location.href='../html/b_write.html'">글 작성</button>
-		<button type='button' onclick='Board.getNext()'>클릭해 보세요!</button>
+			<button onclick="window.location.href='../html/b_write.html'">글 작성</button>
+			<button type='button' onclick='Board.getNext()'>클릭해 보세요!</button>
 		</div>
         <main id="main-content"></main>
         <footer class="footer">
@@ -98,9 +98,11 @@
 			$("#calendarList").empty();
 			$("#list").empty(); // list 영역 비우기
 			console.log("캘린더 버튼 클릭됨, 리스트 영역 비워짐.");
+			$("#buttonList").hide();
 		}
 		
 		function user() {
+			$("#buttonList").hide();
 			$("#serverList").empty();
 			$("#list").empty();
 			$("#calendarList").empty();
@@ -131,17 +133,21 @@
 			$("#calendarList").empty();
 			$("#list").empty(); // list 영역 비우기
 			console.log("캘린더 버튼 클릭됨, 리스트 영역 비워짐.");
+			$("#buttonList").hide();
 		}
 		
 		function calendar() {
 			Calendar.init();
+			$("#buttonList").hide();
 		}
 		
 		function board() {
 			$("#serverList").empty();
 			$("#calendarList").empty();
 			$("#list").empty();
+			$("#buttonList").show();
 			Board.init(Board.start);
+			
 			
 		}
     </script>
