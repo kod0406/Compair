@@ -95,4 +95,6 @@ CREATE TABLE SERVER_TABLE (
 );
 INSERT INTO "c##project".userTable (user_id, user_mail, password, user_name, approved) VALUES('root', 'root', 'root', 'root', 1);
 INSERT INTO "C##project".SERVERTABLE (SERVER_CODE, USER_ID, SEVER_NAME) VALUES(0, 'root', 'root');
+ALTER TABLE "C##TEST3"."TODOLIST" ADD ("TODO_CONTENT" VARCHAR2(2000));
+
 commit;

@@ -1,14 +1,18 @@
 var Board = {
-    init: function() {
-        $(document).ready(function() {
+	minNo : -1,
+	recentNo : -1,
+	init: function() {
+	        $(document).ready(function() {
             Page.init(Board.start);  // Board.start를 콜백으로 넘김
         });
     },
     start: function(uid) {
+		//uid가 사용자 아이디일듯?
         Board.checkServer(uid);
-        Board.suid = uid;
+		
     },
-
+	
+	//서버 리스트 뿌려주기
     checkServer: function(uid) {
         var serverParams = { "serverList": uid };
         AJAX.call("../JSP/checkServer.jsp", serverParams, function(data) {
@@ -55,39 +59,30 @@ var Board = {
     },
 
     serverClick: function(sc) {
-		serverCode = sc;
-		nowScreen = screen;
-		var sessionParams = {"serverCode" : sc, "nowScreen" : screen};
-		AJAX.call("../JSP/TotalSession.jsp", sessionParams, function(data) {
-			let splitData = data.split(" "); 
-			serverCode = splitData[0];
-			nowScreen = splitData[1];
-		});
-		alert(serverCode);
-		alert(nowScreen);
-		
-		if(nowScreen == 'board'){
-			alert(nowScreen);
-			alert(serverCode);
-			$("#list").empty();
-			Board.boardShow(serverCode);
-							
+		alert("서버 클릭");
+		sessionStorage.setItem("currentServerCode", sc);
+		var nowScreen = sessionStorage.getItem("screen");	
+			if(nowScreen == 'board'){
+				$("#list").empty();
+				Board.boardShow();
+								
 			}
 			else if(nowScreen == 'calendar'){
-				alert(nowScreen);
+				$("#list").empty();
+				Calendar.init();
 			}
 			else if(nowScreen == 'todo'){
-				alert(nowScreen);
+				$("#list").empty();
+				Todo.init();
 			}
 			else if(nowScreen == 'email'){
-				alert(nowScreen);
+				$("#list").empty();
+				alert(Board.nowScreen);
 			}
 	 	},
 	
-	boardShow: function(sc) {
-	    console.log("전역변수가 가능한가요?" + sc);
-	    
-	    var params = { "recentServerCode": sc };
+	boardShow: function() {
+	    var params = { "recentServerCode": sessionStorage.getItem("currentServerCode")};
 	    AJAX.call("../JSP/feedGetGroup.jsp", params, function(data) {
 	        $("#list").empty();  // AJAX 응답을 받은 후 비우기
 	        var feeds = JSON.parse(data.trim());
@@ -100,7 +95,6 @@ var Board = {
 	        Board.show(feeds);
 	    });
 	},
-	
 	
     show: function(feeds) {
         var str = "";
@@ -129,8 +123,7 @@ var Board = {
     },
 
     getNext: function() {
-        var params = { maxNo: Board.minNo, recentServerCode: Board.recentServerCode };
-        console.log(Board.minNo);
+        var params = { maxNo: Board.minNo, recentServerCode: sessionStorage.getItem("currentServerCode")};
         AJAX.call("../JSP/feedGetGroup.jsp", params, function(data) {
             var feeds = JSON.parse(data.trim());
             if (feeds.length > 0) {

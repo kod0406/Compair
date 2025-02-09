@@ -3,7 +3,7 @@
 <%
     String POST_DATE = request.getParameter("POST_DATE");
 	//세션 변수 추가 후 매개변수로 다시 전달
-	String serverSession = (String) session.getAttribute("serverSession");
+	String serverSession = (String) request.getParameter("ServerCode");
+	System.out.println(serverSession);
     out.print((new TodoDAO()).todoGetgroup(POST_DATE, serverSession));
-    System.out.println("calendarGet의 서버 세션 드록 :" + session.getAttribute("serverSession"));
 %>
