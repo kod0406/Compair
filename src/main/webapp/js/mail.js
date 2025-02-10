@@ -193,10 +193,9 @@ function deleteSelectedMails() {
 // 메일 작성 폼 렌더링
 function writeMailForm() {
 
-	const serverCode = Number(AllSession.serverGet());
-	console.log("Current server code:", serverCode);
+	const serverCode = allSession.ServerGet();
 
-	if (serverCode === 0) {
+	if (serverCode === null) {
 		alert("서버가 선택되지 않았습니다.");
 		return;
 	}//0 값이면 작성X -> 나중에 NUll이면 으로 수정할 예정
