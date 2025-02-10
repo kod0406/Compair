@@ -154,7 +154,8 @@
 			$("#buttonList").hide();
 			$("#list").hide();
 			$("#calendarList").hide();
-		    AJAX.call("../JSP/user.jsp", null, function(response) {
+			var params = {"uid": AllSession.uidGet()};
+		    AJAX.call("../JSP/user.jsp", params, function(response) {
 		        //정보가 바뀌면 세션 정보 수정
 		    	if (response) {
 		            $('#userInfo').html(response);
@@ -179,7 +180,6 @@
 		}
 		
 		function logout() {
-			sessionStorage.clear();
 			AJAX.call("../JSP/logoutAction.jsp", null, function(response) {
 
 		        if (response) {
