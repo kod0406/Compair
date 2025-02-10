@@ -1,6 +1,7 @@
 var Server = {
 	start: function() {
-		 Server.checkServer();	
+		Server.checkServer();
+		 	
 	},
 	checkServer: function() {
 	    var serverParams = {"serverList": AllSession.uidGet()};
