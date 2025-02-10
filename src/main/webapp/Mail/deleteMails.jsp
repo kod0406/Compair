@@ -27,7 +27,7 @@
         if(result) {
             out.print("{\"status\":\"success\"}");
         } else {
-            response.sendError(500, "Deletion failed");
+            response.sendError(500, "ER");
         }
     } catch(Exception e) {
         response.sendError(500, "Server error: " + e.getMessage());

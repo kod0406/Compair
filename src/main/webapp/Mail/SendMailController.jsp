@@ -15,13 +15,6 @@
         userID = (String) session.getAttribute("uid");
     }
 
-    if (userID == null) {
-        JSONObject errorObj = new JSONObject();
-        errorObj.put("error", "로그인이 필요합니다.");
-        out.print(errorObj.toJSONString());
-        return;
-    }
-
     try {
         MailDAO mailDAO = new MailDAO();
 
