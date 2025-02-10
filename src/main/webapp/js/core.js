@@ -26,7 +26,7 @@ var AJAX = {
 
 var Page = {
     init: function (cbfunc) {
-        AJAX.call("../JSP/session.jsp", null, function(data) {
+        AJAX.call("jsp/session.jsp", null, function(data) {
             var uid = data.trim();
             if (uid == "null") {
                 alert("로그인이 필요한 서비스 입니다.");
@@ -34,21 +34,6 @@ var Page = {
             }
             else {
                 if (cbfunc != null) cbfunc(uid);
-            }
-        });
-    },
-};
-
-var Server = {
-    init: function (cbfunc) {
-        AJAX.call("../JSP/Serversession.jsp", null, function(data) {
-            var uid = data.trim();
-            if (uid == "null") {
-                alert("로그인이 필요한 서비스 입니다.");
-                window.location.href = "login.html";
-            }
-            else {
-                if (cbfunc != null) cbfunc(uid, Server);
             }
         });
     },

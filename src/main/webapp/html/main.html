@@ -56,8 +56,10 @@
       <!--main content 영역-->
       <div id="main-region">
       	<div id="serverList" class="section"></div>
+      	<div id="list" class="section"></div>
       	<div id="calendarList" class="section"></div>
-        <div id="list" class="section"></div>
+        <div id="todo-title" class="section"></div>
+        <div id="todo-list-section" class="section"></div>
 		<div id="buttonList" class="section">
 			<button onclick="window.location.href='../html/b_write.html'">글 작성</button>
 			<button type='button' onclick='Board.getNext()'>클릭해 보세요!</button>
@@ -73,54 +75,70 @@
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
 	<script src="../js/main.js"></script>
 	<script src="../js/main2.js"></script>
-	<script src="../js/calendarMain.js"></script>
+	<script src="../js/allSession.js"></script>
+	<script src="../js/server.js"></script>
 	<script src="../js/calendarMain2.js"></script>
 	<script src="../js/core.js"></script>
 	<script src="../js/mail.js"></script>
 	<script src="../js/todoShow.js"></script>
+	<script src="../js/calendarShow.js"></script>
 	<script>
 		//todo ui 바꾼 후에 수정, 완료, 삭제 버튼 추가, 태그 기능 사용할 수 있도록 입력 칸 하나 더 필요
-	    $(document).ready(function() {
-	    	sessionStorage.setItem("screen", "board");
-	        Board.init();
+		//나누어진 부분 = serverList, calendarList, list, buttonList
+	    AllSession.init();
+    	AllSession.pageSession('board');
+        AllSession.minSession('-1');
+		$(document).ready(function() {
+	    	Server.start();
 	    });
-		sessionStorage.setItem("screen", "board");
-		sessionStorage.setItem("currentServerCode", 0);
+		
+		AllSession.serverSession('0');
 		function board() {
-			sessionStorage.setItem("screen", "board");
-			$("#calendarList").empty();
-			$("#list").empty();
+			$("#todo-title").hide();
+			$("#calendarList").hide();
+			$("#list").show();
 			$("#buttonList").show();
+			$("#todo-list-section").hide();
+			AllSession.pageSession('board');
 			Board.boardShow();
 		}
 		
 		function calendar() {
-			sessionStorage.setItem("screen", "calendar");
-			Calendar.init();
+			$("#todo-title").show();
+			$("#calendarList").show();
+			$("#list").hide();
 			$("#buttonList").hide();
+			$("todo-list-section").show();
+			AllSession.pageSession('calendar');
+			CalendarShow.calendar();
 		}
 		
 		function todo(){
-			sessionStorage.setItem("screen", "todo");
-			$("#calendarList").empty();
-			$("#list").empty();
+			$("#todo-title").hide();
+			$("#calendarList").hide();
+			$("#list").hide();
 			$("#buttonList").hide();
+			$("todo-list-section").hide();
+			AllSession.pageSession('todo');
 			Todo.init();
 		}
 	
 		function email(){
-			sessionStorage.setItem("screen", "email");
-			$("#calendarList").empty();
-			$("#list").empty();
+			$("#todo-title").hide();
+			$("#calendarList").hide();
+			$("#list").hide();
 			$("#buttonList").hide();
+			$("todo-list-section").hide();
+			AllSession.pageSession('email');
 			loadMailList(suid);
 		}
 		
 		function user() {
+			$("#todo-title").hide();
 			$("#buttonList").hide();
-			$("#serverList").empty();
-			$("#list").empty();
-			$("#calendarList").empty();
+			$("#serverList").hide();
+			$("#list").hide();
+			$("#calendarList").hide();
 		    AJAX.call("../JSP/user.jsp", null, function(response) {
 		        //정보가 바뀌면 세션 정보 수정
 		    	if (response) {

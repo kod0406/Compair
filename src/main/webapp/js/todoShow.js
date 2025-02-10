@@ -1,11 +1,10 @@
 var Todo = {
-
 	init: function() {
 		Page.init(Todo.show);
 	},
 	
 	show: function(){
-		var params = { "recentServerCode": sessionStorage.getItem("currentServerCode")};
+		var params = { "recentServerCode": AllSession.serverGet()};
 		AJAX.call("../JSP/todoShow.jsp", params, function(data) {
 		    var feeds = JSON.parse(data.trim());
 
@@ -23,13 +22,10 @@ var Todo = {
 	        // 예시: Board 객체의 getFeedCode 함수로 항목 생성 (필요에 따라 수정)
 	        calStr += Todo.getFeedCode(feeds[i]);
 	    }
-	    $("#list").empty();
 	    $("#list").append(calStr);
 	},
 	
 	showTodoNothing: function() {
-	    $("#list").empty();
-	    var calStr = "아직 아무 데이터도 존재하지 않습니다.";
 	    $("#list").append(calStr);
 	},
 	
