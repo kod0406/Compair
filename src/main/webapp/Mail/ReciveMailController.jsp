@@ -15,13 +15,6 @@
         userID = (String) session.getAttribute("uid");
     }
 
-    if (userID == null) {
-        JSONObject errorObj = new JSONObject();
-        errorObj.put("error", "로그인이 필요합니다.");
-        out.print(errorObj.toJSONString());
-        return;
-    }
-
     try {
         MailDAO mailDAO = new MailDAO();
 
@@ -49,7 +42,7 @@
         out.print(jsonArray.toJSONString());
     } catch (Exception e) {
         JSONObject errorObj = new JSONObject();
-        errorObj.put("error", "서버 오류가 발생했습니다: " + e.getMessage());
+        errorObj.put("error", "ER" + e.getMessage());
         out.print(errorObj.toJSONString());
     }
 %>

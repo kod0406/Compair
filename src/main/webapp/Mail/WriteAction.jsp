@@ -77,7 +77,6 @@ try {
 
 	// 필수 필드 검증
 	if (subject.isEmpty() || content.isEmpty() || receiver.isEmpty()) {
-		//out.print("ER1");
 		out.print("{\"success\": false, \"error\": \"필수 입력 항목이 누락되었습니다.\"}");
 		return;
 	}
@@ -88,25 +87,23 @@ try {
 	mail.setMail_title(subject);
 	mail.setTodoContent(content);
 	mail.setAttachment(attachment);
-	mail.setServer_code(serverCode); // Use the provided server code
+	mail.setServer_code(serverCode);
 	mail.setWriter(userID);
 
 	UserDAO userdao = new UserDAO();
 	ServerDAO sdao = new ServerDAO();
 	if (!userdao.isIdExist(mail.getReceiver())) {
-		out.print("{\"success\": false, \"error\": \"서버에 존재하지 않는 유저입니다.\"}");
+	    out.print("{\"success\": false, \"error\": \"서버에 존재하지 않는 유저입니다.\"}");
 	} else if (!sdao.isUserInServer(mail.getReceiver(), mail.getServer_code())) {
-		out.print("ER");
+	    out.print("{\"success\": false, \"error\": \"다른 서버에 존재하는 유저입니다.\"}");
 	} else {
-		// DB 저장
-		boolean result = new MailDAO().insertMail(mail);
+	    boolean result = new MailDAO().insertMail(mail);
 
-		if (result) {
-	//out.print 모두 수정
-	out.print("{\"success\": true}");
-		} else {
-	out.print("{\"success\": false, \"error\": \"메일 전송 실패\"}");
-		}
+	    if (result) {
+	        out.print("{\"success\": true}");
+	    } else {
+	        out.print("{\"success\": false, \"error\": \"메일 전송 실패\"}");
+	    }
 	}
 
 } catch (Exception e) {

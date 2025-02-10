@@ -63,7 +63,7 @@ var Server = {
 				Todo.init();
 			}
 			else if(nowScreen == 'email'){
-				loadMailList('received');
+				loadMailList();
 			}
 	 }
 }
