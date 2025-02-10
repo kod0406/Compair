@@ -14,7 +14,7 @@ try {
         userId = request.getParameter("uid");
     }
 
-    if (!postDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+    if (!postDate.matches("\\d{4}-\\d{2}-\\d{2}")) {//날짜형식 아니면 오류
         response.setStatus(400);
         out.print("{ \"error\": \"날짜 형식 오류: YYYY-MM-DD 필요\" }");
         return;

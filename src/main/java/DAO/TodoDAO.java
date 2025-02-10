@@ -28,7 +28,7 @@ public class TodoDAO {
 					+ "WHERE TODO_CODE = ? AND SERVER_CODE = ? AND INSTR(TAG, ?) > 0";
 			stmtList = conn.prepareStatement(sqlList);
 			stmtList.setString(1, newTitle);
-			stmtList.setString(2, newTag); // 새로운 태그로 업데이트
+			stmtList.setString(2, newTag); // 새로운 태그로 업데이트 (A,B,C -> A,C,D)
 			stmtList.setInt(3, todoCode);
 			stmtList.setInt(4, serverCode);
 			stmtList.setString(5, userId);
@@ -93,7 +93,7 @@ public class TodoDAO {
 		}
 	}
 
-	public boolean deleteTodo(int todoCode, int serverCode, String currentUserId) throws SQLException {
+	public boolean deleteTodo(int todoCode, int serverCode, String currentUserId) throws SQLException { // 체크박스가 아닌 1개씩 지우도록 수정
 		Connection conn = null;
 		PreparedStatement stmtCheck = null;
 		PreparedStatement stmtList = null;
@@ -186,7 +186,7 @@ public class TodoDAO {
 		}
 	}
 
-	public List<Map<String, Object>> todoGetgroup(int serverCode, String userId) throws SQLException { //태그된 Todo 다 출력
+	public List<Map<String, Object>> todoGetgroup(int serverCode, String userId) throws SQLException { //태그된 Todo 다 출력 -> 짜피 getTodosByPostDateAndUser쓸거라 필요없을듯
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -248,7 +248,7 @@ public class TodoDAO {
 		}
 	}
 
-	public List<Map<String, Object>> getTodosByPostDateAndUser(int serverCode, String postDate, String userId) //선택된 날짜에 대한 리스트 출력
+	public List<Map<String, Object>> getTodosByPostDateAndUser(int serverCode, String postDate, String userId) //선택된 날짜에 대한 TODO 다 가져오기
 			throws SQLException {
 		Connection conn = null;
 		PreparedStatement stmt = null;
