@@ -4,12 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Com-pair 메인</title>
+    <link rel="stylesheet" href="../css/b_view.css" />
   </head>
   <body>
       <div id="main-region">
         <div id="list" class="section"></div>
       </div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
@@ -42,30 +42,54 @@
     	$("#list").append(str);
     }
     
-	function getFeedCode(viewFeed) {
-		
-	    var str = "<div class='feed'>";
-	    str += "<div class='author'>";
-	    str += "<div class='photo'></div>";
-	    str += "<div class='name'>" + viewFeed.AUTHOR + "</div>";
-	    str += "</div>";
+    function getFeedCode(viewFeed) {
+        var str = "<div id='view-page'>";
+        str += "<h2 class='view-title'>게시글 상세보기</h2>";
+        str += "<table class='view-table'>";
 
-	    if (viewFeed.ATTACHMENT) {
-	        var imgurl = "../images/"+ viewFeed.ATTACHMENT;
-	        console.log(imgurl);
-	        console.log(viewFeed.ATTACHMENT);
-	        str += "<div><img src=\"" + imgurl + "\" alt=\"이미지\" width=\"280px\" /></div>";
+        str += "<tr>";
+        str += "<th class='view-header'>제목</th>";
+        str += "<td>" + viewFeed.TITLE + "</td>";
+        str += "</tr>";
 
-	    }
+        str += "<tr>";
+        str += "<th class='view-header'>작성자</th>";
+        str += "<td>" + viewFeed.AUTHOR + "</td>";
+        str += "</tr>";
 
-	    // 게시물의 제목과 내용
-	    str += "<div class='title'>" + viewFeed.TITLE + "</div>";
-	    str += "<div class='text'>" + viewFeed.CONTENT + "</div>";
-	    str += "<div class='postdate'>" + viewFeed.POSTDATE + "</div>";  // 게시물 작성일 출력
-	    str += "</div>";
+        str += "<tr>";
+        str += "<th class='view-header'>작성일</th>";
+        str += "<td>" + viewFeed.POSTDATE + "</td>";
+        str += "</tr>";
 
-	    return str;
-	}
+        str += "<tr>";
+        str += "<th class='view-header'>내용</th>";
+        str += "<td>";
+
+        
+        str += viewFeed.CONTENT;
+
+        
+        if (viewFeed.ATTACHMENT) {
+            var imgUrl = "../images/" + viewFeed.ATTACHMENT;
+            str += "<br><img src='" + imgUrl + "' alt='첨부 이미지' width='280px' onerror=\"this.onerror=null; this.src='/images/no-image.png';\"/>";
+        }
+
+        str += "</td>";
+        str += "</tr>";
+
+        str += "</table>";
+
+        str += "<div class='view-button-container'>";
+        str += "<button class='view-button' onclick=\"loadPage('board.html')\">목록으로</button>";
+        str += "</div>";
+
+        str += "</div>";
+
+        return str;
+    }
+
+
     </script>
   </body>
 </html>
