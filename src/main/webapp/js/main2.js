@@ -6,6 +6,7 @@ var Board = {
     },
 	
 	boardShow: function() {
+		$("#list").show();
 	    var params = { "recentServerCode": AllSession.serverGet()};
 	    AJAX.call("../JSP/feedGetGroup.jsp", params, function(data) {
 	        var feeds = JSON.parse(data.trim());
@@ -40,7 +41,7 @@ var Board = {
     handleRowClick: function(clickCode) {
         window.location.href = "b_view.html?boardCode=" + clickCode;
     },
-
+	
     getNext: function() {
         var params = { maxNo: AllSession.minGet(), recentServerCode: AllSession.serverGet()};
         AJAX.call("../JSP/feedGetGroup.jsp", params, function(data) {

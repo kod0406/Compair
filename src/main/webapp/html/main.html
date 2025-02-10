@@ -64,7 +64,7 @@
         <div id="userInfo" class="section"></div>
 		<div id="buttonList" class="section">
 			<button onclick="Write()">글 작성</button>
-			<button type='button' onclick='Board.getNext()'>클릭해 보세요!</button>
+			<button type='button' onclick='getNext()'>클릭해 보세요!</button>
 		</div>
         <div id="mail-list-container" class="section"></div>
         <main id="main-content"></main>
@@ -101,10 +101,11 @@
 			$('#userInfo').empty();
 			$("#todo-title").hide();
 			$("#calendarList").hide();
-			$("#list").show();
 			$("#buttonList").show();
 			$("#todo-list-section").hide();
 			AllSession.pageSession('board');
+			$("#list").empty();
+			Board.boardShow();
 		}
 		
 		function calendar() {
@@ -128,7 +129,7 @@
 			$("#calendarList").hide();
 			$("#list").hide();
 			$("#buttonList").hide();
-			$("todo-list-section").hide();
+			$("#todo-list-section").hide();
 			AllSession.pageSession('todo');
 			Todo.init();
 		}
@@ -170,6 +171,11 @@
 			else if(AllSession.serverGet() == 'null'){
 				alert("서버를 선택 해주세요.");
 			}
+		}
+		
+		function getNext(){
+			if(AllSession.serverGet() != 'null') Board.getNext();
+			else alert("서버를 선택해주세요.");
 		}
 		
 		function logout() {
