@@ -60,9 +60,10 @@
       	<div id="calendarList" class="section"></div>
         <div id="todo-title" class="section"></div>
         <div id="todo-list-section" class="section"></div>
+        <div id="todo-show-section" class="section"></div>
         <div id="userInfo" class="section"></div>
 		<div id="buttonList" class="section">
-			<button onclick="window.location.href='../html/b_write.html'">글 작성</button>
+			<button onclick="Write()">글 작성</button>
 			<button type='button' onclick='Board.getNext()'>클릭해 보세요!</button>
 		</div>
         <div id="mail-list-container" class="section"></div>
@@ -88,14 +89,14 @@
 		//나누어진 부분 = serverList, calendarList, list, buttonList
 	    AllSession.init();
     	AllSession.pageSession('board');
-        AllSession.minSession('-1');
 		$(document).ready(function() {
+			CalendarShow.calendar();
 	    	Server.start();
 	    });
-		
-		AllSession.serverSession('0');
+	
 		//board에 2번씩 출력 오류 
 		function board() {
+			$("#todo-show-section").hide();
 			$("#mail-list-container").empty();
 			$('#userInfo').empty();
 			$("#todo-title").hide();
@@ -104,10 +105,10 @@
 			$("#buttonList").show();
 			$("#todo-list-section").hide();
 			AllSession.pageSession('board');
-			Board.boardShow();
 		}
 		
 		function calendar() {
+			$("#todo-show-section").hide();
 			$("#mail-list-container").empty();
 			$('#userInfo').empty();
 			$("#todo-title").show();
@@ -116,10 +117,11 @@
 			$("#buttonList").hide();
 			$("todo-list-section").show();
 			AllSession.pageSession('calendar');
-			CalendarShow.calendar();
+			Calendar.init();
 		}
 		
 		function todo(){
+			$("#todo-show-section").show();
 			$("#mail-list-container").empty();
 			$('#userInfo').empty();
 			$("#todo-title").hide();
@@ -132,6 +134,7 @@
 		}
 	
 		function email(){
+			$("#todo-show-section").hide();
 			$("#mail-list-container").empty();
 			$('#userInfo').empty();
 			$("#todo-title").hide();
@@ -144,6 +147,7 @@
 		}
 		
 		function user() {
+			$("#todo-show-section").hide();
 			$("#mail-list-container").empty();
 			$("#todo-title").hide();
 			$("#buttonList").hide();
@@ -159,9 +163,16 @@
 		    });
 		}
 		
+		function Write(){
+			if(AllSession.serverGet() != 'null'){
+				window.location.href="b_write.html";
+			}
+			else if(AllSession.serverGet() == 'null'){
+				alert("서버를 선택 해주세요.");
+			}
+		}
+		
 		function logout() {
-			//세션 전체 삭제 추가
-			$("#list").empty();
 			sessionStorage.clear();
 			AJAX.call("../JSP/logoutAction.jsp", null, function(response) {
 

@@ -74,6 +74,7 @@
 
 	<script src="../js/jquery-3.5.1.min.js"></script>
 	<script src="../js/core.js"></script>
+	<script src="../js/allSession.js"></script>
 
 	<script>
 	$(document).ready(function(){
@@ -111,7 +112,6 @@ function upload() {
     }
     
     var url = "../JSP/feedAdd1.jsp";
-    
     AJAX.call(url, params, function(data) {
         var code = data.trim();
         if(code == "ER") {

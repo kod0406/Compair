@@ -13,6 +13,9 @@ var CalendarShow = {
 	    document.getElementById("nextMonth").addEventListener("click", function () {
 	        Calendar.changeMonth(1);
 	    });
+		$("#todo-title").hide();
+		$("#calendarList").hide();
+		$("#todo-list-section").hide();
 	},
 	
 	showCalendar: function() {

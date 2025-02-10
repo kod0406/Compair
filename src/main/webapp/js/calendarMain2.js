@@ -8,6 +8,7 @@ var Calendar = {
 	// 데이터가 없는 경우 메시지 출력
 	//calendarShow.js에서 호출 됨
 	todoShow : function(){
+		$("#todo-list-section").show();
 		var dateParams = {"POST_DATE": AllSession.dateGet(), "ServerCode": AllSession.serverGet()};
 		AJAX.call("../JSP/todoGet.jsp", dateParams, function(data) {
 		    var feeds = JSON.parse(data.trim());
