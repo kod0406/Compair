@@ -291,7 +291,6 @@ function sendMail() {
         processData: false,
         contentType: false,
         success: function(response) {
-            console.log('Server Response:', response);
             if (response.success) {
                 alert('메일 전송 성공!');
                 goBackToList();
@@ -302,7 +301,7 @@ function sendMail() {
         },
         error: function(xhr) {
             console.error('전송 오류:', xhr.status, xhr.responseText);
-            alert('서버 통신 오류 발생');
+            alert('네트워크 오류입니다. 네트워크를 확인해주세요.');
         }
     });
 }

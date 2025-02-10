@@ -1,9 +1,10 @@
 var Todo = {
 	init: function() {
-		Page.init(Todo.show);
+		Todo.show();
 	},
 	
 	show: function(){
+		$("#list").show();
 		var params = { "recentServerCode": AllSession.serverGet()};
 		AJAX.call("../JSP/todoShow.jsp", params, function(data) {
 		    var feeds = JSON.parse(data.trim());
@@ -26,17 +27,18 @@ var Todo = {
 	},
 	
 	showTodoNothing: function() {
+		var calStr = "할 일이 없습니다.";
 	    $("#list").append(calStr);
 	},
 	
-	getFeedCode: function(feed) {
-	    var clickCode = feed.TODO_CODE;
+	getFeedCode: function(feeds) {
+	    var clickCode = feeds.TODO_CODE;
 	    var str = "<div style='display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #ddd;' onclick='Board.handleRowClick(\"" + clickCode + "\")'>";
 	    
-	    str += "<div style='width: 100px; text-align: center;'>" + feed.TODO_CODE + "</div>";
-		str += "<div style='width: 150px; text-align: center;'>" + feed.TODO_CONTENT + "</div>";
-		str += "<div style='width: 150px; text-align: center;'>" + feed.TODO_WRITER + "</div>";
-		str += "<div style='flex: 2; text-align: center;'>" + feed.POST_DATE + "</div>";
+	    str += "<div style='width: 100px; text-align: center;'>" + feeds.TODO_CODE + "</div>";
+		str += "<div style='width: 150px; text-align: center;'>" + feeds.TODO_CONTENT + "</div>";
+		str += "<div style='width: 150px; text-align: center;'>" + feeds.TODO_WRITER + "</div>";
+		str += "<div style='flex: 2; text-align: center;'>" + feeds.POST_DATE + "</div>";
 			    
 	    str += "</div>";
 

@@ -60,6 +60,7 @@
       	<div id="calendarList" class="section"></div>
         <div id="todo-title" class="section"></div>
         <div id="todo-list-section" class="section"></div>
+        <div id="userInfo" class="section"></div>
 		<div id="buttonList" class="section">
 			<button onclick="window.location.href='../html/b_write.html'">글 작성</button>
 			<button type='button' onclick='Board.getNext()'>클릭해 보세요!</button>
@@ -93,7 +94,10 @@
 	    });
 		
 		AllSession.serverSession('0');
+		//board에 2번씩 출력 오류 
 		function board() {
+			$("#mail-list-container").empty();
+			$('#userInfo').empty();
 			$("#todo-title").hide();
 			$("#calendarList").hide();
 			$("#list").show();
@@ -104,6 +108,8 @@
 		}
 		
 		function calendar() {
+			$("#mail-list-container").empty();
+			$('#userInfo').empty();
 			$("#todo-title").show();
 			$("#calendarList").show();
 			$("#list").hide();
@@ -114,6 +120,8 @@
 		}
 		
 		function todo(){
+			$("#mail-list-container").empty();
+			$('#userInfo').empty();
 			$("#todo-title").hide();
 			$("#calendarList").hide();
 			$("#list").hide();
@@ -124,6 +132,8 @@
 		}
 	
 		function email(){
+			$("#mail-list-container").empty();
+			$('#userInfo').empty();
 			$("#todo-title").hide();
 			$("#calendarList").hide();
 			$("#list").hide();
@@ -134,17 +144,17 @@
 		}
 		
 		function user() {
+			$("#mail-list-container").empty();
 			$("#todo-title").hide();
 			$("#buttonList").hide();
-			$("#serverList").hide();
 			$("#list").hide();
 			$("#calendarList").hide();
 		    AJAX.call("../JSP/user.jsp", null, function(response) {
 		        //정보가 바뀌면 세션 정보 수정
 		    	if (response) {
-		            $('#list').html(response);
+		            $('#userInfo').html(response);
 		        } else {
-		            $('#list').html('<p>사용자 정보를 불러올 수 없습니다.</p>');
+		            $('#userInfo').html('<p>사용자 정보를 불러올 수 없습니다.</p>');
 		        }
 		    });
 		}
