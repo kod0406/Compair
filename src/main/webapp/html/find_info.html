@@ -19,7 +19,7 @@
           <input
             type="email"
             class="form-control"
-            id="email"
+            id="user_mail"
             placeholder="가입한 이메일을 입력하세요"
             required
           />
@@ -27,17 +27,36 @@
         <button type="submit" class="btn btn-primary">계정 찾기</button>
       </form>
 
-      <!-- 아이디 비번 표시 -->
-      <!--form 제출 여부에 따라 진행-->
-      <div id="result" class="result-box">
-        <!-- <p><strong>아이디 : 1234</strong></p>
-        <p><strong>비밀번호 : 1234</strong></p> -->
-      </div>
-      
+      <!-- 아이디 & 비밀번호 결과 표시 -->
+      <div id="result" class="result-box"></div>
+
       <!-- 로그인으로 돌아가기 -->
       <div class="back-to-login">
         <a href="login.html">로그인 화면으로</a>
       </div>
     </div>
+
+    <script>
+      document.getElementById("findForm").addEventListener("submit", function (event) {
+        event.preventDefault(); // 기본 폼 제출 방지
+
+        let email = document.getElementById("user_mail").value;
+
+        fetch("../JSP/searchResult.jsp?user_mail=" + encodeURIComponent(email))
+          .then(response => response.text())
+          .then(data => {
+            let resultDiv = document.getElementById("result");
+
+            if (data !== "fail") {
+              let [userId, password] = data.split(",");
+              resultDiv.innerHTML = `<p><strong>아이디: ${userId}</strong></p>
+                                     <p><strong>비밀번호: ${password}</strong></p>`;
+            } else {
+              resultDiv.innerHTML = `<p>해당 이메일로 등록된 사용자가 없습니다.</p>`;
+            }
+          })
+          .catch(error => console.error("오류 발생:", error));
+      });
+    </script>
   </body>
 </html>
