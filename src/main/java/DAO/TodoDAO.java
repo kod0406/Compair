@@ -5,12 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
-
 import javax.naming.NamingException;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
 import user.Todo;
 import util.conpool;
 
@@ -63,7 +60,7 @@ public class TodoDAO {
 		}
 	}
 
-	public boolean UntagTodos(String currentUserId, int[] todoCodes, int[] serverCodes) throws SQLException {
+	public boolean UntagTodos(String currentUserId, int[] todoCodes, int[] serverCodes) throws SQLException {//미사용 기능
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		try {
@@ -104,7 +101,7 @@ public class TodoDAO {
 			conn = conpool.get();
 			conn.setAutoCommit(false);
 
-			// 1. Check if the current user is the author
+			// 작성자만 삭제 가능하도록 
 			String sqlCheck = "SELECT TODO_WRITER FROM TODOLIST WHERE TODO_CODE = ? AND SERVER_CODE = ?";
 			stmtCheck = conn.prepareStatement(sqlCheck);
 			stmtCheck.setInt(1, todoCode);
@@ -155,7 +152,7 @@ public class TodoDAO {
 			conn = conpool.get();
 			conn.setAutoCommit(false);
 
-			// Add the writer to the tags
+			
 			if (tags == null || tags.isEmpty()) {
 				tags = todoWriter;
 			} else {
@@ -189,7 +186,7 @@ public class TodoDAO {
 		}
 	}
 
-	public List<Map<String, Object>> todoGetgroup(int serverCode, String userId) throws SQLException {
+	public List<Map<String, Object>> todoGetgroup(int serverCode, String userId) throws SQLException { //태그된 Todo 다 출력
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -251,7 +248,7 @@ public class TodoDAO {
 		}
 	}
 
-	public List<Map<String, Object>> getTodosByPostDateAndUser(int serverCode, String postDate, String userId)
+	public List<Map<String, Object>> getTodosByPostDateAndUser(int serverCode, String postDate, String userId) //선택된 날짜에 대한 리스트 출력
 			throws SQLException {
 		Connection conn = null;
 		PreparedStatement stmt = null;
