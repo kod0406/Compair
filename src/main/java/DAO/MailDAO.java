@@ -9,6 +9,7 @@ public class MailDAO {
 	// 메일 저장
 	public boolean insertMail(Mail mail) {
 		String mailSQL = "INSERT INTO mail (server_code, writer, mail_title, receiver) VALUES (?, ?, ?, ?)";
+		//mail DB에 한 번에 저장
 		String contentSQL = "INSERT INTO mailContent (mail_code, server_code, mail_title, todo_content, attachment) VALUES (?, ?, ?, ?, ?)";
 		try (Connection conn = conpool.get();
 				PreparedStatement pstmt1 = conn.prepareStatement(mailSQL, new String[]{"mail_code"});
@@ -202,70 +203,4 @@ public List<Mail> getSentMailList(String writer, int serverCode) throws SQLExcep
 	        return false;
 	    }
 	}
-
- 
-	
-
 }
-
-/*
- * public class MailDAO { // 현재 서버코드 고정값 (필요에 따라 수정 가능) private final int
- * MAIL_SERVER_CODE = 0;
- * 
- *//**
-	 * 메일 전송: mail 테이블과 mailContent 테이블에 각각 데이터를 삽입
-	 */
-/*
- * public boolean sendMail(String writer, String receiver, String title, String
- * content) { // 자동 생성 컬럼인 mail_code에 대해 컬럼명을 명시하여 INSERT String mailSql =
- * "INSERT INTO mail (server_code, writer, mail_title, receiver) VALUES (?, ?, ?, ?)"
- * ; String contentSql =
- * "INSERT INTO mailContent (mail_code, server_code, mail_title, todo_content, attachment) VALUES (?, ?, ?, ?, NULL)"
- * ;
- * 
- * Connection conn = null; try { conn = conpool.get();
- * conn.setAutoCommit(false); // 트랜잭션 시작 int mailCode = 0;
- * 
- * // mail 테이블에 기본정보 저장 후 자동 생성된 mail_code 획득 try (PreparedStatement pstmt1 =
- * conn.prepareStatement(mailSql, Statement.RETURN_GENERATED_KEYS)) {
- * pstmt1.setInt(1, MAIL_SERVER_CODE); pstmt1.setString(2, writer);
- * pstmt1.setString(3, title); pstmt1.setString(4, receiver);
- * pstmt1.executeUpdate();
- * 
- * try (ResultSet generatedKeys = pstmt1.getGeneratedKeys()) { if
- * (generatedKeys.next()) { mailCode = generatedKeys.getInt(1); } else { throw
- * new SQLException("메일코드 생성 실패"); } } }
- * 
- * // mailContent 테이블에 메일 내용 저장 try (PreparedStatement pstmt2 =
- * conn.prepareStatement(contentSql)) { pstmt2.setInt(1, mailCode);
- * pstmt2.setInt(2, MAIL_SERVER_CODE); pstmt2.setString(3, title);
- * pstmt2.setString(4, content); pstmt2.executeUpdate(); }
- * 
- * conn.commit(); // 모든 작업 성공시 커밋 return true; } catch (SQLException e) {
- * e.printStackTrace(); // 문제 발생 시 롤백 처리 try { if (conn != null) {
- * conn.rollback(); } } catch (SQLException ex) { ex.printStackTrace(); } return
- * false; } finally { if (conn != null) { try { conn.close(); } catch
- * (SQLException e) { e.printStackTrace(); } } } }
- * 
- *//**
-	 * 메일 목록 조회: receiver와 일치하는 메일과 mailContent 정보를 JOIN 하여 가져옴
-	 *//*
-		 * public List<Map<String, Object>> getMailList(String userId) { String sql =
-		 * "SELECT m.*, mc.todo_content FROM mail m " +
-		 * "JOIN mailContent mc ON m.mail_code = mc.mail_code AND m.server_code = mc.server_code "
-		 * + "WHERE m.receiver = ? AND m.server_code = ?"; List<Map<String, Object>>
-		 * list = new ArrayList<>();
-		 * 
-		 * try (Connection conn = conpool.get(); PreparedStatement pstmt =
-		 * conn.prepareStatement(sql)) {
-		 * 
-		 * pstmt.setString(1, userId); pstmt.setInt(2, MAIL_SERVER_CODE);
-		 * 
-		 * try (ResultSet rs = pstmt.executeQuery()) { while (rs.next()) { Map<String,
-		 * Object> mail = new HashMap<>(); mail.put("mail_code",
-		 * rs.getInt("mail_code")); mail.put("title", rs.getString("mail_title"));
-		 * mail.put("writer", rs.getString("writer")); mail.put("content",
-		 * rs.getString("todo_content")); mail.put("post_date",
-		 * rs.getDate("post_date")); list.add(mail); } } } catch (SQLException e) {
-		 * e.printStackTrace(); } return list; } }
-		 */

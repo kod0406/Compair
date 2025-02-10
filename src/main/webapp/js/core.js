@@ -38,18 +38,3 @@ var Page = {
         });
     },
 };
-
-var Server = {
-    init: function (cbfunc) {
-        AJAX.call("../JSP/Serversession.jsp", null, function(data) {
-            var uid = data.trim();
-            if (uid == "null") {
-                alert("로그인이 필요한 서비스 입니다.");
-                window.location.href = "login.html";
-            }
-            else {
-                if (cbfunc != null) cbfunc(uid, Server);
-            }
-        });
-    },
-};

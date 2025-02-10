@@ -56,4 +56,27 @@ public class ServerDAO {
 	    }
 	    return -1; // 서버 코드가 없으면 -1 반환
 	}
+	public boolean isUserInServer(String uid, int serverCode) throws SQLException {
+	       Connection conn = null;
+	       PreparedStatement stmt = null;
+	       ResultSet rs = null;
+
+	       try {
+	           conn = conpool.get();
+	           String sql = "SELECT COUNT(*) FROM SERVER_TABLE WHERE USER_ID = ? AND SERVER_CODE = ?";
+	           stmt = conn.prepareStatement(sql);
+	           stmt.setString(1, uid);
+	           stmt.setInt(2, serverCode);
+	           rs = stmt.executeQuery();
+
+	           if (rs.next()) {
+	               return rs.getInt(1) > 0; // 서버에 사용자가 있으면 true
+	           }
+	           return false;
+	       } finally {
+	           if (rs != null) rs.close();
+	           if (stmt != null) stmt.close();
+	           if (conn != null) conn.close();
+	       }
+	   }
 }

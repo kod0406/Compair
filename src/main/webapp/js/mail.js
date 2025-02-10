@@ -5,12 +5,11 @@ var recentMailNo = -1;
 
 function loadMailList(type = 'received') {
     const controller = type === 'sent' ? 'SendMailController.jsp' : 'ReciveMailController.jsp';
-	console.log(currentServerCode+": 서버코드");
     $.ajax({
         url: `../Mail/${controller}`,
         type: 'GET',
         dataType: 'json',
-        data: { server_code: currentServerCode }, // Ensure currentServerCode is set
+        data: { server_code: AllSession.serverGet()}, // Ensure currentServerCode is set
         success: function(mails) {
             if (mails.error) {
                 console.error(mails.error);
@@ -90,7 +89,7 @@ function getMailCode(mail, type) {
                 <input type="checkbox"
                        class="mail-checkbox"
                        value="${mail.mail_code}"
-                       data-server-code="${mail.server_code}">
+                       data-server-code="${AllSession.serverGet()}">
             </td>
             <td class="email-subject">
                 <a href="javascript:void(0)">${mail.mail_title}</a>
@@ -105,7 +104,6 @@ function getMailCode(mail, type) {
 function renderMailDetail(mail) {
     // CSS 동적 로드
     loadExternalCSS('../css/e_view.css');
-	console.log('Raw post_date:', mail.post_date);
 
     // 메일 제목을 mail.title 또는 mail.mail_title에서 가져오며, 없으면 '제목 없음'으로 대체
     var title = mail.title || mail.mail_title || '제목 없음';
@@ -173,9 +171,9 @@ function deleteSelectedMails() {
         traditional: true,
         data: {
             mailCodes: mailCodes,
-            serverCodes: serverCodes
+            serverCodes: AllSession.serverGet()
         },
-        success: function(response) {
+        success: function() {
 			$("#mail-list-container").empty();
             loadMailList(); // 목록 새로고침
         },
@@ -274,15 +272,11 @@ function sendMail() {
     const mailTitle = $('#mailTitle').val();
     const content = $('#mailContent').val();
 
-    console.log('Receiver:', receiver);
-    console.log('Mail Title:', mailTitle);
-    console.log('Content:', content);
-
     const formData = new FormData();
     formData.append('receiver', receiver);
     formData.append('subject', mailTitle); // Ensure the key is 'subject'
     formData.append('content', content);
-	formData.append('server_code', currentServerCode);
+	formData.append('server_code', AllSession.serverGet());
 
     // Handle attachment
     const fileInput = document.getElementById('mailAttachment');
@@ -297,7 +291,6 @@ function sendMail() {
         processData: false,
         contentType: false,
         success: function(response) {
-            console.log('Server Response:', response);
             if (response.success) {
                 alert('메일 전송 성공!');
                 goBackToList();
@@ -308,7 +301,7 @@ function sendMail() {
         },
         error: function(xhr) {
             console.error('전송 오류:', xhr.status, xhr.responseText);
-            alert('서버 통신 오류 발생');
+            alert('네트워크 오류입니다. 네트워크를 확인해주세요.');
         }
     });
 }
