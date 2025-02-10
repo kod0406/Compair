@@ -48,9 +48,11 @@ var Server = {
 
 	//서버가 바뀔때만 그 전에 화면 비움
 	serverClick: function(sc) {
+		AllSession.minSession(-1);
 		AllSession.serverSession(sc);
 		$("#list").empty();
 		$("#todo-list-section").empty();
+		$("#todo-show-section").empty();
 		var nowScreen = AllSession.pageGet();
 		alert(nowScreen);	
 			if(nowScreen == 'board'){
@@ -63,7 +65,7 @@ var Server = {
 				Todo.init();
 			}
 			else if(nowScreen == 'email'){
-				loadMailList('received');
+				loadMailList();
 			}
 	 }
 }

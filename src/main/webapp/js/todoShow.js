@@ -4,7 +4,6 @@ var Todo = {
 	},
 	
 	show: function(){
-		$("#list").show();
 		var params = { "recentServerCode": AllSession.serverGet()};
 		AJAX.call("../JSP/todoShow.jsp", params, function(data) {
 		    var feeds = JSON.parse(data.trim());
@@ -23,7 +22,7 @@ var Todo = {
 	        // 예시: Board 객체의 getFeedCode 함수로 항목 생성 (필요에 따라 수정)
 	        calStr += Todo.getFeedCode(feeds[i]);
 	    }
-	    $("#list").append(calStr);
+	    $("#todo-show-section").append(calStr);
 	},
 	
 	showTodoNothing: function() {
