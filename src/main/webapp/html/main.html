@@ -69,7 +69,7 @@
         </footer>
       </div>
     </div>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
 	<script src="../js/main.js"></script>
 	<script src="../js/main2.js"></script>
@@ -77,26 +77,44 @@
 	<script src="../js/calendarMain2.js"></script>
 	<script src="../js/core.js"></script>
 	<script src="../js/mail.js"></script>
+	<script src="../js/todoShow.js"></script>
 	<script>
+		//todo ui 바꾼 후에 수정, 완료, 삭제 버튼 추가, 태그 기능 사용할 수 있도록 입력 칸 하나 더 필요
 	    $(document).ready(function() {
-	        Board.init(Board.start);  // Board.start를 콜백으로 넘김
+	    	sessionStorage.setItem("screen", "board");
+	        Board.init();  // Board.start를 삭제하였습니다.
 	    });
-    
-		var suid;
-    	var minNo = -1;
-    	var recentNo = -1;
-    	console.log(minNo);
-    	let tokens;
-	    var recentServerCode;
-	    
-		function todo(){
-			
-			minNo = recentNo;
-			console.log("minNo는?" + minNo);
+		
+		sessionStorage.setItem("screen", "board");
+		sessionStorage.setItem("currentServerCode", 0);
+		function board() {
+			sessionStorage.setItem("screen", "board");
 			$("#calendarList").empty();
-			$("#list").empty(); // list 영역 비우기
-			console.log("캘린더 버튼 클릭됨, 리스트 영역 비워짐.");
+			$("#list").empty();
+			$("#buttonList").show();
+			Board.boardShow();
+		}
+		
+		function calendar() {
+			sessionStorage.setItem("screen", "calendar");
+			Calendar.init();
 			$("#buttonList").hide();
+		}
+		
+		function todo(){
+			sessionStorage.setItem("screen", "todo");
+			$("#calendarList").empty();
+			$("#list").empty();
+			$("#buttonList").hide();
+			Todo.init();
+		}
+	
+		function email(){
+			sessionStorage.setItem("screen", "email");
+			$("#calendarList").empty();
+			$("#list").empty();
+			$("#buttonList").hide();
+			loadMailList(suid);
 		}
 		
 		function user() {
@@ -105,7 +123,8 @@
 			$("#list").empty();
 			$("#calendarList").empty();
 		    AJAX.call("../JSP/user.jsp", null, function(response) {
-		        if (response) {
+		        //정보가 바뀌면 세션 정보 수정
+		    	if (response) {
 		            $('#list').html(response);
 		        } else {
 		            $('#list').html('<p>사용자 정보를 불러올 수 없습니다.</p>');
@@ -114,37 +133,17 @@
 		}
 		
 		function logout() {
+			//세션 전체 삭제 추가
 			$("#list").empty();
-		    AJAX.call("../JSP/logoutAction.jsp", null, function(response) {
+			sessionStorage.clear();
+			AJAX.call("../JSP/logoutAction.jsp", null, function(response) {
+
 		        if (response) {
 		            $('#list').html(response);
 		        } else {
 		            $('#list').html('<p>오류.</p>');
 		        }
 		    });
-		}
-	
-		function email(){
-			minNo = recentNo;
-			console.log("minNo는?" + minNo);
-			$("#calendarList").empty();
-			$("#list").empty(); // list 영역 비우기
-			console.log("캘린더 버튼 클릭됨, 리스트 영역 비워짐.");
-			$("#buttonList").hide();
-			loadMailList(suid);
-		}
-		
-		function calendar() {
-			Calendar.init();
-			$("#buttonList").hide();
-		}
-		
-		function board() {
-			$("#serverList").empty();
-			$("#calendarList").empty();
-			$("#list").empty();
-			$("#buttonList").show();
-			Board.init(Board.start);
 		}
     </script>
   </body>

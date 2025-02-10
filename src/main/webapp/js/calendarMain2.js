@@ -1,22 +1,14 @@
 var Calendar = {
     currentDate: new Date(),
     // 캘린더 관련 최소/최근 번호 (필요 시 Board와 공유하거나 별도로 관리)
+	//세션 스토리지로 따로 관리
     minNo: null,
     recentNo: null,
-    serverCode: null,
-    
+	nowScreen: 'calendar',
+	currentServerCode:null,
+	thisPageDate: null,
     init: function() {
-        // 서버 세션에서 값을 먼저 가져옴 (비동기 호출), 수정 필요!!!
-		//수정 필요!!!
-		//수정 필요!!!
-		//수정 필요!!!
-		//수정 필요!!!
-        AJAX.call("../JSP/serverSession.jsp", null, function(data) {
-            Calendar.serverCode = data.trim();
-            console.log("서버 코드: " + Calendar.serverCode);
-        });
-        // 캘린더 화면 생성
-        Calendar.calendar();
+		Page.init(Calendar.calendar);
     },
 
     // 캘린더 페이지를 생성하고 이벤트를 바인딩
@@ -54,6 +46,7 @@ var Calendar = {
 
     // 날짜 클릭 시 호출되는 함수
     handleDateClick: function(date) {
+		Calendar.thisPageDate = date;
         alert("선택한 날짜: " + date);
         Calendar.todoShow(date);
     },
@@ -164,8 +157,6 @@ var Calendar = {
 	// todoPlus: To-Do 입력 필드의 값을 읽어와 후속 작업 수행
 	todoPlus: function(){
 	    var todoInput = document.getElementById("todo-input");
-	    var code1 = Calendar.serverCode;
-	    
 	    if (todoInput) {
 	        var todoValue = todoInput.value.trim(); // 입력값 가져오기
 
@@ -175,9 +166,9 @@ var Calendar = {
 	        }
 
 	        alert("입력된 할 일: " + todoValue);
-	        var todoParams = {"ServerCode": code1, "todoInput": todoValue};
-
-	        AJAX.call("../JSP/todoInsert.jsp", todoParams, function(data) {
+	        var todoParams = {"ServerCode":sessionStorage.getItem("currentServerCode"), "todoInput": todoValue, "thisPageDate": Calendar.thisPageDate};
+	        
+			AJAX.call("../JSP/todoInsert.jsp", todoParams, function(data) {
 	            if (data.trim() === "OK") {
 	                alert("할 일이 추가되었습니다.");
 	                todoInput.value = ""; // 입력 필드 초기화
@@ -192,7 +183,7 @@ var Calendar = {
 
 	todoShow : function(date){
 		//writer버그
-		var dateParams = {"POST_DATE": date, "ServerCode": Calendar.serverCode};
+		var dateParams = {"POST_DATE": date, "ServerCode": sessionStorage.getItem("currentServerCode")};
 		AJAX.call("../JSP/todoGet.jsp", dateParams, function(data) {
 		    var feeds = JSON.parse(data.trim());
 		    console.log("feed는: " + feeds);
@@ -212,13 +203,13 @@ var Calendar = {
 	},
 	
 	getFeedCode: function(feed) {
+		//수정 부분
 	    var clickCode = feed.TODO_CODE;
 	    var str = "<div style='display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #ddd;' onclick='Board.handleRowClick(\"" + clickCode + "\")'>";
-	    
 	    str += "<div style='width: 100px; text-align: center;'>" + feed.TODO_CODE + "</div>";
-	    str += "<div style='flex: 2; text-align: center;'>" + feed.TITLE + "</div>";
-	    str += "<div style='width: 150px; text-align: center;'>" + feed.WRITER + "</div>";
-	    str += "<div style='width: 150px; text-align: center;'>" + feed.CHECK + "</div>";
+		str += "<div style='width: 150px; text-align: center;'>" + feed.TODO_CONTENT + "</div>";
+	    str += "<div style='width: 150px; text-align: center;'>" + feed.TODO_WRITER + "</div>";
+	    
 	    str += "</div>";
 
 	    return str;

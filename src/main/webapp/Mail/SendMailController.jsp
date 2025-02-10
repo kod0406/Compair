@@ -1,6 +1,5 @@
 
 <%@page import="DAO.MailDAO"%>
-<%@page import="DAO.ServerDAO"%>
 <%@page import="user.Mail"%>
 <%@page import="java.util.List"%>
 <%@page import="org.json.simple.JSONArray"%>
@@ -25,18 +24,15 @@
 
     try {
         MailDAO mailDAO = new MailDAO();
-        ServerDAO serverDAO = new ServerDAO();
 
-        // 사용자 서버 코드 가져오기
-        int serverCode = serverDAO.getUserServerCode(userID);
-        if (serverCode == -1) {
-            JSONObject errorObj = new JSONObject();
-            errorObj.put("error", "사용자 정보를 가져올 수 없습니다.");
-            out.print(errorObj.toJSONString());
-            return;
+        // 요청에서 server_code 가져오기
+        String serverCodeParam = request.getParameter("server_code");
+        if (serverCodeParam == null || serverCodeParam.isEmpty()) {
+            throw new IllegalArgumentException("server_code 파라미터가 필요합니다.");
         }
+        int serverCode = Integer.parseInt(serverCodeParam);
 
-        // 해당 사용자가 작성한 메일 목록 가져오기
+        // 해당 사용자와 서버에 해당하는 송신 메일 목록 가져오기
         List<Mail> mailList = mailDAO.getSentMailList(userID, serverCode);
         for (Mail mail : mailList) {
             JSONObject mailObj = new JSONObject();

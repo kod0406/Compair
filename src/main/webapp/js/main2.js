@@ -1,14 +1,18 @@
 var Board = {
-    init: function() {
-        $(document).ready(function() {
+	minNo : -1,
+	recentNo : -1,
+	init: function() {
+	        $(document).ready(function() {
             Page.init(Board.start);  // Board.start를 콜백으로 넘김
         });
     },
     start: function(uid) {
+		//uid가 사용자 아이디일듯?
         Board.checkServer(uid);
-        Board.suid = uid;
+		
     },
-
+	
+	//서버 리스트 뿌려주기
     checkServer: function(uid) {
         var serverParams = { "serverList": uid };
         AJAX.call("../JSP/checkServer.jsp", serverParams, function(data) {
@@ -55,22 +59,43 @@ var Board = {
     },
 
     serverClick: function(sc) {
-        alert(sc);
-        Board.recentServerCode = sc;
-        $("#list").empty();
-        var params = { "recentServerCode": sc };
-        AJAX.call("../JSP/feedGetGroup.jsp", params, function(data) {
-            var feeds = JSON.parse(data.trim());
-            console.log(feeds);
-            if (feeds.length > 0) {
-                Board.minNo = feeds[feeds.length - 1].BOARD_CODE;
-                Board.recentNo = feeds[feeds.length - 1].BOARD_CODE;
-            }
-            console.log("minNo는? " + Board.minNo);
-            Board.show(feeds);
-        });
-    },
-
+		alert("서버 클릭");
+		sessionStorage.setItem("currentServerCode", sc);
+		var nowScreen = sessionStorage.getItem("screen");	
+			if(nowScreen == 'board'){
+				$("#list").empty();
+				Board.boardShow();
+								
+			}
+			else if(nowScreen == 'calendar'){
+				$("#list").empty();
+				Calendar.init();
+			}
+			else if(nowScreen == 'todo'){
+				$("#list").empty();
+				Todo.init();
+			}
+			else if(nowScreen == 'email'){
+				$("#list").empty();
+				alert(Board.nowScreen);
+			}
+	 	},
+	
+	boardShow: function() {
+	    var params = { "recentServerCode": sessionStorage.getItem("currentServerCode")};
+	    AJAX.call("../JSP/feedGetGroup.jsp", params, function(data) {
+	        $("#list").empty();  // AJAX 응답을 받은 후 비우기
+	        var feeds = JSON.parse(data.trim());
+	        console.log(feeds);
+	        if (feeds.length > 0) {
+	            Board.minNo = feeds[feeds.length - 1].BOARD_CODE;
+	            Board.recentNo = feeds[feeds.length - 1].BOARD_CODE;
+	        }
+	        console.log("minNo는? " + Board.minNo);
+	        Board.show(feeds);
+	    });
+	},
+	
     show: function(feeds) {
         var str = "";
         for (var i = 0; i < feeds.length; i++) {
@@ -98,8 +123,7 @@ var Board = {
     },
 
     getNext: function() {
-        var params = { maxNo: Board.minNo, recentServerCode: Board.recentServerCode };
-        console.log(Board.minNo);
+        var params = { maxNo: Board.minNo, recentServerCode: sessionStorage.getItem("currentServerCode")};
         AJAX.call("../JSP/feedGetGroup.jsp", params, function(data) {
             var feeds = JSON.parse(data.trim());
             if (feeds.length > 0) {
@@ -110,4 +134,3 @@ var Board = {
     }
 };
 
-// 실행

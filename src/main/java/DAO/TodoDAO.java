@@ -28,12 +28,12 @@ public class TodoDAO {
 		return false;
 	}
 
-	public String todoInsert(int serverCode, String todoInput, String todoWriter) throws SQLException {
+	public String todoInsert(int serverCode, String todoInput, String todoWriter, String Date) throws SQLException {
 			Connection conn = null;
 	        PreparedStatement stmt = null;
 	        try {
 	        	//나중에 TODO로 바꿔야함
-	        	String sql = "INSERT INTO TODOLIST (SERVER_CODE, TODO_TITLE, TODO_WRITER, TODO_CHECK) VALUES(?, ?, ?, ?)";
+	        	String sql = "INSERT INTO TODOLIST (SERVER_CODE, TODO_CONTENT, TODO_WRITER, TODO_CHECK, POST_DATE) VALUES(?, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'))";
 	        	System.out.println(sql);
 	        	conn = conpool.get();
 	            stmt = conn.prepareStatement(sql);
@@ -41,6 +41,7 @@ public class TodoDAO {
                 stmt.setString(2, todoInput);
                 stmt.setString(3, todoWriter);
                 stmt.setInt(4, 0);
+                stmt.setString(5, Date);
                 int count = stmt.executeUpdate();
                 return (count == 1) ? "OK" : "ER";
 		
@@ -69,6 +70,7 @@ public class TodoDAO {
                 obj.put("TODO_TITLE", rs.getString("TODO_TITLE"));
                 obj.put("TODO_WRITER", rs.getString("TODO_WRITER"));
                 obj.put("TODO_CHECK", rs.getString("TODO_CHECK"));
+                obj.put("TODO_CONTENT", rs.getString("TODO_CONTENT"));
                 jsonArray.add(obj);
             }
             System.out.println(jsonArray.toString());
@@ -79,4 +81,38 @@ public class TodoDAO {
             if (conn != null) conn.close();
         }
 	}
+	
+	public String todoShowGetgroup(String serverSession) throws SQLException {
+		Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+        	//나중에 TODO로 바꿔야함
+        	String sql = "SELECT * FROM TODOLIST WHERE SERVER_CODE = " + serverSession + " ORDER BY POST_DATE";
+        	System.out.println(sql);
+        	conn = conpool.get();
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            
+            JSONArray jsonArray = new JSONArray();
+            while (rs.next()) {
+                JSONObject obj = new JSONObject();
+                obj.put("TODO_CODE", rs.getString("TODO_CODE"));
+                obj.put("SERVER_CODE", rs.getString("SERVER_CODE"));
+                obj.put("TODO_TITLE", rs.getString("TODO_TITLE"));
+                obj.put("TODO_WRITER", rs.getString("TODO_WRITER"));
+                obj.put("TODO_CHECK", rs.getString("TODO_CHECK"));
+                obj.put("TODO_CONTENT", rs.getString("TODO_CONTENT"));
+                obj.put("POST_DATE", rs.getString("POST_DATE"));
+                jsonArray.add(obj);
+            }
+            System.out.println(jsonArray.toString());
+            return jsonArray.toString();
+        } finally {
+            if (rs != null) rs.close(); 
+            if (stmt != null) stmt.close(); 
+            if (conn != null) conn.close();
+        }
+	}
+	
 }
