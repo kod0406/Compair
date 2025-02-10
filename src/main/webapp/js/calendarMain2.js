@@ -203,6 +203,7 @@ var Calendar = {
 	},
 	
 	getFeedCode: function(feed) {
+		//수정 부분
 	    var clickCode = feed.TODO_CODE;
 	    var str = "<div style='display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #ddd;' onclick='Board.handleRowClick(\"" + clickCode + "\")'>";
 	    str += "<div style='width: 100px; text-align: center;'>" + feed.TODO_CODE + "</div>";
