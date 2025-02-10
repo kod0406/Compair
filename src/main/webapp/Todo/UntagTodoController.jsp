@@ -3,9 +3,9 @@
 <%@ page contentType="application/json; charset=UTF-8" %>
 <%
 try {
-    String currentUserId = (String) session.getAttribute("uid");
-    if (currentUserId == null) {
-        currentUserId = request.getParameter("uid");
+    String userId = (String) session.getAttribute("uid");
+    if (userId == null) {
+    	userId = request.getParameter("uid");
     }
     String[] todoCodeArr = request.getParameterValues("todo_code[]");
     String[] serverCodeArr = request.getParameterValues("server_code[]");
@@ -14,7 +14,7 @@ try {
     int[] serverCodes = Arrays.stream(serverCodeArr).mapToInt(Integer::parseInt).toArray();
 
     TodoDAO dao = new TodoDAO();
-    boolean success = dao.UntagTodos(currentUserId, todoCodes, serverCodes);
+    boolean success = dao.UntagTodos(userId, todoCodes, serverCodes);
 
     out.print("{ \"success\": " + success + " }");
 

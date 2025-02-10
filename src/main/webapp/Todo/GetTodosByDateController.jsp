@@ -9,7 +9,10 @@
 try {
     int serverCode = Integer.parseInt(request.getParameter("server_code"));
     String postDate = request.getParameter("post_date");
-    String userId = request.getParameter("uid");
+    String userId = (String) session.getAttribute("uid");
+    if (userId == null) {
+        userId = request.getParameter("uid");
+    }
 
     if (!postDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
         response.setStatus(400);
@@ -27,7 +30,7 @@ try {
         obj.put("title", todo.get("title"));
         obj.put("writer", todo.get("writer"));
         obj.put("check", todo.get("check"));
-        obj.put("tag", Arrays.asList((String[]) todo.get("tag"))); // Convert array to list
+        obj.put("tag", Arrays.asList((String[]) todo.get("tag"))); //배열로만 데이터 받아오면 메모리값 받아와서 이렇게 처리함
         obj.put("post_date", todo.get("post_date"));
         jsonArr.add(obj);
     }

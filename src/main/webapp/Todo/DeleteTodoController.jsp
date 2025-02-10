@@ -4,13 +4,13 @@
 try {
     int todoCode = Integer.parseInt(request.getParameter("todo_code"));
     int serverCode = Integer.parseInt(request.getParameter("server_code"));
-    String currentUserId = (String) session.getAttribute("uid");
-    if (currentUserId == null) {
-        currentUserId = request.getParameter("uid");
+    String userId = (String) session.getAttribute("uid");
+    if (userId == null) {
+    	userId = request.getParameter("uid");
     }
 
     TodoDAO dao = new TodoDAO();
-    boolean success = dao.deleteTodo(todoCode, serverCode, currentUserId);
+    boolean success = dao.deleteTodo(todoCode, serverCode, userId);
 
     out.print("{ \"success\": " + success + " }");
 
