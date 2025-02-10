@@ -93,6 +93,7 @@
 			
 			minNo = recentNo;
 			console.log("minNo는?" + minNo);
+			$("#mail-list-container").empty();
 			$("#calendarList").empty();
 			$("#list").empty(); // list 영역 비우기
 			console.log("캘린더 버튼 클릭됨, 리스트 영역 비워짐.");
@@ -100,6 +101,7 @@
 		}
 		
 		function user() {
+			$("#mail-list-container").empty();
 			$("#buttonList").hide();
 			$("#serverList").empty();
 			$("#list").empty();
@@ -139,6 +141,7 @@
 		function calendar() {
 			Calendar.init();
 			$("#buttonList").hide();
+			$("#mail-list-container").empty();
 		}
 		
 		function board() {
@@ -146,6 +149,7 @@
 			$("#calendarList").empty();
 			$("#list").empty();
 			$("#buttonList").show();
+			$("#mail-list-container").empty();
 			Board.init(Board.start);
 		}
     </script>
