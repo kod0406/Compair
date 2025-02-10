@@ -2,25 +2,20 @@
 <%@ page contentType="application/json; charset=UTF-8" %>
 <%
 try {
-    // 1. 배열 파라미터 처리
-    String[] todoCodes = request.getParameterValues("todo_code[]");
-    String[] serverCodes = request.getParameterValues("server_code[]");
-    
-    int[] todoCodeArr = new int[todoCodes.length];
-    int[] serverCodeArr = new int[serverCodes.length];
-    for(int i=0; i<todoCodes.length; i++) {
-        todoCodeArr[i] = Integer.parseInt(todoCodes[i]);
-        serverCodeArr[i] = Integer.parseInt(serverCodes[i]);
+    int todoCode = Integer.parseInt(request.getParameter("todo_code"));
+    int serverCode = Integer.parseInt(request.getParameter("server_code"));
+    String currentUserId = (String) session.getAttribute("uid");
+    if (currentUserId == null) {
+        currentUserId = request.getParameter("uid");
     }
 
-    // 2. DAO 호출
     TodoDAO dao = new TodoDAO();
-    boolean success = dao.deleteTodos(todoCodeArr, serverCodeArr);
-    
+    boolean success = dao.deleteTodo(todoCode, serverCode, currentUserId);
+
     out.print("{ \"success\": " + success + " }");
 
 } catch (Exception e) {
     response.setStatus(500);
-    out.print("{ \"error\": \"삭제 실패\" }");
+    out.print("{ \"error\": \"삭제 실패: " + e.getMessage() + "\" }");
 }
 %>
