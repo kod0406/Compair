@@ -37,6 +37,12 @@ var Calendar = {
 	
 	// todoPlus: To-Do 입력 필드의 값을 읽어와 후속 작업 수행
 	todoPlus: function(){
+		//const tagValues = tagify.value; //tag 값 저장 변수
+		//const tags = tagValues.map((item) => item.value); //tag를 저장
+		//추가 기능에 tag도 추가해야함.
+		//var tagInput = document.getElementById("todo-tag-input");
+		
+		
 	    var todoInput = document.getElementById("todo-input");
 	    if (todoInput) {
 	        var todoValue = todoInput.value.trim();
@@ -45,7 +51,7 @@ var Calendar = {
 	            alert("할 일을 입력해주세요.");
 	            return;
 	        }
-			else if(allSession.serverGet() == 'null'){
+			else if(AllSession.serverGet() == 'null'){
 				alert("서버를 선택해주세요");
 				return;
 			}
@@ -65,17 +71,112 @@ var Calendar = {
 	},
 	
 	getFeedCode: function(feed) {
-		//수정 부분
-	    var clickCode = feed.TODO_CODE;
-	    var str = "<div style='display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #ddd;' onclick='Board.handleRowClick(\"" + clickCode + "\")'>";
-	    str += "<div style='width: 100px; text-align: center;'>" + feed.TODO_CODE + "</div>";
-		str += "<div style='width: 150px; text-align: center;'>" + feed.TODO_CONTENT + "</div>";
-	    str += "<div style='width: 150px; text-align: center;'>" + feed.TODO_WRITER + "</div>";
-	    
-	    str += "</div>";
+	    var clickCode = feed.TODO_CODE; // To-Do의 고유 식별자
+	    var content = feed.TODO_CONTENT; // 할 일 내용
+	    var writer = feed.TODO_WRITER; // 작성자
+	    var isDone = feed.IS_DONE ? "done" : ""; //추가 필요
+
+	    var str = `<div class="todo-item ${isDone}" id="todo-${clickCode}">`;
+	    str += `<span class="todo-writer" id="todo-writer-${clickCode}">[${writer}]</span> `;
+	    str += `<span class="todo-text" id="todo-text-${clickCode}" onclick="toggleExpand(${clickCode})">${content}</span>`;
+
+	    //태그 추가 칸 추가
+	    if (feed.TODO_TAGS && feed.TODO_TAGS.length > 0) {
+	        let tagsHTML = feed.TODO_TAGS //추가 필요
+	            .map(tag => `<span class="tag">${tag}</span>`)
+	            .join(" ");
+	        str += `<div class="todo-tags">${tagsHTML}</div>`;
+	    }
+
+	    //버튼 추가
+	    str += `<div>`;
+	    str += `<button onclick="toggleTodo(${clickCode})"><i class="fa-solid ${isDone ? 'fa-rotate-left' : 'fa-check'}"></i></button>`;
+	    str += `<button onclick="editTodo(${clickCode})"><i class="fa-solid fa-pen"></i></button>`;
+	    str += `<button onclick="deleteTodo(${clickCode})"><i class="fa-solid fa-trash-can"></i></button>`;
+	    str += `</div>`;
+	    str += `</div>`; // todo-item 닫기
 
 	    return str;
 	},
 	
+	/*
+	// 완료 상태 토글 함수
+	    function toggleTodo(id) {
+	      todoList = todoList.map((todo) =>
+	        todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
+	      );
+	      renderTodoList();
+	    }
+
+	    // 할 일 삭제 함수
+	    function deleteTodo(id) {
+	      todoList = todoList.filter((todo) => todo.id !== id);
+	      renderTodoList();
+	    }
+
+	    function editTodo(id) {
+	      const todoItem = todoList.find((todo) => todo.id === id);
+	      if (!todoItem) return;
+
+	      // 기존 <span> 요소를 찾아서 <input>으로 변환
+	      const todoTextElement = document.getElementById(`todo-text-${id}`);
+	      if (!todoTextElement) return; // 요소가 없으면 종료
+
+	      // 새로운 <input> 요소 생성
+	      const inputElement = document.createElement("input");
+	      inputElement.type = "text";
+	      inputElement.className = "input_style";
+	      inputElement.id = `edit-${id}`;
+	      inputElement.value = todoItem.content;
+
+	      // 입력한 내용을 저장하는 이벤트 추가
+	      inputElement.addEventListener("keypress", function (event) {
+	        if (event.key === "Enter") {
+	          updateTodo(id, inputElement.value);
+	        }
+	      });
+
+	      // 기존 <span>을 <input>으로 교체
+	      todoTextElement.replaceWith(inputElement);
+
+	      // 입력창에 자동 포커스
+	      inputElement.focus();
+	    }
+
+	    function updateTodo(id, newContent) {
+	      if (!newContent.trim()) {
+	        alert("할 일을 입력하세요!");
+	        return;
+	      }
+
+	      // todoList에서 해당 id를 가진 항목 찾고 업데이트
+	      todoList = todoList.map((todo) =>
+	        todo.id === id ? { ...todo, content: newContent } : todo
+	      );
+
+	      // 화면 다시 렌더링
+	      renderTodoList();
+	    }
+
+	    // 긴 내용 펼치기 함수
+	    function toggleExpand(id) {
+	      const todoText = document.getElementById(`todo-text-${id}`);
+	      if (!todoText) return;
+	      todoText.classList.toggle("expanded");
+	    }
+
+	    function initializeTodo() {
+	      const addTodoButton = document.getElementById("add-todo-button");
+	      const todoInput = document.getElementById("todo-input");
+
+	      addTodoButton.addEventListener("click", function () {
+	        addTodo(todoInput.value);
+	        todoInput.value = ""; // 입력 필드 초기화
+	      });
+
+	      renderTodoList(); // 초기 렌더링
+	    }
+	
+	 */
 
 };

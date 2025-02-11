@@ -85,15 +85,43 @@ var CalendarShow = {
 	    Calendar.generateCalendar(Calendar.currentDate);
 	},
 	
-	showTodo:function(){
-		var str ="";
-		str += "<h2>To-Do 리스트</h2>";
-		str += "<div class='todo-input-area'>";
-		str += "<input type='text' id='todo-input' placeholder='할 일을 입력하세요'/>";
-		str += "<button id='add-todo-button' onclick='Calendar.todoPlus()'>+</button>";
-		str += "</div>";
-		str += "<div id='todo-list'></div>";
-		str += "</div>";
-		$("#todo-title").html(str);
+	showTodo: function() {
+	    var str = "";
+	    str += "<div id='todo-list-section'>";
+	    str += "<h2>To-Do 리스트</h2>";
+
+	    // 입력 영역
+	    str += "<div class='todo-input-area'>";
+	    str += "<input type='text' id='todo-input' placeholder='할 일을 입력하세요'/>";
+	    str += "<input type='text' id='todo-tag-input' placeholder='멤버 입력'/>";
+	    str += "<button id='add-todo-button' onclick='Calendar.todoPlus()'>+</button>";
+	    str += "</div>";
+
+	    // 할 일 목록
+	    str += "<div id='todo-list'></div>";
+	    str += "</div>"; // #todo-list-section 닫기
+
+	    // HTML 요소 추가
+	    $("#todo-title").html(str);
+	    
+	    // Tagify 초기화
+		let tagify; // Tagify 전역 변수 선언 -> tag로 들어온 내용들 저장.
+
+		setTimeout(() => {
+		    const tagInput = document.getElementById("todo-tag-input");
+		    if (tagInput) {
+		        // 기존 Tagify가 있으면 제거하고 새로 생성
+		        if (tagify) {
+		            tagify.destroy();
+		        }
+		        tagify = new Tagify(tagInput, {
+		            delimiters: ", ",
+		            dropdown: {
+		                enabled: 1,
+		                position: "text"
+		            }
+		        });
+		    }
+		}, 100);
 	},
 }
