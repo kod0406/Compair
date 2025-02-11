@@ -101,7 +101,7 @@ var CalendarShow = {
 	    str += "<div id='todo-list'></div>";
 	    str += "</div>"; // #todo-list-section 닫기
 
-	    // HTML 요소 추가
+	   
 	    $("#todo-title").html(str);
 	    
 	    // Tagify 초기화
