@@ -71,9 +71,12 @@ var CalendarShow = {
 
 	// 날짜 클릭 시 호출되는 함수
 	handleDateClick: function(date) {
-		$("#todo-list-section").empty();
-		var date = AllSession.dateSession(date);
-	    Calendar.todoShow();
+		if(AllSession.serverGet() != 'null') alert('서버를 선택해주세요');
+		else{
+			$("#todo-list-section").empty();
+			var date = AllSession.dateSession(date);
+		    Calendar.todoShow();
+		}
 	},
 		
 	// 월 변경 후 캘린더 재생성
