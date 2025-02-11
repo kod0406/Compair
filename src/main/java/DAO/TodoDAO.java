@@ -33,7 +33,7 @@ public class TodoDAO {
 	        PreparedStatement stmt = null;
 	        try {
 	        	//나중에 TODO로 바꿔야함
-	        	String sql = "INSERT INTO TODOLIST (SERVER_CODE, TODO_CONTENT, TODO_WRITER, TODO_CHECK, POST_DATE) VALUES(?, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'))";
+	        	String sql = "INSERT INTO TODOLIST (SERVER_CODE, TODO_TITLE, TODO_WRITER, TODO_CHECK, POST_DATE) VALUES(?, ?, ?, ?, TO_DATE(?, 'YYYY-MM-DD'))";
 	        	System.out.println(sql);
 	        	conn = conpool.get();
 	            stmt = conn.prepareStatement(sql);
