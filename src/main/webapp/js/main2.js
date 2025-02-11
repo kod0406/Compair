@@ -7,7 +7,7 @@ var Board = {
 	
 	boardShow: function() {
 		$("#list").show();
-	    var params = { "recentServerCode": AllSession.serverGet()};
+	    var params = { "recentServerCode": AllSession.serverGet(), good:AllSession.maxGet()};
 	    AJAX.call("../JSP/feedGetGroup.jsp", params, function(data) {
 	        var feeds = JSON.parse(data.trim());
 	        if (feeds.length > 0) {
@@ -17,13 +17,35 @@ var Board = {
 	    });
 	},
 	
-    show: function(feeds) {
-        var str = "";
-        for (var i = 0; i < feeds.length; i++) {
-            str += Board.getFeedCode(feeds[i]);
-        }
-        $("#list").append(str);
-    },
+	show: function(feeds) {
+	    var str = "";
+	    
+	    // 테이블 전체 구조 포함
+	    str += "<div id='board-page'>";
+	    str += "<table class='board-table'>";
+	    str += "<thead>";
+	    str += "  <tr><th colspan='4'><h2>게시판</h2></th></tr>";
+	    str += "  <tr class='board-header'>";
+	    str += "    <th class='board-num'>번호</th>";
+	    str += "    <th class='board-title'>제목</th>";
+	    str += "    <th>작성자</th>";
+	    str += "    <th>작성날짜</th>";
+	    str += "  </tr>";
+	    str += "</thead>";
+	    str += "<tbody>";
+
+	    // 게시글 데이터 추가
+	    for (var i = 0; i < feeds.length; i++) {
+	        str += Board.getFeedCode(feeds[i]);
+	    }
+
+	    str += "</tbody>";
+	    str += "</table>";
+	    str += "</div>";
+
+	    // 결과를 원하는 위치에 삽입
+	    $("#list").html(str);
+	},
 
     getFeedCode: function(feed) {
         var clickCode = feed.BOARD_CODE;
@@ -34,6 +56,8 @@ var Board = {
         str += "<div style='width: 150px; text-align: center;'>" + feed.AUTHOR + "</div>";
         str += "<div style='width: 150px; text-align: center;'>" + feed.POSTDATE + "</div>";
         str += "</div>";
+		
+		
 
         return str;
     },
@@ -51,6 +75,8 @@ var Board = {
 				AllSession.minSession(feeds[feeds.length - 1].BOARD_CODE);
             }
 			console.log(AllSession.minGet());
+			AllSession.maxSession(AllSession.maxGet() + 3);
+			console.log("허허허" + AllSession.maxGet());
             Board.show(feeds);
         });
     }

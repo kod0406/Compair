@@ -104,11 +104,12 @@ public class FeedDAO {
         }
     }
     
-	public String getGroup(String maxNo, String sc) throws NamingException, SQLException {
+	public String getGroup(String maxNo, String sc, String good) throws NamingException, SQLException {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
+        	if(good == null) good = "3";
         	String sql = "SELECT * FROM BOARDTABLE";
         	//변수로 변경
         	if (maxNo != null) {
@@ -117,7 +118,7 @@ public class FeedDAO {
         	else if(maxNo == null) {
         		sql += " WHERE SERVER_CODE = " + sc;
         	}
-        	sql += " ORDER BY BOARD_CODE DESC FETCH FIRST 3 ROWS ONLY";
+        	sql += " ORDER BY BOARD_CODE DESC FETCH FIRST " + good + "ROWS ONLY";
 
             conn = conpool.get();
             stmt = conn.prepareStatement(sql);

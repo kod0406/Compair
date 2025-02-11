@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="../css/main.css" />
 <link rel="stylesheet" href="../css/calendar.css" />
 <link rel="stylesheet" href="../css/main2.css" />
+<link rel="stylesheet" href="../css/board.css" />
 <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css"
 	rel="stylesheet" />
 <script src="https://kit.fontawesome.com/a076d05399.js"
@@ -96,8 +97,10 @@
 	<script>
 		//todo ui 바꾼 후에 수정, 완료, 삭제 버튼 추가, 태그 기능 사용할 수 있도록 입력 칸 하나 더 필요
 		//나누어진 부분 = serverList, calendarList, list, buttonList
-		AllSession.init();
-		AllSession.pageSession('board');
+	    AllSession.init();
+	    AllSession.maxSession(3);
+    	AllSession.pageSession('board');
+    	
 		$(document).ready(function() {
 			CalendarShow.calendar();
 			Server.start();
@@ -152,7 +155,7 @@
 			$("#calendarList").hide();
 			$("#list").hide();
 			$("#buttonList").hide();
-			$("todo-list-section").hide();
+			$("#todo-list-section").hide();
 			AllSession.pageSession('email');
 			loadMailList(AllSession.uidGet());
 		}

@@ -87,7 +87,7 @@
 }
 
 /* ----------투두리스트---------------*/
-#todo-list-section {
+.todo-list-section {
   margin-top: 30px;
   padding: 20px;
   border-top: 2px solid #ddd;

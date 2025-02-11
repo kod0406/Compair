@@ -87,7 +87,7 @@ var CalendarShow = {
 	
 	showTodo: function() {
 	    var str = "";
-	    str += "<div id='todo-list-section'>";
+	    str += "<div class='todo-list-section'>";
 	    str += "<h2>To-Do 리스트</h2>";
 
 	    // 입력 영역

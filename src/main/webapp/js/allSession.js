@@ -52,6 +52,6 @@ var AllSession ={
 			sessionStorage.setItem("maxSession", maxSession);
 	},
 	maxGet:function(){
-		return sessionStorage.setItem("maxSession");
+		return Number(sessionStorage.getItem("maxSession"));
 	}
 };
