@@ -12,12 +12,14 @@
             String paramUid = request.getParameter("uid");
             if (paramUid != null && !paramUid.trim().equals("")) {
                 session.setAttribute("uid", paramUid);
-            }
+				UserDAO userDAO = new UserDAO();
+				String[] userInfo = userDAO.getUserInfoById(paramUid);
             
-            if (session != null && session.getAttribute("uid") != null) {
-                String userId = (String) session.getAttribute("uid");
-                UserDAO userDAO = new UserDAO();
-                String[] userInfo = userDAO.getUserInfoById(userId); // 사용자 정보 가져오기
+            
+            //if (session != null && session.getAttribute("uid") != null) {
+             //   String userId = (String) session.getAttribute("uid");
+              //  UserDAO userDAO = new UserDAO();
+               // String[] userInfo = userDAO.getUserInfoById(userId); // 사용자 정보 가져오기
 
                 if (userInfo != null && userInfo.length == 4) {
         %>
