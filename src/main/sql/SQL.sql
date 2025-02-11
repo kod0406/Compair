@@ -41,15 +41,6 @@ CREATE TABLE todoList (
     CONSTRAINT fk_todo_server_code FOREIGN KEY (server_code) REFERENCES serverTable (server_code)
 );
 
--- todoContent 생성
-CREATE TABLE todoContent (
-    todo_code NUMBER,
-    server_code NUMBER,
-    todo_content LONG,
-    attachment VARCHAR2(4000),
-    PRIMARY KEY (todo_code, server_code),
-    CONSTRAINT fk_todo_content_title_code FOREIGN KEY (todo_code, server_code) REFERENCES todoList (todo_code, server_code)
-);
 
 -- mail 생성
 CREATE TABLE mail (

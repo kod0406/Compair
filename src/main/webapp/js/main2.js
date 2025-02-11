@@ -44,11 +44,13 @@ var Board = {
 	
     getNext: function() {
         var params = { maxNo: AllSession.minGet(), recentServerCode: AllSession.serverGet()};
+		console.log(AllSession.minGet());
         AJAX.call("../JSP/feedGetGroup.jsp", params, function(data) {
             var feeds = JSON.parse(data.trim());
             if (feeds.length > 0) {
 				AllSession.minSession(feeds[feeds.length - 1].BOARD_CODE);
             }
+			console.log(AllSession.minGet());
             Board.show(feeds);
         });
     }
