@@ -188,7 +188,7 @@
 		
 		function logout() {
 			AJAX.call("../JSP/logoutAction.jsp", null, function(response) {
-
+			sessionStorage.clear();
 		        if (response) {
 		            $('#list').html(response);
 		        } else {
