@@ -7,5 +7,6 @@
 	session.setAttribute("serverSession", sc);
 	System.out.println(sc);
 	System.out.println("feedGetGroup의 서버 세션 드록 :" + session.getAttribute("serverSession"));
+	//System.out.println((new FeedDAO()).getGroup(maxNo, sc, good));
     out.print((new FeedDAO()).getGroup(maxNo, sc, good));
 %>

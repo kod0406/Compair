@@ -48,8 +48,6 @@
 </div>
 <script src="../js/allSession.js"></script>
 <script>
-    AllSession.init(); // Initialize the AllSession object
-	
     function confirmLeaveServer() {
         var userId = '<%= session.getAttribute("uid") %>'; // Retrieve userId from session
         var serverCode = AllSession.serverGet();

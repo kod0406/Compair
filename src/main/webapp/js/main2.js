@@ -1,12 +1,11 @@
 var Board = {
 	init: function() {
 	    $(document).ready(function() {
-		boardShow();
+		Board.boardShow();
         });
     },
 	
 	boardShow: function() {
-		$("#list").show();
 	    var params = { "recentServerCode": AllSession.serverGet(), good:AllSession.maxGet()};
 	    AJAX.call("../JSP/feedGetGroup.jsp", params, function(data) {
 	        var feeds = JSON.parse(data.trim());
@@ -44,7 +43,7 @@ var Board = {
 	    str += "</div>";
 
 	    // 결과를 원하는 위치에 삽입
-	    $("#list").html(str);
+	    $("#list").append(str);
 	},
 
 	getFeedCode: function(feed) {

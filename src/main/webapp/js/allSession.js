@@ -2,10 +2,6 @@
 var AllSession ={
 	init: function() {
 		Page.init(AllSession.uidSession);
-		setTimeout(function() {
-			AllSession.pageSession("board");
-			Board.init();
-		}, 1000);
 		AllSession.serverSession(null);
 	},
 	//사용할 모든 세션 스토리지 여기서 저장 후 사용

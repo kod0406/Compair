@@ -97,13 +97,20 @@
 		AllSession.lastSession(AllSession.serverGet());
 		AllSession.lastmax(AllSession.maxGet());
 		AllSession.init();
-		AllSession.MaxSession(3);
+		AllSession.maxSession(3);
     	AllSession.pageSession('board');
+
 		$(document).ready(function() {
+			AllSession.maxSession(AllSession.lastmaxGet());
+			AllSession.serverSession(AllSession.lastGet());
 			CalendarShow.calendar();
-	    	setTimeout(function () {
-	    		Server.start();
-			}, 1000);//비동기 처리 -> 속도문제
+			setTimeout(function(){
+				Server.start();
+			}, 1000);
+	    		
+	    	if(AllSession.lastGet() != 'null'){
+	    		Board.boardShow();
+	    	}
 	    });
 	
 		//board에 2번씩 출력 오류 
