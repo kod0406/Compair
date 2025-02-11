@@ -1,5 +1,6 @@
 var Server = {
 	start: function() {
+		//alert(AllSession.uidSession);
 		Server.checkServer();
 		 	
 	},

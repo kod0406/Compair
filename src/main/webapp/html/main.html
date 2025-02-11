@@ -96,7 +96,9 @@
     	AllSession.pageSession('board');
 		$(document).ready(function() {
 			CalendarShow.calendar();
-	    	Server.start();
+	    	setTimeout(function () {
+	    		Server.start();
+			}, 1000);//비동기 처리 -> 속도문제
 	    });
 	
 		//board에 2번씩 출력 오류 

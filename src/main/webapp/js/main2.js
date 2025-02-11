@@ -52,7 +52,7 @@ var Board = {
 	    var str = "<tr class='board-body' onclick='Board.handleRowClick(\"" + clickCode + "\")'>";
 	    
 	    str += "<td class='board-num'>" + feed.BOARD_CODE + "</td>";
-	    str += "<td class='board-title'><a onclick='loadPage(\"b_view.html\")'>" + feed.TITLE + "</a></td>";
+	    str += "<td class='board-title'>" + feed.TITLE + "</a></td>";
 	    str += "<td>" + feed.AUTHOR + "</td>";
 	    str += "<td>" + feed.POSTDATE + "</td>";
 	    
