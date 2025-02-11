@@ -7,7 +7,13 @@
     <div class="container mt-1">
         <h1>내 정보</h1>
         <%
-            session = request.getSession(false); // 기존 세션 확인
+            session = request.getSession(); // 기존 세션 확인
+            
+            String paramUid = request.getParameter("uid");
+            if (paramUid != null && !paramUid.trim().equals("")) {
+                session.setAttribute("uid", paramUid);
+            }
+            
             if (session != null && session.getAttribute("uid") != null) {
                 String userId = (String) session.getAttribute("uid");
                 UserDAO userDAO = new UserDAO();
