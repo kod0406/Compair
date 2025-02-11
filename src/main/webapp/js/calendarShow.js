@@ -71,7 +71,7 @@ var CalendarShow = {
 
 	// 날짜 클릭 시 호출되는 함수
 	handleDateClick: function(date) {
-		if(AllSession.serverGet() != 'null') alert('서버를 선택해주세요');
+		if(AllSession.serverGet() == 'null') alert('서버를 선택해주세요');
 		else{
 			$("#todo-list-section").empty();
 			var date = AllSession.dateSession(date);
