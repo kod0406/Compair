@@ -180,6 +180,13 @@ public class UserDAO {
 	    return "admin".equals(uid); // admin ID만 관리자로 간주
 	}
 	
+	private void executeUpdate(Connection conn, String sql, String userId) throws SQLException {
+	    try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        pstmt.setString(1, userId);
+	        pstmt.executeUpdate();
+	    }
+	}
+	
 	public String[] getUserInfoById(String uid) throws NamingException, SQLException, ClassNotFoundException {
 	    Connection conn = null;
 	    PreparedStatement pstmt = null;
@@ -208,10 +215,32 @@ public class UserDAO {
 	public boolean updateUserInfo(String newUserId, String newUserName, String newUserMail, String newUserPass) throws NamingException, SQLException, ClassNotFoundException {
 	    Connection conn = null;
 	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
 	    boolean isUpdated = false;
 
 	    try {
 	        conn = conpool.get();
+	        conn.setAutoCommit(false); // 트랜잭션 시작
+
+	        // 기존 user_name 가져오기
+	        String oldUserName = null;
+	        String getUserNameSQL = "SELECT user_name FROM userTable WHERE user_id = ?";
+	        pstmt = conn.prepareStatement(getUserNameSQL);
+	        pstmt.setString(1, newUserId);
+	        rs = pstmt.executeQuery();
+	        
+	        if (rs.next()) {
+	            oldUserName = rs.getString("user_name"); // 기존 user_name 저장
+	        }
+	        rs.close();
+	        pstmt.close();
+
+	        if (oldUserName == null) {
+	            System.out.println("해당 user_id의 기존 user_name을 찾을 수 없음: " + newUserId);
+	            return false; // 기존 user_name을 찾을 수 없으면 중단
+	        }
+
+	        // userTable 업데이트
 	        String sql = "UPDATE userTable SET user_name = ?, user_mail = ?, password = ? WHERE user_id = ?";
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setString(1, newUserName);
@@ -220,16 +249,39 @@ public class UserDAO {
 	        pstmt.setString(4, newUserId);
 
 	        int rowsAffected = pstmt.executeUpdate();
+	        pstmt.close();
+
 	        if (rowsAffected > 0) {
 	            isUpdated = true;
 	        }
+
+	        // boardTable 업데이트 (기존 user_name을 기준으로 업데이트)
+	        if (isUpdated) {
+	            String sql2 = "UPDATE boardTable SET author = ? WHERE author = ?";
+
+	            pstmt = conn.prepareStatement(sql2);
+	            pstmt.setString(1, newUserName);  // 새로운 user_name
+	            pstmt.setString(2, oldUserName);  // 기존 user_name
+	        	
+	            int boardRowsAffected = pstmt.executeUpdate();
+	            System.out.println("boardTable 업데이트된 행: " + boardRowsAffected);
+	        }
+
+	        conn.commit(); // 트랜잭션 커밋
+	    } catch(SQLException e) {
+	        if (conn != null) conn.rollback(); // 오류 발생 시 롤백
+	        throw e; // 예외 다시 던지기
 	    } finally {
 	        if (pstmt != null) pstmt.close();
-	        if (conn != null) conn.close();
+	        if (conn != null) {
+	            conn.setAutoCommit(true); // 원래 상태로 복구
+	            conn.close();
+	        }
 	    }
 
 	    return isUpdated;
 	}
+	
 	public boolean deleteUser(String userId) throws SQLException {
 	    Connection conn = null;
 	    PreparedStatement pstmt = null;
@@ -237,7 +289,16 @@ public class UserDAO {
 
 	    try {
 	        conn = conpool.get();
+	        conn.setAutoCommit(false); // 트랜잭션 시작	
+	        
+	        executeUpdate(conn, "DELETE FROM SERVER_TABLE WHERE USER_ID = ?", userId);
+	        
 	        String sql = "DELETE FROM userTable WHERE user_id = ?";
+	        executeUpdate(conn, "DELETE FROM mail_deletion WHERE USER_ID = ?", userId);
+	        executeUpdate(conn, "DELETE FROM mail WHERE WRITER = ?", userId);
+	        executeUpdate(conn, "DELETE FROM boardTable WHERE AUTHOR = ?", userId);
+	        executeUpdate(conn, "DELETE FROM todoList WHERE TODO_WRITER = ?", userId);
+	        executeUpdate(conn, "DELETE FROM serverTable WHERE USER_ID = ?", userId);
 	        pstmt = conn.prepareStatement(sql);
 	        pstmt.setString(1, userId);
 
@@ -245,9 +306,17 @@ public class UserDAO {
 	        if (rowsAffected > 0) {
 	            isDeleted = true;
 	        }
+	        
+	        conn.commit();
+	    } catch(SQLException e) {
+	    	if (conn != null) conn.rollback(); // 오류 발생 시 롤백
+	    	throw e;
 	    } finally {
 	        if (pstmt != null) pstmt.close();
-	        if (conn != null) conn.close();
+	        if (conn != null) {
+	        	conn.setAutoCommit(true); // 원래 상태로 복구
+	        	conn.close();
+	        }
 	    }
 	    return isDeleted;
 	}

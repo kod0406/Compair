@@ -112,6 +112,7 @@ public class TodoDAO {
             if (!writer.equals(currentUserId)) {
                conn.rollback();
                return false; 
+
             }
          } else {
             conn.rollback();
@@ -144,14 +145,14 @@ public class TodoDAO {
       }
    }
 
-   public String todoInsert(int serverCode, String todoTitle, String todoWriter, String tags, String postDate)
+   public String todoInsert(int serverCode, String todoTitle, String todoWriter, String postDate)
          throws SQLException {
       Connection conn = null;
       PreparedStatement stmtList = null;
       try {
          conn = conpool.get();
          conn.setAutoCommit(false);
-
+         String tags = "testtags";
          
          if (tags == null || tags.isEmpty()) {
             tags = todoWriter;
