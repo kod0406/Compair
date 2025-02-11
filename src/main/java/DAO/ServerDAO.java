@@ -80,4 +80,13 @@ public class ServerDAO {
 	        if (conn != null) conn.close();
 	    }
 	}
+	public boolean leaveServer(String uid, int serverCode) throws SQLException {
+	    String sql = "DELETE FROM SERVER_TABLE WHERE USER_ID = ? AND SERVER_CODE = ?";
+	    try (Connection conn = conpool.get(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        pstmt.setString(1, uid);
+	        pstmt.setInt(2, serverCode);
+	        int rowsAffected = pstmt.executeUpdate();
+	        return rowsAffected > 0;
+	    }
+	}
 }

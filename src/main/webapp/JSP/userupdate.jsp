@@ -12,7 +12,7 @@
 </head>
 <body>
     <div class="container mt-5">
-        <h2>정보 수정 완료</h2>
+        <h2></h2>
         <%
             session = request.getSession(false);
             if (session != null && session.getAttribute("uid") != null) {
