@@ -42,9 +42,22 @@
                 <input type="password" class="form-control" id="userPassword" name="userPassword" value="<%= userInfo[3] %>">
             </div>
             <div class="d-flex">
-        		<button type="submit" class="btn btn-primary me-2">수정하기</button>
-        		<a href="../JSP/withdraw.jsp" class="btn btn-danger ms-auto">회원 탈퇴</a>
-    		</div>
+    <button type="submit" class="btn btn-primary me-2">수정하기</button>
+    <a href="../JSP/withdraw.jsp" class="btn btn-danger ms-auto">회원 탈퇴</a>
+    <button type="button" class="btn btn-warning ms-2" onclick="confirmLeaveServer()">서버 나가기</button>
+</div>
+<script src="../js/allSession.js"></script>
+<script>
+    AllSession.init(); // Initialize the AllSession object
+
+    function confirmLeaveServer() {
+        var userId = '<%= session.getAttribute("uid") %>'; // Retrieve userId from session
+        var serverCode = AllSession.serverGet(); // Use AllSession instead of allSession
+        if (confirm("현재 서버코드 " + serverCode + "의 서버를 나가겠습니까?")) {
+            window.location.href = "../JSP/leaveServer.jsp?uid=" + userId + "&serverCode=" + serverCode;
+        }
+    }
+</script>
         </form>
         <%
                 } else {

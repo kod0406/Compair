@@ -144,5 +144,40 @@ public boolean insertServer(String userId, int serverCode) throws SQLException {
 }
 //서버 생성
 
-
+	public boolean leaveServer(String uid, int serverCode) throws SQLException {
+	    String sql = "DELETE FROM SERVER_TABLE WHERE USER_ID = ? AND SERVER_CODE = ?";
+	    try (Connection conn = conpool.get(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        pstmt.setString(1, uid);
+	        pstmt.setInt(2, serverCode);
+	        int rowsAffected = pstmt.executeUpdate();
+	        return rowsAffected > 0;
+	    }
+	}
+	
+	public String getUsersInServer(int serverCode) throws NamingException, SQLException {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+        	String sql = "SELECT USER_ID FROM SERVERTABLE where server_code = ?";
+        	conn = conpool.get();
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(0, serverCode);
+            rs = stmt.executeQuery();
+                
+            JSONArray jsonArray = new JSONArray();
+            while (rs.next()) {
+                JSONObject obj = new JSONObject();
+                obj.put("USER_ID", rs.getString("USER_ID"));
+                jsonArray.add(obj);
+            }
+            return jsonArray.toString();
+                
+        } finally {
+            if (rs != null) rs.close(); 
+            if (stmt != null) stmt.close(); 
+            if (conn != null) conn.close();
+        }
+    }
+	
 }
