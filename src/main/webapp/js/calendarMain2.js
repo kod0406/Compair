@@ -45,7 +45,10 @@ var Calendar = {
 	            alert("할 일을 입력해주세요.");
 	            return;
 	        }
-			
+			else if(allSession.serverGet() == 'null'){
+				alert("서버를 선택해주세요");
+				return;
+			}
 	        var todoParams = {"ServerCode":AllSession.serverGet(), "todoInput": todoValue, "thisPageDate": AllSession.dateGet()};
 	        
 			AJAX.call("../JSP/todoInsert.jsp", todoParams, function(data) {

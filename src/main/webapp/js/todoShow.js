@@ -1,6 +1,12 @@
 var Todo = {
 	init: function() {
-		Todo.show();
+		if(AllSession.serverGet() == 'null'){
+			alert('서버를 선택 해주세요.');
+			return;
+		}
+		else{
+			Todo.show();
+		}
 	},
 	
 	show: function(){
