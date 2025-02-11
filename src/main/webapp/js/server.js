@@ -68,5 +68,12 @@ var Server = {
 			else if(nowScreen == 'email'){
 				loadMailList();
 			}
+			else if(noewScreen == 'user'){
+				$("#todo-title").hide();
+				$("#buttonList").hide(); 	
+				$("#list").hide();
+				$("#calendarList").hide();
+				$("#todo-show-section").hide();
+			}
 	 }
 }

@@ -32,6 +32,7 @@ var AllSession ={
 	serverSession:function(serverSession){
 		sessionStorage.setItem("serverSession", serverSession);
 	},
+	
 	serverGet:function(){
 		return sessionStorage.getItem("serverSession");
 	},
