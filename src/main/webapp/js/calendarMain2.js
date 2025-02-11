@@ -45,7 +45,7 @@ var Calendar = {
 	            alert("할 일을 입력해주세요.");
 	            return;
 	        }
-			else if(allSession.serverGet() == 'null'){
+			else if(AllSession.serverGet() == 'null'){
 				alert("서버를 선택해주세요");
 				return;
 			}

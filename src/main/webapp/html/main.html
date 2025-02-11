@@ -88,6 +88,7 @@
 		//todo ui 바꾼 후에 수정, 완료, 삭제 버튼 추가, 태그 기능 사용할 수 있도록 입력 칸 하나 더 필요
 		//나누어진 부분 = serverList, calendarList, list, buttonList
 	    AllSession.init();
+	    AllSession.maxSession(3);
     	AllSession.pageSession('board');
 		$(document).ready(function() {
 			CalendarShow.calendar();
@@ -143,7 +144,7 @@
 			$("#calendarList").hide();
 			$("#list").hide();
 			$("#buttonList").hide();
-			$("todo-list-section").hide();
+			$("#todo-list-section").hide();
 			AllSession.pageSession('email');
 			loadMailList(AllSession.uidGet());
 		}
