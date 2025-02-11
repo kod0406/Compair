@@ -5,7 +5,7 @@ var Todo = {
 	
 	show: function(){
 		var params = { "recentServerCode": AllSession.serverGet()};
-		AJAX.call("../JSP/todoShow.jsp", params, function(data) {
+		AJAX.call("../Todo/ShowTodosController.jsp", params, function(data) {
 		    var feeds = JSON.parse(data.trim());
 
 		    if (feeds.length != 0) {

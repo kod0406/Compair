@@ -214,6 +214,7 @@ public class TodoDAO {
 
             todoList.add(todo);
          }
+         System.out.println(todoList);
          return todoList;
       } finally {
          if (rs != null)
@@ -225,6 +226,39 @@ public class TodoDAO {
       }
    }
 
+   public String calendarGetGroup(String POST_DATE, String serverSession) throws SQLException { //태그된 Todo 다 출력 -> 짜피 getTodosByPostDateAndUser쓸거라 필요없을듯
+	   Connection conn = null;
+       PreparedStatement stmt = null;
+       ResultSet rs = null;
+       try {
+       	//나중에 TODO로 바꿔야함
+       	String sql = "SELECT * FROM TODOLIST WHERE TO_CHAR(POST_DATE, 'YYYY-MM-DD') = '" + POST_DATE + "' AND SERVER_CODE = " + serverSession + " ORDER BY TODO_CODE DESC";
+       	System.out.println(sql);
+       	conn = conpool.get();
+           stmt = conn.prepareStatement(sql);
+           rs = stmt.executeQuery();
+           
+           JSONArray jsonArray = new JSONArray();
+           while (rs.next()) {
+               JSONObject obj = new JSONObject();
+               obj.put("TODO_CODE", rs.getString("TODO_CODE"));
+               obj.put("SERVER_CODE", rs.getString("SERVER_CODE"));
+               obj.put("TODO_TITLE", rs.getString("TODO_TITLE"));
+               obj.put("TODO_WRITER", rs.getString("TODO_WRITER"));
+               obj.put("TODO_CHECK", rs.getString("TODO_CHECK"));
+               obj.put("TODO_CONTENT", rs.getString("TODO_CONTENT"));
+               jsonArray.add(obj);
+           }
+           System.out.println(jsonArray.toString());
+           return jsonArray.toString();
+       } finally {
+           if (rs != null) rs.close(); 
+           if (stmt != null) stmt.close(); 
+           if (conn != null) conn.close();
+       }
+   }
+   
+   
    public boolean todoCheck(int todoCode, int serverCode, String userId) throws SQLException {
       Connection conn = null;
       PreparedStatement stmt = null;

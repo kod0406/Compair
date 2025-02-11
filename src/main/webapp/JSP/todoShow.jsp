@@ -3,5 +3,8 @@
 <%
 	String serverSession = (String) request.getParameter("recentServerCode");
 	System.out.println(serverSession);
-    out.print((new TodoDAO()).todoShowGetgroup(serverSession));
+	String uid = session.getAttrubete("uid");
+	int numServerSession = Integer.parseInt(serverSession);
+    out.print((new TodoDAO()).todoGetgroup(numServerSession,uid));
+    
 %>

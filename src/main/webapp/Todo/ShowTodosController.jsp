@@ -7,11 +7,9 @@
 <%@ page contentType="application/json; charset=UTF-8" %>
 <%
 try {
-    int serverCode = Integer.parseInt(request.getParameter("server_code"));
+    int serverCode = Integer.parseInt(request.getParameter("recentServerCode"));
     String userId = (String) session.getAttribute("uid");
-    if (userId == null) {
-        userId = request.getParameter("uid");
-    }
+    
 
     TodoDAO dao = new TodoDAO();
     List<Map<String, Object>> todos = dao.todoGetgroup(serverCode, userId);

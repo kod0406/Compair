@@ -5,5 +5,5 @@
 	//세션 변수 추가 후 매개변수로 다시 전달
 	String serverSession = (String) request.getParameter("ServerCode");
 	System.out.println(serverSession);
-    out.print((new TodoDAO()).todoGetgroup(POST_DATE, serverSession));
+    out.print((new TodoDAO()).calendarGetGroup(POST_DATE, serverSession));
 %>
