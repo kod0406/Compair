@@ -43,7 +43,7 @@ var Board = {
 	    str += "</div>";
 
 	    // 결과를 원하는 위치에 삽입
-	    $("#list").append(str);
+	    $("#list").html(str);
 	},
 
 	getFeedCode: function(feed) {
