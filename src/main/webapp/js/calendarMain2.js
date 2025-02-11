@@ -76,7 +76,7 @@ var Calendar = {
 	    var writer = feed.TODO_WRITER; // 작성자
 	    var isDone = feed.IS_DONE ? "done" : ""; //추가 필요
 
-	    var str = `<div class="todo-item ${isDone}" id="todo-${clickCode}">`;
+	    var str = `<div class="todo-item ${isDone} " id="todo-${clickCode}">`;
 	    str += `<span class="todo-writer" id="todo-writer-${clickCode}">[${writer}]</span> `;
 	    str += `<span class="todo-text" id="todo-text-${clickCode}" onclick="toggleExpand(${clickCode})">${content}</span>`;
 

@@ -47,20 +47,19 @@ var Board = {
 	    $("#list").html(str);
 	},
 
-    getFeedCode: function(feed) {
-        var clickCode = feed.BOARD_CODE;
-        var str = "<div style='display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #ddd;' onclick='Board.handleRowClick(\"" + clickCode + "\")'>";
-        
-        str += "<div style='width: 100px; text-align: center;'>" + feed.BOARD_CODE + "</div>";
-        str += "<div style='flex: 2; text-align: center;'>" + feed.TITLE + "</div>";
-        str += "<div style='width: 150px; text-align: center;'>" + feed.AUTHOR + "</div>";
-        str += "<div style='width: 150px; text-align: center;'>" + feed.POSTDATE + "</div>";
-        str += "</div>";
-		
-		
+	getFeedCode: function(feed) {
+	    var clickCode = feed.BOARD_CODE;
+	    var str = "<tr class='board-body' onclick='Board.handleRowClick(\"" + clickCode + "\")'>";
+	    
+	    str += "<td class='board-num'>" + feed.BOARD_CODE + "</td>";
+	    str += "<td class='board-title'><a onclick='loadPage(\"b_view.html\")'>" + feed.TITLE + "</a></td>";
+	    str += "<td>" + feed.AUTHOR + "</td>";
+	    str += "<td>" + feed.POSTDATE + "</td>";
+	    
+	    str += "</tr>";
 
-        return str;
-    },
+	    return str;
+	},
 
     handleRowClick: function(clickCode) {
         window.location.href = "b_view.html?boardCode=" + clickCode;

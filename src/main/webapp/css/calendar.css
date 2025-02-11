@@ -136,6 +136,13 @@
 #add-todo-button:hover {
   background-color: #0056b3;
 }
+.todo-list-section2{
+  margin-top: 30px;
+  padding: 20px;
+  border-top: 2px solid #ddd;
+  max-width: 900px;
+  width: 90%;
+}
 
 #todo-list {
   display: flex;

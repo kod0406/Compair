@@ -10,14 +10,12 @@
 <link rel="stylesheet" href="../css/main.css" />
 <link rel="stylesheet" href="../css/calendar.css" />
 <link rel="stylesheet" href="../css/main2.css" />
-
+<link rel="stylesheet" href="../css/board.css" />
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
 <link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css"
 	rel="stylesheet" />
-<script src="https://kit.fontawesome.com/a076d05399.js"
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"
-	crossorigin="anonymous"></script>
+	
 </head>
 <body>
 	<!-- NavBar -->
@@ -39,7 +37,8 @@
 						<i class="fa-solid fa-user"></i>
 					</button>
 					<div id="user-menu" class="dropdown-menu">
-						<a onclick="user()">내 정보</a> <a onclick="logout()">로그아웃</a>
+						<a onclick = "user()">내 정보</a>
+              			<a onclick = "logout()">로그아웃</a>
 					</div>
 				</div>
 			</div>
@@ -53,35 +52,33 @@
 			<ul class="sidebar-menu">
 				<li><a href="javascript:void(0);" onclick="board()">게시판</a></li>
 				<li><a href="javascript:void(0);" onclick="calendar()">캘린더</a></li>
-				<li><a href="javascript:void(0);" onclick="todo()">투두 리스트</a></li>
+				<li><a href="javascript:void(0);"  onclick="todo()">투두 리스트</a></li>
 				<li><a href="javascript:void(0);" onclick="email()">이메일</a></li>
 			</ul>
 		</div>
 
-		<!--main content 영역-->
-		<div id="main-region">
-			<div id="serverList" class="section"></div>
-			<div id="list" class="section"></div>
-			<div id="calendarList" class="section"></div>
-			<div id="todo-title" class="section"></div>
-			<div id="todo-list-section" class="section"></div>
-			<div id="todo-show-section" class="section"></div>
-			<div id="userInfo" class="section"></div>
-			<div id="buttonList" class="section">
-				<button onclick="Write()">글 작성</button>
-				<button type='button' onclick='getNext()'>클릭해 보세요!</button>
-			</div>
-			<div id="mail-list-container" class="section"></div>
-			<main id="main-content"></main>
-			<footer class="footer">
-				<p>© 2025 Com-pair. All rights reserved.</p>
-			</footer>
+      <!--main content 영역-->
+      <div id="main-region">
+      	<div id="serverList" class="section"></div>
+      	<div id="list" class="section"></div>
+      	<div id="calendarList" class="section"></div>
+        <div id="todo-title" class="section"></div>
+        <div id="todo-list-section" class="section"></div>
+        <div id="todo-show-section" class="section"></div>
+        <div id="userInfo" class="section"></div>
+		<div id="buttonList" class="section">
+			<button onclick="Write()">글 작성</button>
+			<button type='button' onclick='getNext()'>클릭해 보세요!</button>
 		</div>
-	</div>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="https://code.jquery.com/jquery-3.6.4.min.js"
-		crossorigin="anonymous"></script>
+        <div id="mail-list-container" class="section"></div>
+        <main id="main-content"></main>
+        <footer class="footer">
+          <p>© 2025 Com-pair. All rights reserved.</p>
+        </footer>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js" crossorigin="anonymous"></script>
 	<script src="../js/main.js"></script>
 	<script src="../js/main2.js"></script>
 	<script src="../js/allSession.js"></script>
@@ -91,16 +88,17 @@
 	<script src="../js/mail.js"></script>
 	<script src="../js/todoShow.js"></script>
 	<script src="../js/calendarShow.js"></script>
+	<script src="https://unpkg.com/@yaireo/tagify"></script>
 	<script>
 		//todo ui 바꾼 후에 수정, 완료, 삭제 버튼 추가, 태그 기능 사용할 수 있도록 입력 칸 하나 더 필요
 		//나누어진 부분 = serverList, calendarList, list, buttonList
-		AllSession.init();
-		AllSession.pageSession('board');
+	    AllSession.init();
+    	AllSession.pageSession('board');
 		$(document).ready(function() {
 			CalendarShow.calendar();
-			Server.start();
-		});
-
+	    	Server.start();
+	    });
+	
 		//board에 2번씩 출력 오류 
 		function board() {
 			$("#todo-show-section").hide();
@@ -114,7 +112,7 @@
 			$("#list").empty();
 			Board.boardShow();
 		}
-
+		
 		function calendar() {
 			$("#todo-show-section").hide();
 			$("#mail-list-container").empty();
@@ -127,8 +125,8 @@
 			AllSession.pageSession('calendar');
 			Calendar.init();
 		}
-
-		function todo() {
+		
+		function todo(){
 			$("#todo-show-section").show();
 			$("#todo-show-section").empty();
 			$("#mail-list-container").empty();
@@ -141,8 +139,8 @@
 			AllSession.pageSession('todo');
 			Todo.init();
 		}
-
-		function email() {
+	
+		function email(){
 			$("#todo-show-section").hide();
 			$("#mail-list-container").empty();
 			$('#userInfo').empty();
@@ -154,52 +152,49 @@
 			AllSession.pageSession('email');
 			loadMailList(AllSession.uidGet());
 		}
-
+		
 		function user() {
 			$("#todo-show-section").hide();
 			$("#mail-list-container").empty();
 			$("#todo-title").hide();
-			$("#buttonList").hide();
+			$("#buttonList").hide(); 	
 			$("#list").hide();
 			$("#calendarList").hide();
-			var params = {
-				"uid" : AllSession.uidGet()
-			};
-			AJAX.call("../JSP/user.jsp", params, function(response) {
-				//정보가 바뀌면 세션 정보 수정
-				if (response) {
-					$('#userInfo').html(response);
-				} else {
-					$('#userInfo').html('<p>사용자 정보를 불러올 수 없습니다.</p>');
-				}
-			});
+			var params = {"uid": AllSession.uidGet()};
+		    AJAX.call("../JSP/user.jsp", params, function(response) {
+		        //정보가 바뀌면 세션 정보 수정
+		    	if (response) {
+		            $('#userInfo').html(response);
+		        } else {
+		            $('#userInfo').html('<p>사용자 정보를 불러올 수 없습니다.</p>');
+		        }
+		    });
 		}
-
-		function Write() {
-			if (AllSession.serverGet() != 'null') {
-				window.location.href = "b_write.html";
-			} else if (AllSession.serverGet() == 'null') {
+		
+		function Write(){
+			if(AllSession.serverGet() != 'null'){
+				window.location.href="b_write.html";
+			}
+			else if(AllSession.serverGet() == 'null'){
 				alert("서버를 선택 해주세요.");
 			}
 		}
-
-		function getNext() {
-			if (AllSession.serverGet() != 'null')
-				Board.getNext();
-			else
-				alert("서버를 선택해주세요.");
+		
+		function getNext(){
+			if(AllSession.serverGet() != 'null') Board.getNext();
+			else alert("서버를 선택해주세요.");
 		}
-
+		
 		function logout() {
 			AJAX.call("../JSP/logoutAction.jsp", null, function(response) {
 
-				if (response) {
-					$('#list').html(response);
-				} else {
-					$('#list').html('<p>오류.</p>');
-				}
-			});
+		        if (response) {
+		            $('#list').html(response);
+		        } else {
+		            $('#list').html('<p>오류.</p>');
+		        }
+		    });
 		}
-	</script>
-</body>
+    </script>
+  </body>
 </html>

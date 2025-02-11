@@ -1,21 +1,24 @@
+let tagify; // Tagify 전역 변수 선언 -> tag로 들어온 내용들 저장.
+
 var CalendarShow = {
 	currentDate: new Date(),
 	
 	calendar: function() {
 	    CalendarShow.showCalendar();
 	    CalendarShow.generateCalendar(CalendarShow.currentDate);
-		CalendarShow.showTodo();
-		
-		
+	    CalendarShow.showTodo();
+
+	    // 버튼 이벤트 리스너 수정
 	    document.getElementById("prevMonth").addEventListener("click", function () {
-	        Calendar.changeMonth(-1);
+	        CalendarShow.changeMonth(-1);
 	    });
 	    document.getElementById("nextMonth").addEventListener("click", function () {
-	        Calendar.changeMonth(1);
+	        CalendarShow.changeMonth(1);
 	    });
-		$("#todo-title").hide();
-		$("#calendarList").hide();
-		$("#todo-list-section").hide();
+
+	    $("#todo-title").hide();
+	    $("#calendarList").hide();
+	    $("#todo-list-section").hide();
 	},
 	
 	showCalendar: function() {
@@ -79,11 +82,12 @@ var CalendarShow = {
 		}
 	},
 		
-	// 월 변경 후 캘린더 재생성
+	// 월 변경 후 캘린더 재생성 (Calendar → CalendarShow 수정)
 	changeMonth: function(step) {
-	    Calendar.currentDate.setMonth(Calendar.currentDate.getMonth() + step);
-	    Calendar.generateCalendar(Calendar.currentDate);
+		  CalendarShow.currentDate.setMonth(CalendarShow.currentDate.getMonth() + step);
+		  CalendarShow.generateCalendar(CalendarShow.currentDate);
 	},
+	
 	
 	showTodo: function() {
 	    var str = "";
@@ -105,7 +109,7 @@ var CalendarShow = {
 	    $("#todo-title").html(str);
 	    
 	    // Tagify 초기화
-		let tagify; // Tagify 전역 변수 선언 -> tag로 들어온 내용들 저장.
+	
 
 		setTimeout(() => {
 		    const tagInput = document.getElementById("todo-tag-input");

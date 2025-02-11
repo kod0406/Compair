@@ -80,4 +80,69 @@ public class ServerDAO {
 	        if (conn != null) conn.close();
 	    }
 	}
+
+
+public boolean insertServer(String userId, int serverCode) throws SQLException {
+    Connection conn = null;
+    PreparedStatement stmtCheck = null;
+    PreparedStatement stmtInsertServer = null;
+    PreparedStatement stmtInsertServerTable = null;
+    ResultSet rs = null;
+
+    try {
+        conn = conpool.get();
+        conn.setAutoCommit(false);
+
+        // Check if the user is already in the server
+        String sqlCheckUserInServer = "SELECT COUNT(*) FROM SERVER_TABLE WHERE USER_ID = ? AND SERVER_CODE = ?";
+        stmtCheck = conn.prepareStatement(sqlCheckUserInServer);
+        stmtCheck.setString(1, userId);
+        stmtCheck.setInt(2, serverCode);
+        rs = stmtCheck.executeQuery();
+
+        if (rs.next() && rs.getInt(1) > 0) {
+            // User is already in the server, no need to insert again
+            return false;
+        }
+
+        // Check if the server code exists in SERVERTABLE
+        String sqlCheck = "SELECT COUNT(*) FROM SERVERTABLE WHERE SERVER_CODE = ?";
+        stmtCheck = conn.prepareStatement(sqlCheck);
+        stmtCheck.setInt(1, serverCode);
+        rs = stmtCheck.executeQuery();
+
+        if (rs.next() && rs.getInt(1) == 0) {
+            // Insert the server code into SERVERTABLE if it does not exist
+            String sqlInsertServer = "INSERT INTO SERVERTABLE (SERVER_CODE, USER_ID, SEVER_NAME) VALUES (?, ?, ?)";
+            stmtInsertServer = conn.prepareStatement(sqlInsertServer);
+            stmtInsertServer.setInt(1, serverCode);
+            stmtInsertServer.setString(2, userId);
+            stmtInsertServer.setString(3, "Default Server Name"); // Change as needed
+            stmtInsertServer.executeUpdate();
+        }
+
+        // Insert into SERVER_TABLE
+        String sqlInsertServerTable = "INSERT INTO SERVER_TABLE (USER_ID, SERVER_CODE) VALUES (?, ?)";
+        stmtInsertServerTable = conn.prepareStatement(sqlInsertServerTable);
+        stmtInsertServerTable.setString(1, userId);
+        stmtInsertServerTable.setInt(2, serverCode);
+        stmtInsertServerTable.executeUpdate();
+
+        conn.commit();
+        return true;
+
+    } catch (SQLException e) {
+        if (conn != null) conn.rollback();
+        throw e;
+    } finally {
+        if (rs != null) rs.close();
+        if (stmtCheck != null) stmtCheck.close();
+        if (stmtInsertServer != null) stmtInsertServer.close();
+        if (stmtInsertServerTable != null) stmtInsertServerTable.close();
+        if (conn != null) conn.close();
+    }
+}
+//서버 생성
+
+
 }
