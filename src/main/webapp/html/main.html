@@ -85,14 +85,19 @@
 	<script src="../js/todoShow.js"></script>
 	<script src="../js/calendarShow.js"></script>
 	<script>
-		//todo ui 바꾼 후에 수정, 완료, 삭제 버튼 추가, 태그 기능 사용할 수 있도록 입력 칸 하나 더 필요
-		//나누어진 부분 = serverList, calendarList, list, buttonList
+		AllSession.lastSession(AllSession.serverGet());
+		AllSession.lastmax(AllSession.maxGet());
 	    AllSession.init();
 	    AllSession.maxSession(3);
     	AllSession.pageSession('board');
 		$(document).ready(function() {
+			AllSession.maxSession(AllSession.lastmaxGet());
+			AllSession.serverSession(AllSession.lastGet());
 			CalendarShow.calendar();
 	    	Server.start();
+	    	if(AllSession.lastGet() != 'null'){
+	    		Board.boardShow();
+	    	}
 	    });
 	
 		//board에 2번씩 출력 오류 
@@ -174,7 +179,7 @@
 			else if(AllSession.serverGet() == 'null'){
 				alert("서버를 선택 해주세요.");
 			}
-		}
+		} 
 		
 		function getNext(){
 			if(AllSession.serverGet() != 'null') Board.getNext();

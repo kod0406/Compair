@@ -78,10 +78,9 @@
 
 	<script>
 	$(document).ready(function(){
+		console.log(AllSession.serverGet());
 		Page.init();
 	});
-	console.log("b_write" + session.getAttribute("uid"));
-	console.log("b_write" + session.getAttribute("serverList"));
 	
 function upload() {
     var id = $("#id").val().trim();

@@ -5,7 +5,21 @@ var AllSession ={
 		AllSession.serverSession(null);
 	},
 	//사용할 모든 세션 스토리지 여기서 저장 후 사용
+	lastSession:function(lastSession){
+		sessionStorage.setItem("lastSession", lastSession);
+	},
 	
+	lastGet:function(){
+		return sessionStorage.getItem("lastSession");
+	},
+	
+	lastmax:function(lastSession){
+		sessionStorage.setItem("lastmax", lastSession);
+	},
+
+	lastmaxGet:function(){
+		return sessionStorage.getItem("lastmax");
+	},
 	//유저 세션
 	uidSession: function(uid){
 		sessionStorage.setItem("uid", uid);	
