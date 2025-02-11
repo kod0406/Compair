@@ -52,10 +52,16 @@
 
     function confirmLeaveServer() {
         var userId = '<%= session.getAttribute("uid") %>'; // Retrieve userId from session
-        var serverCode = AllSession.serverGet(); // Use AllSession instead of allSession
-        if (confirm("현재 서버코드 " + serverCode + "의 서버를 나가겠습니까?")) {
-            window.location.href = "../JSP/leaveServer.jsp?uid=" + userId + "&serverCode=" + serverCode;
-        }
+        var serverCode = AllSession.serverGet();
+      	if(serverCode == "null"){
+      		alert("서버 선택");
+      		return;
+      		}
+      	else{
+	        if (confirm("현재 서버코드 " + serverCode + "의 서버를 나가겠습니까?")) {
+	            window.location.href = "../JSP/leaveServer.jsp?uid=" + userId + "&serverCode=" + serverCode;
+	        }
+      	}
     }
 </script>
         </form>
