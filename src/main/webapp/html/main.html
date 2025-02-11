@@ -90,9 +90,14 @@
 	<script src="../js/calendarShow.js"></script>
 	<script src="https://unpkg.com/@yaireo/tagify"></script>
 	<script>
+
 		//todo ui 바꾼 후에 수정, 완료, 삭제 버튼 추가, 태그 기능 사용할 수 있도록 입력 칸 하나 더 필요
 		//나누어진 부분 = serverList, calendarList, list, buttonList
-	    AllSession.init();
+
+		AllSession.lastSession(AllSession.serverGet());
+		AllSession.lastmax(AllSession.maxGet());
+		AllSession.init();
+		AllSession.MaxSession(3);
     	AllSession.pageSession('board');
 		$(document).ready(function() {
 			CalendarShow.calendar();
@@ -156,6 +161,7 @@
 		}
 		
 		function user() {
+			AllSession.pageSession('user');
 			$("#todo-show-section").hide();
 			$("#mail-list-container").empty();
 			$("#todo-title").hide();

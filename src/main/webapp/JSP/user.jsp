@@ -49,12 +49,12 @@
 <script src="../js/allSession.js"></script>
 <script>
     AllSession.init(); // Initialize the AllSession object
-
+	
     function confirmLeaveServer() {
         var userId = '<%= session.getAttribute("uid") %>'; // Retrieve userId from session
         var serverCode = AllSession.serverGet();
       	if(serverCode == "null"){
-      		alert("서버 선택");
+      		alert("서버를 다시 선택해주세요");
       		return;
       		}
       	else{
