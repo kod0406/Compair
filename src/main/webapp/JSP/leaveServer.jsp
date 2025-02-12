@@ -24,11 +24,12 @@ try {
 
 if (success) {
 %>
+<script src="../js/allSession.js"></script>
 <script>
     alert("서버를 나갔습니다.");
 </script>
 <%
-    response.sendRedirect("../html/main.html");
+    response.sendRedirect("../html/login.html");
 } else {
     out.println("<script>alert('서버를 나가는 중 오류가 발생했습니다.'); history.back();</script>");
 }

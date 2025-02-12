@@ -60,6 +60,9 @@
       <!--main content 영역-->
       <div id="main-region">
       	<div id="serverList" class="section"></div>
+		<div id="buttonList" class="section">
+		<button onclick="Write()">글 작성</button>
+		</div>
       	<div id="list" class="section"></div>
       	<div id="calendarList" class="section"></div>
         <div id="todo-title" class="section"></div>
@@ -67,10 +70,7 @@
         <div id="todo-show-section" class="section"></div>
         <div id="View-Todo" class="section"></div>
         <div id="userInfo" class="section"></div>
-		<div id="buttonList" class="section">
-			<button onclick="Write()">글 작성</button>
-			<button type='button' onclick='getNext()'>클릭해 보세요!</button>
-		</div>
+
         <div id="mail-list-container" class="section"></div>
         <main id="main-content"></main>
         <footer class="footer">
@@ -101,7 +101,6 @@
 		AllSession.init();
 		AllSession.maxSession(3);
     	AllSession.pageSession('board');
-
 		$(document).ready(function() {
 			AllSession.maxSession(AllSession.lastmaxGet());
 			AllSession.serverSession(AllSession.lastGet());
@@ -126,7 +125,7 @@
 			$("#todo-list-section").hide();
 			$("#View-Todo").hide();
 			AllSession.pageSession('board');
-			$("#list").empty();
+			$("#list").show();
 			Board.boardShow();
 		}
 		
@@ -168,7 +167,7 @@
 			$("#list").hide();
 			$("#View-Todo").hide();
 			$("#buttonList").hide();
-			$("todo-list-section").hide();
+			$("#todo-list-section").hide();
 			AllSession.pageSession('email');
 			loadMailList(AllSession.uidGet());
 		}
@@ -179,7 +178,7 @@
 			$("#mail-list-container").empty();
 			$("#todo-title").hide();
 			$("#buttonList").hide(); 	
-			$("#list").hide();
+			$("#list").empty();
 			$("#calendarList").hide();
 			$("#View-Todo").hide();
 			$("#todo-list-section").hide();
@@ -209,10 +208,11 @@
 		}
 		
 		function logout() {
+			sessionStorage.clear();
 			AJAX.call("../JSP/logoutAction.jsp", null, function(response) {
-
 		        if (response) {
 		            $('#list').html(response);
+		            
 		        } else {
 		            $('#list').html('<p>오류.</p>');
 		        }

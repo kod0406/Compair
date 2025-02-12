@@ -6,7 +6,7 @@ var Board = {
     },
 	
 	boardShow: function() {
-	    var params = { "recentServerCode": AllSession.serverGet(), good:AllSession.maxGet()};
+	    var params = { "recentServerCode": AllSession.serverGet()};
 	    AJAX.call("../JSP/feedGetGroup.jsp", params, function(data) {
 	        var feeds = JSON.parse(data.trim());
 	        if (feeds.length > 0) {
@@ -72,10 +72,7 @@ var Board = {
             if (feeds.length > 0) {
 				AllSession.minSession(feeds[feeds.length - 1].BOARD_CODE);
             }
-			console.log(AllSession.minGet());
-			AllSession.maxSession(AllSession.maxGet() + 3);
-			console.log("허허허" + AllSession.maxGet());
-            Board.show(feeds);
+			Board.show(feeds);
         });
     }
 };

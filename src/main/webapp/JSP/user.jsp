@@ -43,7 +43,6 @@
             </div>
             <div class="d-flex">
     <button type="submit" class="btn btn-primary me-2">수정하기</button>
-    <a href="../JSP/withdraw.jsp" class="btn btn-danger ms-auto">회원 탈퇴</a>
     <button type="button" class="btn btn-warning ms-2" onclick="confirmLeaveServer()">서버 나가기</button>
 </div>
 <script src="../js/allSession.js"></script>

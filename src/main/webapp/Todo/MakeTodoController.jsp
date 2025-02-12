@@ -11,6 +11,7 @@ try {
     int serverCode = Integer.parseInt(request.getParameter("server_code"));
     String title = request.getParameter("todo_title");
     String tags = request.getParameter("tags");
+    if(tags == "") tags = writer;
     String postDate = request.getParameter("post_date");
     System.out.println("tags: " + tags);
     UserDAO userDao = new UserDAO();

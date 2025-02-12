@@ -153,13 +153,15 @@ public String todoInsert(int serverCode, String todoTitle, String todoWriter, St
     try {
         conn = conpool.get();
         conn.setAutoCommit(false);
-
+        /*
         if (tags == null || tags.isEmpty()) {
             tags = todoWriter;
         } else {
             tags = tags + "," + todoWriter;
         }
-
+        */
+        if(tags == todoWriter) tags = todoWriter;
+        else tags = tags + "," + todoWriter;
         // 1. todolist 삽입
         String sqlList = "INSERT INTO TODOLIST (SERVER_CODE, TODO_TITLE, TODO_WRITER, TAG, TODO_CHECK, POST_DATE) VALUES(?, ?, ?, ?, 0, TO_DATE(?, 'YYYY-MM-DD'))";
         stmtList = conn.prepareStatement(sqlList, new String[] { "TODO_CODE" });

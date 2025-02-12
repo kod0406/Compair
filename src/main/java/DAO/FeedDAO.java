@@ -109,7 +109,7 @@ public class FeedDAO {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
-        	if(good == null) good = "3";
+        	if(good == null) good = "100";
         	String sql = "SELECT * FROM BOARDTABLE";
         	//변수로 변경
         	if (maxNo != null) {
