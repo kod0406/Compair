@@ -37,22 +37,23 @@
 ## 🌟 개발 환경  
 
 📌 **Backend**  
--  Java 17 (JSP)
--  Tomcat 10.1 (서버 실행 환경)
+- Java 17 (JSP)
+- Tomcat 10.1 (서버 실행 환경)
 
 📌 **Frontend**  
 - HTML / CSS / JavaScript
-- BootStrap
+- Bootstrap
 
- 📌 **Development Tool**
- -  Eclipse IDE 2024-12(2.34.0) 
+📌 **Development Tool**  
+- Eclipse IDE 2024-12 (2.34.0)
 
 📌 **Database**  
--  Oracle 21c
+- Oracle 21c
 
 📌 **협업 도구**  
-- Git & GitHub 
-- Discord (팀 커뮤이케이션)
+- Git & GitHub  
+- Discord (팀 커뮤니케이션)  
+- Figma (UI/UX 디자인)
 
 <br>
 
