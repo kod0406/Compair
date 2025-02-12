@@ -16,13 +16,6 @@ var Todo = {
         AJAX.call("../Todo/ShowTodosController.jsp", params, function(data) {
             var todos = JSON.parse(data.trim());
             Todo.displayTodos(todos);
-        }, function(xhr, status, error) {
-            // Custom error handling for Todo.js
-            if (xhr.status == 400) {
-                alert("서버코드를 선택하세요");
-            } else {
-                alert("목록 조회 실패: " + error);
-            }
         });
     },
 
