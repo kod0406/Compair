@@ -73,34 +73,37 @@
 
  **1. 회원 관리**   
     ✔ 회원 가입, 로그인, 회원 정보 수정, 회원 탈퇴<br>   
+    ![Image](https://github.com/user-attachments/assets/9cd00761-43c8-47a2-815b-ea8b5f05c827)
 
  **2. 서버 (그룹) 시스템**   
     ✔ 사용자는 여러 개의 서버(그룹)에 가입 가능  
     ✔ 서버별로 게시판, 캘린더, TODO 리스트, 이메일 기능이 독립적으로 운영됨<br>  
+    ![Image](https://github.com/user-attachments/assets/d31cd364-2b69-4de6-8589-b8e8da5a5267)
 
  **3. 게시판**   
     ✔ 게시글 업로드 기능 제공  
     ✔ 업로드된 게시글 목록 확인 가능  
     ✔ 이미지 및 문서 업로드 지원<br>  
+    ![Image](https://github.com/user-attachments/assets/d31cd364-2b69-4de6-8589-b8e8da5a5267)
 
  **4. 캘린더를 통한 To-Do-List**   
     ✔ 캘린더 날짜를 클릭하면 해당 날짜에 TODO 리스트 추가 가능  
     ✔ 일정에 팀원 태그 기능을 활용하여 담당자를 지정 가능  
     ✔ 팀원들은 자신의 업무를 쉽게 확인하고 관리 가능  
     ✔ 각 To-Do 항목들은 완료 표시, 수정, 삭제 가능<br>  
+    ![Image](https://github.com/user-attachments/assets/33af1863-3357-4017-8626-c6ff0acaa52e)
 
  **5. My To-Do-List**  
     ✔ 내가 태그된 할 일(TODO)을 날짜별로 볼 수 있음    
     ✔ 개별 TO-DO-List에서도 항목별로 완료 표시, 수정, 삭제 가능<br>
+    ![Image](https://github.com/user-attachments/assets/560fba99-c3e5-463a-89ef-107d50989542)
 
  **6. 이메일**   
      ✔ 사용자 간 이메일 송수신 기능 지원  
      ✔ 메일을 보낸 메일, 받은 메일로 구분하여 관리 가능  
      ✔ 메일을 열어 내용 확인 및 답장 가능<br>
-
-
-📌 **화면 예시**  
-> *화면 캡처 이미지 추가 예정*
+     ![Image](https://github.com/user-attachments/assets/e2558f48-75a9-4c5a-a6bf-491dae9f49b0)
+     
 <br>
 
 ## 🌟 실행 방법  
@@ -117,3 +120,18 @@
 - 👨‍💻 **류재열** : [GitHub](https://github.com/fbwoduf112)  
 - 👨‍💻 **남현** : [GitHub](https://github.com/hyun3138)  
 - 👩‍💻 **이소영** : [GitHub](https://github.com/SoYoungLEE-me)
+
+## 📖 프로젝트 후기  
+
+### 🔍 김재현
+
+JSP를 활용하여 Todo 캘린더와 메시지 기능을 구현한 이번 프로젝트에서는 기술적인 성과 못지않게 팀 협업 경험을 중요하게 생각했습니다. GitHub을 통한 협업 프로세스를 익히고 팀원들과의 원활한 소통을 최우선 과제로 삼았습니다. 개발 과정에서 발생한 여러 버그들을 해결하면서 시간 압박으로 인해 트러블슈팅 과정을 상세히 기록하지 못한 점이 아쉬움으로 남지만, 전반적으로 유의미한 협업 경험을 쌓을 수 있었던 프로젝트였습니다.
+
+### 🍔
+
+### 🌠
+
+### 🎱
+
+
+### 🎱
