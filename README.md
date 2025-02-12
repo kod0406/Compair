@@ -85,7 +85,7 @@
     ✔ 게시글 업로드 기능 제공  
     ✔ 업로드된 게시글 목록 확인 가능  
     ✔ 이미지 및 문서 업로드 지원<br>  
-    ![Image](https://github.com/user-attachments/assets/d31cd364-2b69-4de6-8589-b8e8da5a5267)
+    ![Image](https://github.com/user-attachments/assets/9b75dab9-df57-4560-a138-c2fc1bb8ac5c)
 
  **4. 캘린더를 통한 To-Do-List**   
     ✔ 캘린더 날짜를 클릭하면 해당 날짜에 TODO 리스트 추가 가능  
