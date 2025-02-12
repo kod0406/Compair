@@ -10,7 +10,7 @@
 **프로젝트명** : **COM_PAIR**
 
 ✨ *모두를 연결하는 협업 공간*
-![Image](https://github.com/user-attachments/assets/c36321bc-2d7f-4403-8a5e-9e4f6a2b3713)
+![Image](https://github.com/user-attachments/assets/e80abeb3-edb8-4da1-8808-4c171bf7f8bf)
 
 <br>  **간단한 소개**  
 
