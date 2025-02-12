@@ -145,47 +145,49 @@ public class TodoDAO {
       }
    }
 
-   public String todoInsert(int serverCode, String todoTitle, String todoWriter, String postDate)
-         throws SQLException {
-      Connection conn = null;
-      PreparedStatement stmtList = null;
-      try {
-         conn = conpool.get();
-         conn.setAutoCommit(false);
-         String tags = "testtags";
-         
-         if (tags == null || tags.isEmpty()) {
+
+
+public String todoInsert(int serverCode, String todoTitle, String todoWriter, String tags, String postDate) throws SQLException {
+    Connection conn = null;
+    PreparedStatement stmtList = null;
+    try {
+        conn = conpool.get();
+        conn.setAutoCommit(false);
+
+        if (tags == null || tags.isEmpty()) {
             tags = todoWriter;
-         } else {
+        } else {
             tags = tags + "," + todoWriter;
-         }
+        }
 
-         // 1. todolist 삽입
-         String sqlList = "INSERT INTO TODOLIST (SERVER_CODE, TODO_TITLE, TODO_WRITER, TAG, TODO_CHECK, POST_DATE) VALUES(?, ?, ?, ?, 0, TO_DATE(?, 'YYYY-MM-DD'))";
-         stmtList = conn.prepareStatement(sqlList, new String[] { "TODO_CODE" });
-         stmtList.setInt(1, serverCode);
-         stmtList.setString(2, todoTitle);
-         stmtList.setString(3, todoWriter);
-         stmtList.setString(4, tags);
-         stmtList.setString(5, postDate);
+        // 1. todolist 삽입
+        String sqlList = "INSERT INTO TODOLIST (SERVER_CODE, TODO_TITLE, TODO_WRITER, TAG, TODO_CHECK, POST_DATE) VALUES(?, ?, ?, ?, 0, TO_DATE(?, 'YYYY-MM-DD'))";
+        stmtList = conn.prepareStatement(sqlList, new String[] { "TODO_CODE" });
+        stmtList.setInt(1, serverCode);
+        stmtList.setString(2, todoTitle);
+        stmtList.setString(3, todoWriter);
+        stmtList.setString(4, tags);
+        stmtList.setString(5, postDate);
 
-         int listCount = stmtList.executeUpdate();
-         if (listCount != 1)
+        int listCount = stmtList.executeUpdate();
+        if (listCount != 1)
             return "ER";
 
-         conn.commit();
-         return "OK";
-      } catch (SQLException e) {
-         if (conn != null)
+        conn.commit();
+        return "OK";
+    } catch (SQLException e) {
+        if (conn != null)
             conn.rollback();
-         throw e;
-      } finally {
-         if (stmtList != null)
+        throw e;
+    } finally {
+        if (stmtList != null)
             stmtList.close();
-         if (conn != null)
+        if (conn != null)
             conn.close();
-      }
-   }
+    }
+}
+
+
 
    public List<Map<String, Object>> todoGetgroup(int serverCode, String userId) throws SQLException { //태그된 Todo 다 출력 -> 짜피 getTodosByPostDateAndUser쓸거라 필요없을듯
       Connection conn = null;
@@ -328,4 +330,26 @@ public class TodoDAO {
             conn.close();
       }
    }
+   
+   public boolean isAuthor(int todoCode, String userId) throws SQLException {
+	    Connection conn = null;
+	    PreparedStatement stmt = null;
+	    ResultSet rs = null;
+	    try {
+	        String sql = "SELECT TODO_WRITER FROM TODOLIST WHERE TODO_CODE = ?";
+	        conn = conpool.get();
+	        stmt = conn.prepareStatement(sql);
+	        stmt.setInt(1, todoCode);
+	        rs = stmt.executeQuery();
+	        if (rs.next()) {
+	            String writer = rs.getString("TODO_WRITER");
+	            return writer.equals(userId);
+	        }
+	        return false;
+	    } finally {
+	        if (rs != null) rs.close();
+	        if (stmt != null) stmt.close();
+	        if (conn != null) conn.close();
+	    }
+	}
 }

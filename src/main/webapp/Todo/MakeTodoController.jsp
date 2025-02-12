@@ -12,7 +12,7 @@ try {
     String title = request.getParameter("todo_title");
     String tags = request.getParameter("tags");
     String postDate = request.getParameter("post_date");
-
+    System.out.println("tags: " + tags);
     UserDAO userDao = new UserDAO();
     ServerDAO serverDao = new ServerDAO();
     String[] tagArray = tags.split(",");

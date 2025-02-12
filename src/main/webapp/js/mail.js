@@ -198,7 +198,7 @@ function writeMailForm() {
 	if (AllSession.serverGet() == null) {
 		alert("서버가 선택되지 않았습니다.");
 		return;
-	}//0 값이면 작성X -> 나중에 NUll이면 으로 수정할 예정
+	}
 
 	loadExternalCSS('../css/e_write.css');
 

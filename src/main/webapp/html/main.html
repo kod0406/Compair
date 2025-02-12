@@ -65,6 +65,7 @@
         <div id="todo-title" class="section"></div>
         <div id="todo-list-section" class="section"></div>
         <div id="todo-show-section" class="section"></div>
+        <div id="View-Todo" class="section"></div>
         <div id="userInfo" class="section"></div>
 		<div id="buttonList" class="section">
 			<button onclick="Write()">글 작성</button>
@@ -88,6 +89,7 @@
 	<script src="../js/mail.js"></script>
 	<script src="../js/todoShow.js"></script>
 	<script src="../js/calendarShow.js"></script>
+    <script src="../js/Todo.js"></script>
 	<script src="https://unpkg.com/@yaireo/tagify"></script>
 	<script>
 
@@ -122,6 +124,7 @@
 			$("#calendarList").hide();
 			$("#buttonList").show();
 			$("#todo-list-section").hide();
+			$("#View-Todo").hide();
 			AllSession.pageSession('board');
 			$("#list").empty();
 			Board.boardShow();
@@ -134,6 +137,7 @@
 			$("#todo-title").show();
 			$("#calendarList").show();
 			$("#list").hide();
+			$("#View-Todo").hide();
 			$("#buttonList").hide();
 			$("todo-list-section").show();
 			AllSession.pageSession('calendar');
@@ -161,6 +165,7 @@
 			$("#todo-title").hide();
 			$("#calendarList").hide();
 			$("#list").hide();
+			$("#View-Todo").hide();
 			$("#buttonList").hide();
 			$("todo-list-section").hide();
 			AllSession.pageSession('email');
@@ -175,6 +180,8 @@
 			$("#buttonList").hide(); 	
 			$("#list").hide();
 			$("#calendarList").hide();
+			$("#View-Todo").hide();
+			$("#todo-list-section").hide();
 			var params = {"uid": AllSession.uidGet(), "serverCode": AllSession.serverGet()};
 		    AJAX.call("../JSP/user.jsp", params, function(response) {
 		        //정보가 바뀌면 세션 정보 수정

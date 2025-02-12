@@ -1,3 +1,4 @@
+
 <%@page import="org.json.simple.JSONArray"%>
 <%@page import="org.json.simple.JSONObject"%>
 <%@page import="DAO.TodoDAO"%>
@@ -7,9 +8,13 @@
 <%@ page contentType="application/json; charset=UTF-8" %>
 <%
 try {
-    int serverCode = Integer.parseInt(request.getParameter("recentServerCode"));
+    String serverCodeStr = request.getParameter("recentServerCode");
+    if (serverCodeStr == null || serverCodeStr.isEmpty()) {
+        throw new NumberFormatException("Server code is null or empty");
+    }
+
+    int serverCode = Integer.parseInt(serverCodeStr);
     String userId = (String) session.getAttribute("uid");
-    
 
     TodoDAO dao = new TodoDAO();
     List<Map<String, Object>> todos = dao.todoGetgroup(serverCode, userId);
@@ -27,6 +32,9 @@ try {
     }
     out.print(jsonArr.toString());
 
+} catch (NumberFormatException e) {
+    response.setStatus(400);
+    out.print("{ \"error\": \"서버코드를 선택하세요\" }");
 } catch (Exception e) {
     response.setStatus(500);
     out.print("{ \"error\": \"목록 조회 실패\" }");

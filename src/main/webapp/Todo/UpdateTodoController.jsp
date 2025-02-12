@@ -1,3 +1,4 @@
+
 <%@page import="DAO.ServerDAO"%>
 <%@page import="DAO.TodoDAO"%>
 <%@page import="DAO.UserDAO"%>
@@ -19,10 +20,17 @@ try {
     int todoCode = Integer.parseInt(todoCodeStr);
     int serverCode = Integer.parseInt(serverCodeStr);
 
+    TodoDAO todoDao = new TodoDAO();
+    if (!todoDao.isAuthor(todoCode, userId)) {
+        out.print("{ \"error\": \"작성자만 TODO를 수정할수 있습니다.\" }");
+        return;
+    }
+
     UserDAO userDao = new UserDAO();
     ServerDAO serverDao = new ServerDAO();
     String[] tagArray = newTag.split(",");
     for (String tag : tagArray) {
+        tag = tag.trim(); // Trim leading/trailing spaces
         if (!userDao.isIdExist(tag)) {
             out.print("{ \"error\": \"해당 UID 없음: " + tag + "\" }");
             return;
@@ -32,8 +40,7 @@ try {
         }
     }
 
-    TodoDAO dao = new TodoDAO();
-    Map<String, Object> resultMap = dao.updateTodo(todoCode, serverCode, newTitle, newTag, userId);
+    Map<String, Object> resultMap = todoDao.updateTodo(todoCode, serverCode, newTitle, newTag, userId);
 
     boolean success = (boolean) resultMap.get("success");
 

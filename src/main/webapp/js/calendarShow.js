@@ -35,6 +35,7 @@ var CalendarShow = {
 	    $("#calendarList").html(str);
 	},
 	
+
 	generateCalendar: function(date) {
 	    var monthYear = document.getElementById("calendarMonthYear");
 	    var calendarBody = document.getElementById("calendarBody");
@@ -52,19 +53,30 @@ var CalendarShow = {
 	        row += "<td></td>";
 	    }
 
+	    var systemDate = new Date();
+	    var systemDateString = systemDate.getFullYear() + "-" +
+	                           String(systemDate.getMonth() + 1).padStart(2, "0") + "-" +
+	                           String(systemDate.getDate()).padStart(2, "0");
+
 	    // 날짜 채우기
 	    for (var day = 1; day <= lastDate; day++) {
 	        if ((firstDay + day - 1) % 7 === 0 && day !== 1) {
 	            row += "</tr><tr>";
 	        }
 
-	        var fullDate = date.getFullYear() + "-" + 
-	                       String(date.getMonth() + 1).padStart(2, "0") + "-" + 
+	        var fullDate = date.getFullYear() + "-" +
+	                       String(date.getMonth() + 1).padStart(2, "0") + "-" +
 	                       String(day).padStart(2, "0");
-	        console.log("fullDate " + fullDate);
 
-	        // 날짜 클릭 시 Calendar.handleDateClick 호출
-	        row += "<td class='calendar-day' data-date='" + fullDate + 
+	        var className = "calendar-day";
+	        if (fullDate === systemDateString) {
+	            className += " today";
+	        }
+	        if (fullDate === AllSession.dateGet()) {
+	            className += " selected";
+	        }
+
+	        row += "<td class='" + className + "' data-date='" + fullDate +
 	               "' onclick=\"CalendarShow.handleDateClick('" + fullDate + "')\">" + day + "</td>";
 	    }
 
@@ -72,23 +84,27 @@ var CalendarShow = {
 	    calendarBody.innerHTML = row;
 	},
 
-	// 날짜 클릭 시 호출되는 함수
 	handleDateClick: function(date) {
-		if(AllSession.serverGet() == 'null') alert('서버를 선택해주세요');
-		else{
-			$("#todo-list-section").empty();
-			var date = AllSession.dateSession(date);
-		    Calendar.todoShow();
-		}
+	    if (AllSession.serverGet() == 'null') {
+	        alert('서버를 선택해주세요');
+	    } else {
+	        $("#todo-list-section").empty();
+	        AllSession.dateSession(date);
+
+	        // Remove 'selected' class from previously selected date
+	        $(".calendar-day.selected").removeClass("selected");
+
+	        // Add 'selected' class to the clicked date
+	        $("[data-date='" + date + "']").addClass("selected");
+	        Calendar.getFeedCode(date);
+			
+	    }
 	},
-		
-	// 월 변경 후 캘린더 재생성 (Calendar → CalendarShow 수정)
-	changeMonth: function(step) {
-		  CalendarShow.currentDate.setMonth(CalendarShow.currentDate.getMonth() + step);
-		  CalendarShow.generateCalendar(CalendarShow.currentDate);
+	changeMonth: function(offset) {
+	        CalendarShow.currentDate.setMonth(CalendarShow.currentDate.getMonth() + offset);
+	        CalendarShow.generateCalendar(CalendarShow.currentDate);
+	    
 	},
-	
-	
 	showTodo: function() {
 	    var str = "";
 	    str += "<div class='todo-list-section'>";
@@ -127,5 +143,5 @@ var CalendarShow = {
 		        });
 		    }
 		}, 100);
-	},
+	}
 }

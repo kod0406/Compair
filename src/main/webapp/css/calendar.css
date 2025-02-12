@@ -67,13 +67,19 @@
   font-weight: bold;
 }
 
-.today {
+.today {/* 오늘 날짜 표시 */
   font-weight: bold !important;
-  background-color: #fcf1f8;
+  background-color: 
+orange;
+  color: 
+white;
 }
 
-.selected {
-  background-color: #dae8ff;
+.selected {/* 선택한 날짜 표시 */
+  background-color: 
+#00ffff;
+  color: 
+white;
   font-weight: bold;
 }
 

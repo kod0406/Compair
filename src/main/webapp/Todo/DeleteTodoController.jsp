@@ -6,12 +6,16 @@ try {
     int serverCode = Integer.parseInt(request.getParameter("server_code"));
     String userId = (String) session.getAttribute("uid");
     if (userId == null) {
-    	userId = request.getParameter("uid");
+        userId = request.getParameter("uid");
     }
 
     TodoDAO dao = new TodoDAO();
-    boolean success = dao.deleteTodo(todoCode, serverCode, userId);
+    if (!dao.isAuthor(todoCode, userId)) {
+        out.print("{ \"error\": \"작성자만 TODO를 삭제할 수 있습니다.\" }");
+        return;
+    }
 
+    boolean success = dao.deleteTodo(todoCode, serverCode, userId);
     out.print("{ \"success\": " + success + " }");
 
 } catch (Exception e) {
