@@ -61,8 +61,8 @@
 - 중간 연휴 : 2025-01-27 ~ 2025-01-30
 - **종료일 : 2025-02-12**
 
-📌 **작업 일정**  
-![Image](https://github.com/user-attachments/assets/e80abeb3-edb8-4da1-8808-4c171bf7f8bf)
+📌 **작업 일정**
+![Image](https://github.com/user-attachments/assets/c36321bc-2d7f-4403-8a5e-9e4f6a2b3713)
 
 
   <br>
