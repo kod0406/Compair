@@ -2,7 +2,13 @@
 ## 🌟 팀원 구성  
 | ![김재현](https://github.com/kod0406.png) | ![류재열](https://github.com/fbwoduf112.png?size=100) | ![남현](https://github.com/hyun3138.png?size=100) | ![이소영](https://github.com/SoYoungLEE-me.png?size=100) |
 | --- | --- | --- | --- |
-| 김재현 (팀장) | 류재열 |  남현 | 이소영 |
+| [김재현](https://github.com/kod0406) (팀장) | [류재열](https://github.com/fbwoduf112) | [남현](https://github.com/hyun3138) | [이소영](https://github.com/SoYoungLEE-me) |
+
+## 🌟 팀원 GitHub  
+- 👨‍💻 **김재현** : [GitHub](https://github.com/kod0406)  
+- 👨‍💻 **류재열** : [GitHub](https://github.com/fbwoduf112)  
+- 👨‍💻 **이남현** : [GitHub](https://github.com/hyun3138)  
+- 👩‍💻 **이소영** : [GitHub](https://github.com/SoYoungLEE-me)
 
 <br>
 
@@ -116,12 +122,6 @@
 
 <br>
 
-## 🌟 팀원 GitHub  
-- 👨‍💻 **김재현** : [GitHub](https://github.com/kod0406)  
-- 👨‍💻 **류재열** : [GitHub](https://github.com/fbwoduf112)  
-- 👨‍💻 **이남현** : [GitHub](https://github.com/hyun3138)  
-- 👩‍💻 **이소영** : [GitHub](https://github.com/SoYoungLEE-me)
-
 ## 📖 프로젝트 후기  
 
 ### 🔍 김재현
@@ -143,3 +143,5 @@ JSP를 활용하여 Todo 캘린더와 메시지 기능을 구현한 이번 프�
 하지만 이번 경험을 통해 프론트엔드와 백엔드의 관계를 더 깊이 이해하게 되었고, 프론트엔드 개발자의 역할에 대해 더 많은 것을 배울 수 있었습니다.  
 또한, 팀원들과 협업하면서 커뮤니케이션의 중요성을 실감했고, GitHub를 활용한 협업과 프로젝트 관리 경험도 쌓을 수 있었습니다. 직접 기능을 기획하고 구현하면서 이론으로만 배웠던 개념들이 실제 개발에서 어떻게 적용되는지 깨닫는 계기가 되었습니다.   
 
+## 📚 프로젝트 산출물들
+[Google Drive](https://drive.google.com/drive/folders/1345n43juHwaQFLvz7trc938JELNy3qaN?usp=drive_link)
