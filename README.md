@@ -64,7 +64,7 @@
 - **종료일 : 2025-02-12**
 
 📌 **작업 일정**
-![Image](https://github.com/user-attachments/assets/c36321bc-2d7f-4403-8a5e-9e4f6a2b3713)
+![Image](https://github.com/user-attachments/assets/d279c037-3af7-484d-8c8f-722cfae03260)
 
 
   <br>
