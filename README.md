@@ -2,7 +2,7 @@
 ## 🌟 팀원 구성  
 | ![김재현](https://github.com/kod0406.png) | ![류재열](https://github.com/fbwoduf112.png?size=100) | ![남현](https://github.com/hyun3138.png?size=100) | ![이소영](https://github.com/SoYoungLEE-me.png?size=100) |
 | --- | --- | --- | --- |
-| [김재현](https://github.com/kod0406) (팀장) | [류재열](https://github.com/fbwoduf112) | [남현](https://github.com/hyun3138) | [이소영](https://github.com/SoYoungLEE-me) |
+| [김재현](https://github.com/kod0406) (팀장) | [류재열](https://github.com/fbwoduf112) | [이남현](https://github.com/hyun3138) | [이소영](https://github.com/SoYoungLEE-me) |
 
 ## 🌟 팀원 GitHub  
 - 👨‍💻 **김재현** : [GitHub](https://github.com/kod0406)  
